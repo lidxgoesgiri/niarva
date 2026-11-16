@@ -1,0 +1,52 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Kane CLI local state, raw evidence packs, and browser profiles
+.testmuai/evidence/
+.testmuai/sessions/
+.testmuai/context.md
+.context/
+**/chrome-profile/
+evidence/private/
+*.evidence
+
+# Local databases
+.pglite/
+*.sqlite
+*.db
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+logs/
+
+# Test and coverage output
+coverage/
+.vitest/
+
+# Editor and OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Tooling
+.vercel/
+.turbo/
+.claude/settings.local.json
