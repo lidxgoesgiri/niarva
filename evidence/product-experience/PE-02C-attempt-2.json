@@ -1,0 +1,65 @@
+{
+  "testId": "PE-02C",
+  "status": "BLOCKED",
+  "assessment": "Same execution scope error despite diagnosed context guidance. No product mismatch established; atomic per-panel objectives proposed for review.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-07",
+    "UI-AC-08"
+  ],
+  "source": {
+    "commit": "b3f2f3e8b046a504cdd3536c603b8f90372d1aea",
+    "branch": "feature/product-experience",
+    "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+    "files": {
+      "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+      "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+      "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+      "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "objectiveSha256": "b351fb994ccd979ed5307b0cb680808afc9aac4a7bac3e09279246798054afdc",
+  "executionObjectiveSha256": "b8c0cc9ac38fc5b84864b5491e3379f48fa16ecff2080b6ea992666f5cec7e25",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "8efe9302c51c481e5405a3d0fb69007724eb77f84d21b55420ab09b8d8b805a7",
+  "startedAtUtc": "2026-11-17T17:59:43.996Z",
+  "completedAtUtc": "2026-11-17T18:02:28.467Z",
+  "processExitCode": 1,
+  "completionEvents": 1,
+  "durationSeconds": 115.7,
+  "creditsConsumed": 28.203805,
+  "sealedPrivatePackSha256": "6df137bb2414774beda3897c8cb7182a4e0731b2ccb5e90919ceb11ad67d1edd",
+  "testManager": {
+    "id": "01M7NAMV49HC6477BCZ34CMY4G",
+    "title": "NIARVA landing: product and development loop accessibility",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "key": "development_loop_source_repair_rerun_description",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "key": "selected_tab_visible_panel_agreement",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "key": "product_loop_creator_approval_requirement",
+      "observed": "false",
+      "expected": "true",
+      "step": 7
+    }
+  ],
+  "observedLogs": null
+}

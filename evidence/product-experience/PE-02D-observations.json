@@ -1,0 +1,117 @@
+{
+  "testId": "PE-02D",
+  "status": "BLOCKED",
+  "assessment": "Nine observations and actual explanation match, but final screenshot is Payload Check after later assertions reopened panels. Final return order incomplete.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-05",
+    "UI-AC-18"
+  ],
+  "source": {
+    "commit": "be30baa8128cce7e3009ce49e908d05bfbe491c5",
+    "branch": "feature/product-experience",
+    "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+    "files": {
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+      "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+      "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+      "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+      "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "5970e5ef0bf43aed9daf5b8b484328cc5ef9e3d57be31f2ca5f486985360395b"
+  },
+  "objectiveSha256": "debc062d77387d25feb13b5f67871ad6de04370237918a0cb28f1d869f439186",
+  "executionObjectiveSha256": "950b19f0b36ff8702049250ad99cf522d538fe71adc0d8afc8abfdc37fc150ee",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": null,
+  "startedAtUtc": "2026-11-17T17:47:47.668Z",
+  "completedAtUtc": "2026-11-17T17:52:44.401Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 246.3,
+  "creditsConsumed": 82.10732750000001,
+  "sealedPrivatePackSha256": "ecf5869ff8f560b9e0acea5c844bc24abb5b425354ebffb126f2a3abf2c22a8f",
+  "testManager": {
+    "id": "01M7N9YP4Y4SBRKVNSEY24HV5B",
+    "title": "NIARVA landing: evidence inspector provenance and payload exclusion",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "key": "proof_lineage_matching_content_and_sample_label",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "key": "invented_real_run_id_hash_or_timestamp",
+      "observed": "false",
+      "expected": "false",
+      "step": 7
+    },
+    {
+      "key": "formerly_shown_certificate_in_payload_example",
+      "observed": "false",
+      "expected": "false",
+      "step": 16
+    },
+    {
+      "key": "payload_check",
+      "observed": "GPA 3.6: the certificate is shown and a synthetic value is entered. Change GPA to 3.4: the field is removed and its value is excluded.",
+      "expected": "",
+      "step": 16
+    },
+    {
+      "key": "observation_overlap",
+      "observed": "false",
+      "expected": "false",
+      "step": 19
+    },
+    {
+      "key": "observation_keyboard_access",
+      "observed": "true",
+      "expected": "true",
+      "step": 19
+    },
+    {
+      "key": "observation_matching_content_and_sample_label",
+      "observed": "true",
+      "expected": "true",
+      "step": 19
+    },
+    {
+      "key": "run_ndjson_matching_content_and_sample_label",
+      "observed": "true",
+      "expected": "true",
+      "step": 21
+    },
+    {
+      "key": "payload_check_matching_content_and_sample_label",
+      "observed": "true",
+      "expected": "true",
+      "step": 23
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-02D",
+    "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+    "packSha256": "ecf5869ff8f560b9e0acea5c844bc24abb5b425354ebffb126f2a3abf2c22a8f",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 20,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 20
+      }
+    ],
+    "faviconRequests": 0
+  }
+}
