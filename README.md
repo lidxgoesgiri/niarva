@@ -2,9 +2,112 @@
 
 **From Intention to Proof.**
 
-NIARVA turns requirements into conditional forms, verifies their behavior in a real browser with Kane CLI, and blocks publishing until required behavior is proven for the exact version.
+NIARVA turns requirements into conditional forms, verifies their behavior in a real browser with [Kane CLI](https://www.testmuai.com/docs/kane-cli-installation), and blocks publishing until the required behavior is proven for the exact version.
 
-> Status: repository bootstrap. Implementation is in progress on feature branches for the KaneCLI Online Hackathon (12–19 November 2026). Setup, architecture, testing, and evidence documentation will be added as each phase lands.
+> Built for the KaneCLI Online Hackathon (12–19 November 2026). Status and limitations are stated honestly below; every verification claim in this repository is backed by recorded evidence under [`evidence/`](evidence).
+
+## The problem
+
+AI can produce a form that is syntactically valid but semantically wrong. A scholarship rule written as `gpa > 3.5` instead of `gpa ≥ 3.5` renders fine, passes a schema check, and still lets an applicant with exactly 3.5 skip the achievement certificate. Ordinary form builders cannot show that what was approved is what the browser, the payload, and the server actually do.
+
+## What NIARVA does
+
+```text
+Plain language → approved claims (hashed) → generated form version (immutable)
+  → exhaustive static check against the claims → counterexample (e.g. GPA = 3.50)
+  → bounded repair proposal → your approval → new version
+  → Kane CLI in a real browser + server contract checks → verdict by NIARVA
+  → publish gate (fails closed) → public form → respondent receipt
+```
+
+- **Approved intent is the oracle.** Claims are typed, quoted from the source text, rendered as deterministic sentences ("GPA ≥ 3.5 (3.5 included)"), approved by the creator, and frozen with a SHA-256 hash.
+- **Deterministic engine.** A declarative rule DSL (no `eval`, no code) with exact decimal arithmetic. Every input partition, including the boundary values `t − ε`, `t`, and `t + ε`, is checked against the claims, so `gt` versus `gte` is found with the witness `GPA = 3.50`.
+- **Kane observes, NIARVA decides.** Browser probes are derived from the approved claims. Kane CLI drives a real Chrome through the private preview of the exact version and stores typed observations. NIARVA compares them with the oracle: a valid mismatch is FAIL even if Kane says `passed`; timeouts, missing observations, and infrastructure errors are UNKNOWN and never PASS.
+- **Controlled repair.** Repairs are a small allowlist of DSL operations, validated by the engine against the unchanged claims, applied only with the creator's approval, and always produce a new version that must be verified again.
+- **Version-bound proof and a fail-closed gate.** Proof is bound to the workspace, form, version, claims hash, definition hash, renderer build, runtime configuration, environment, and probe policy. Publishing runs inside a database transaction and is enforced by the backend, whatever the UI shows. After a failed run, two consecutive fresh verified runs are required.
+- **Respondent safety.** Hidden fields are removed from the page and never stored; the server validates every submission again; submissions are idempotent across republication.
+
+## Architecture
+
+```text
+apps/web        Next.js (App Router): creator workspace, preview, public forms, REST API
+apps/worker     Long-running Node worker: leases probes, runs Kane CLI + Chrome, reports raw results
+packages/core   Pure engine: DSL, decimals, evaluation, analysis, repair, probes, verdicts, gate
+packages/contracts  Shared API error contract
+m0-lab          Isolated fixture used to validate Kane CLI at runtime (not product code)
+evidence        Sanitized evidence: M0 report, development loop, product loop
+```
+
+```mermaid
+flowchart LR
+  B[Creator / respondent browser] --> W[Web UI + API]
+  W --> D[(PostgreSQL)]
+  W --> A[OpenRouter, server side]
+  W --> Q[Verification runs + probe queue]
+  K[Worker + Kane CLI + Chrome] -->|lease / report| W
+  K -->|real browser| P[Token-scoped preview of one version]
+```
+
+Chrome and Kane never run inside a serverless function: the worker is a separate process that pulls work over HTTPS.
+
+## How Kane CLI is used
+
+1. **Runtime validation (M0).** Before any feature depended on it, Kane CLI 0.10.4 was exercised against an isolated lab form with labeled faults: stream contract, exit codes, timeouts, secret masking, evidence packs, credits, consistency, and failure detection. Results and the design decisions they forced are in [`evidence/m0/M0_REPORT.md`](evidence/m0/M0_REPORT.md).
+2. **Test design (Kane Assurance).** The requirements were ingested with `kane-cli context ingest`; the owner reviewed the use cases and designs; `kane-cli design tests` produced the browser tests in [`.testmuai/tests/`](.testmuai/tests). None were hand-written.
+3. **Development testing.** Kane CLI is the only browser test runner in this repository: `pnpm verify:kane <test>` runs designed tests through `kane-cli testmd run`, records the outcome, credits, evidence pack digest, and the source revision.
+4. **Product verification.** The worker runs `kane-cli run --agent --headless` for every derived probe of a form version, passing the token-scoped preview URL only as a secret variable.
+
+## Quick start
+
+Prerequisites: Node.js 24, pnpm 12, Google Chrome, and for browser verification an authenticated Kane CLI (`npm install -g @testmuai/kane-cli`, then `kane-cli login`).
+
+```bash
+pnpm install
+pnpm setup:env       # creates .env.local with generated secrets
+pnpm build && pnpm start
+```
+
+Open http://localhost:3000, create an account, and start from the scholarship template. Without `DATABASE_URL`, an embedded PostgreSQL (PGlite) is stored in `apps/web/.pglite`; set `DATABASE_URL` to use your own PostgreSQL (`pnpm db:migrate` applies migrations).
+
+Start the worker in a second terminal to enable browser verification:
+
+```bash
+pnpm worker
+```
+
+AI drafting is optional: set `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` (one model or a comma-separated fallback list) in `.env.local`. Without them, the AI path says so and the template or manual path is used.
+
+## Environment variables
+
+See [`.env.example`](.env.example). Secrets (`BETTER_AUTH_SECRET`, `PREVIEW_TOKEN_SECRET`, `IP_HASH_SECRET`, `WORKER_SHARED_TOKEN`) are generated by `pnpm setup:env`. Never commit `.env.local`.
+
+## Testing
+
+| Layer | Command | What it proves |
+|---|---|---|
+| Lint and types | `pnpm lint`, `pnpm typecheck` | Static correctness, domain purity rules |
+| Engine | `pnpm test:unit` | Analysis, repair, probes, verdicts on real Kane streams, property tests (10,000 cases) |
+| Server | `pnpm test:integration` | Auth isolation, immutability triggers, publish gate, idempotency, instability (PGlite and PostgreSQL 16 in CI) |
+| Browser | `pnpm verify:kane <test-id>` | Kane CLI in a real browser against the running app |
+
+## Evidence
+
+- [`evidence/m0/`](evidence/m0): Kane CLI runtime validation, 28 recorded runs.
+- [`evidence/dev-loop/`](evidence/dev-loop): development closed loop. [`DEV-LOOP-01.md`](evidence/dev-loop/DEV-LOOP-01.md) records a real Kane CLI failure, the source repair, and the same test passing again. [`regression.md`](evidence/dev-loop/regression.md) lists every regression run after it, including failures, runs that never started, and which steps Kane replayed.
+- `evidence/product-loop/`: product closed loop (diagnostic failure, approved repair, fresh verification, publication), added when it is produced.
+- From 17 November 2026 (evening, WIB), Kane CLI sessions upload to the Test Manager project "NIARVA intent verification". Earlier sessions, including the M0 lab, are in the account's default project.
+- [`docs/integration/API_CONTRACT.md`](docs/integration/API_CONTRACT.md): the HTTP API, the form-state contract, shared components, and the hooks Kane tests rely on.
+
+## Security notes and limitations
+
+- Verification covers the supported DSL scenarios for a specific form version; it is not a guarantee of complete correctness.
+- Desktop Kane CLI cannot verify viewports narrower than 800 px on this setup; narrow mobile layouts are reviewed manually and labeled as such.
+- Preview tokens are HMAC-signed, scoped to one version and probe run, and short-lived. Sealed Kane evidence packs can contain the preview URL and therefore stay private; only digests and redacted derivatives are published.
+- Respondent IP addresses are stored only as keyed hashes. Use synthetic data in demos.
+
+## Disclosure
+
+NIARVA was built during the hackathon build window with AI coding agents (Claude Code for the engine, backend, AI extraction, and verification; OpenAI Codex in parallel for UI work) and Kane CLI. Every commit is made under the repository owner's identity; agent involvement is disclosed here rather than in commit trailers. Seeded defects (the `gt` scholarship rule and the M0 lab faults) are intentional, labeled demonstration cases.
 
 ## License
 

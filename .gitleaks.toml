@@ -1,0 +1,23 @@
+# gitleaks configuration: every default rule stays active.
+#
+# One narrow exception. Kane CLI's recorded step plans (.testmuai/tests/output-*/) name the
+# values Kane stores with readable snake_case keys, for example
+#   "store_key": "gpa_3_5_witness_identified"
+# The generic-api-key rule reads those names as keys. They are identifiers chosen by Kane, not
+# credentials. The exception applies only when BOTH the path is a Kane recording AND the value
+# is a plain snake_case identifier; anything else in those files is still reported.
+# The repository's pre-commit scan (scripts/scan-secrets.mjs) additionally checks every staged
+# file against the real secret values on this machine.
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "generic-api-key"
+
+[[rules.allowlists]]
+description = "Kane recorded memory-key names (snake_case identifiers)"
+condition = "AND"
+paths = ['''^\.testmuai/tests/output-[^/]+/''']
+regexTarget = "secret"
+regexes = ['''^[a-z][a-z0-9]*(?:_[a-z0-9]+){1,12}$''']
