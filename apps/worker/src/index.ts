@@ -75,19 +75,22 @@ async function main() {
     // Take the machine-wide Kane lock before leasing, so a probe is never leased (and its lease
     // never expires) while another Kane run on this computer is in progress.
     let release: (() => void) | null = null;
+    let handled = false;
     try {
       release = await acquireKaneLock(`worker ${config.NIARVA_WORKER_ID}`, { log: (message) => log("info", message) });
       const { lease } = await api<{ lease: Lease | null }>("/api/v1/worker/lease", { workerId: config.NIARVA_WORKER_ID, kaneCliVersion: cli.version });
       if (lease) {
         await handle(lease);
-        continue;
+        handled = true;
       }
     } catch (error) {
       log("warn", "worker loop error", { error: error instanceof Error ? error.message : String(error) });
     } finally {
       release?.();
     }
-    await new Promise((resolve) => setTimeout(resolve, config.WORKER_IDLE_POLL_MS));
+    // After a probe, pause longer than the lock's 5-second poll so a Kane run waiting in another
+    // worktree can start between probes instead of waiting for the whole verification run.
+    await new Promise((resolve) => setTimeout(resolve, handled ? 12_000 : config.WORKER_IDLE_POLL_MS));
   }
   log("info", "worker stopped");
 }
