@@ -1,0 +1,7 @@
+Open {{preview_url}}
+This is an automated form check. Do not submit the form.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+In the field labeled "GPA (required)", clear any existing text, type exactly "3,5", then press Tab.
+Store whether a field labeled "Achievement certificate number (required)" is visible on the page as 'obs_1_visible' (true or false).
+Store whether the label of the field "Achievement certificate number" shows the text "(required)" as 'obs_1_required' (true or false; false if the field is not visible).
+Finally verify that the field labeled "GPA (required)" contains "3,5".

@@ -1,0 +1,16 @@
+Open {{preview_url}}
+This is an automated form check that uses synthetic data.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+In the field labeled "Full name (required)", type exactly "Test Applicant".
+In the field labeled "GPA (required)", type exactly "3.49", then press Tab.
+In the field labeled "GPA (required)", clear any existing text, type exactly "3.50", then press Tab.
+Store whether a field labeled "Achievement certificate number (required)" is visible on the page as 'obs_active_visible' (true or false).
+Store whether the label of the field "Achievement certificate number" shows the text "(required)" as 'obs_active_required' (true or false; false if the field is not visible).
+Leave the field labeled "Achievement certificate number (required)" empty and click the button labeled "Submit application".
+Store whether a confirmation message with a receipt code is shown as 'obs_active_submitted' (true or false).
+Store whether an error message is shown below the field labeled "Achievement certificate number (required)" as 'obs_active_error_shown' (true or false).
+In the field labeled "GPA (required)", clear any existing text, type exactly "3.49", then press Tab.
+Click the button labeled "Submit application".
+Store whether a confirmation message with a receipt code is shown as 'submitted' (true or false).
+Store the 8-character receipt code shown in the confirmation message as 'receipt_code'.
+Finally verify that a confirmation message with a receipt code is shown.

@@ -1,0 +1,14 @@
+Open {{preview_url}}
+This is an automated form check that uses synthetic data.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+In the field labeled "Full name (required)", type exactly "Test Applicant".
+In the field labeled "GPA (required)", type exactly "3.6", then press Tab.
+Store whether a field labeled "Achievement certificate number (required)" is visible on the page as 'obs_1_shown' (true or false).
+In the field labeled "Achievement certificate number (required)", type exactly "NIARVA-PROBE-M0".
+In the field labeled "GPA (required)", clear any existing text, type exactly "3.2", then press Tab.
+Store whether a field labeled "Achievement certificate number (required)" is visible on the page as 'obs_2_visible' (true or false).
+Click the button labeled "Submit application".
+Store whether a confirmation message with a receipt code is shown as 'submitted' (true or false).
+Store the 8-character receipt code shown in the confirmation message as 'receipt_code'.
+Store the text shown after "Submitted data:" as 'sent_keys'.
+Finally verify that a confirmation message with a receipt code is shown.

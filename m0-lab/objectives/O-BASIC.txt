@@ -1,0 +1,4 @@
+Open {{preview_url}}
+This is an automated form check. Do not type anything and do not submit the form.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+Finally verify that the page footer shows a version code.

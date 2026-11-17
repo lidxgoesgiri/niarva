@@ -1,0 +1,5 @@
+Open {{preview_url}}
+This is an automated form check that uses synthetic data. Do not submit the form.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+In the field labeled "Full name (required)", type exactly "{{missing_var}}".
+Finally verify that the field labeled "Full name (required)" is not empty.

@@ -1,0 +1,6 @@
+{
+  "preview_url": {
+    "value": "http://localhost:4310/lab.html?multi=1&bug=leakB",
+    "secret": true
+  }
+}
