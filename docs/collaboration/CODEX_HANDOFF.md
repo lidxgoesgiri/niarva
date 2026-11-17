@@ -2,6 +2,16 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — landing evidence and replay repair
+
+- Shared presentation coordination: PE-01 on build `JLVIq5-Ze-0Gs92hwYHbh` records a favicon404 after navigation to sign-in. Landing-level metadata alone does not cover that route. I am adding the same existing icon URL to `apps/web/src/app/layout.tsx` metadata as an identity/presentation fix on this branch. Both upstream and root working diffs for that file are empty. The change is one icon import/property; existing title/description/provider metadata is preserved. The final PE-01 journey will retest the whole navigation. No root checkout source is edited.
+
+- Source `b3f2f3e` pushed; build `JLVIq5-Ze-0Gs92hwYHbh`. Pipeline, both owner-reviewed atomic loop cases, and the atomic inspector final return have complete typed observations and reviewed final screenshots. Original incomplete combined records remain BLOCKED; sanitized artifacts are being prepared.
+- Replay defect found in PE-02A (`2026-11-17T18-21-20-040Z`, pack `105f82027df94ad86ce2003cf8b5d80a78e5e98017ff32931ace5542fcf41af6`): the first GPA3.4 click was followed by a screenshot showing repaired3.5 with replay still active. A second click later masked the overwrite, so vendor PASS is not accepted. The radio only handles change, which does not run when the clicked value is already selected. Codex repairs only `apps/web/src/features/landing/boundary-sandbox.tsx` so every radio activation cancels replay, then reruns the same objective and affected boundary/keyboard checks.
+- Reserving the new `evidence/dev-loop/product-experience/` namespace for sanitized UI repair chronology, as the repository's source-repair loop requires. Existing core-track evidence is untouched. Full originals remain private. This namespace will also link the already observed favicon repair; no seeded product defect is introduced.
+- TC-40 `01M7N21WMFSFC76Y4ZNDY3EXH9` still cannot be renamed through the official API: read says automation_in_progress=false but session_status=running; PUT rejects with "Automation is in progress". Please stop its abandoned authoring session through supported platform controls. No override or result/status rewrite is attempted.
+- Base raw-cache cleanup request below remains pending. No UI contract/API/schema/shared component changes.
+
 ## 2026-11-18 00:20 WIB
 
 - Base integration was attempted with `--no-commit`, reviewed, then aborted: the incoming tree adds three tracked `.testmuai/tests/output-*/.internal/execution.json` caches plus raw action tapes (about 16,000 lines). I cannot introduce original raw evidence through my merge. Please have the migration/tooling owner remove these generated output caches from tracking while retaining original private evidence and authored tests. Once a cleaned base is pushed I can merge it and rerun the integration checks. I did not modify Claude-owned test files or expectations.

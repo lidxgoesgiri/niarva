@@ -1,0 +1,138 @@
+{
+  "testId": "PE-02A",
+  "status": "PASS",
+  "assessment": "First manual GPA3.4 activation now stops replay (Watch control visible) and stays3.4 after the requested wait without a corrective second click. Eight typed observations/extractions cover pause, repaired3.5 Skip, full verification required, and final reset. Final screenshot is default draft3.5 with Blocked gate.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-12"
+  ],
+  "source": {
+    "commit": "b3f2f3e8b046a504cdd3536c603b8f90372d1aea",
+    "branch": "feature/product-experience",
+    "buildId": "71hvB9w7WGC229kZAmqAf",
+    "files": {
+      "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ab1a64929ecefa4b0f124a400b0ddd6a0f1002f0bbb8f829c42eaa058e4cd7e4",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+      "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+      "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+      "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "381e92d53b15e2a81455972700e26a3fafdbf90b7cee21cfd462ac43667aa540"
+  },
+  "objectiveSha256": "576d653a076748d897fcb7ba1e128b845b5d46499b740292cdd34d9321f78b7e",
+  "executionObjectiveSha256": "3e2d797574cd560a90844e5b9abecf05f7f548bcce9f9927bea1a2b35babbd81",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "aa2d3d8bc64ce6a9b97890f1ae2a8353042d648c4b35e05aacd35d349d00bd01",
+  "startedAtUtc": "2026-11-17T18:38:20.857Z",
+  "completedAtUtc": "2026-11-17T18:41:58.820Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 170.7,
+  "creditsConsumed": 52.39792250000001,
+  "sealedPrivatePackSha256": "ae14dfa5354d2e06dabd0ff41f3023dfd4de733e2b96890bbecb92b2ecc1ca35",
+  "testManager": {
+    "id": "01M7NCV8WY6KD5S8ZVJ5JB58RK",
+    "title": "NIARVA landing: repair replay and manual input cancellation",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "key": "manual_gpa_not_overwritten",
+      "condition": "the manual choice of GPA 3.4 is not overwritten by a stale replay timer",
+      "subject": "manual choice of GPA 3.4 overwritten by a stale replay timer",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 6
+    },
+    {
+      "key": "manual_override",
+      "condition": "the selected GPA and replay state are saved as {{manual_override}}",
+      "observed": "{\"gpa\":\"3.4\",\"replayState\":\"repaired\"}",
+      "expected": "",
+      "step": 6
+    },
+    {
+      "key": "replay_paused",
+      "condition": "the replay remains paused",
+      "subject": "replay paused",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 10
+    },
+    {
+      "key": "full_verification_required",
+      "condition": "full verification is still required",
+      "subject": "full verification required",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 13
+    },
+    {
+      "key": "repaired_3_5_sample_shown",
+      "condition": "the repaired 3.5 sample is shown",
+      "subject": "repaired 3.5 sample",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 13
+    },
+    {
+      "key": "default_draft_3_5_restored",
+      "condition": "the default draft at 3.5 is restored",
+      "subject": "default draft at 3.5 restored",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 16
+    },
+    {
+      "key": "default_draft_3_5_restored_final",
+      "condition": "the default draft at 3.5 is restored",
+      "subject": "default draft at 3.5 restored",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 16
+    },
+    {
+      "key": "replay_controls",
+      "condition": "the observed replay control outcomes are saved as {{replay_controls}}",
+      "observed": "{\"rule\":\"draft\",\"gpa\":\"3.5\",\"witness\":\"FAIL\\n\\nAt GPA 3.5, the draft fails to require the certificate.\",\"observed\":\"Hidden\",\"gate\":\"Blocked\"}",
+      "expected": "",
+      "step": 16
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-02A",
+    "buildId": "71hvB9w7WGC229kZAmqAf",
+    "packSha256": "ae14dfa5354d2e06dabd0ff41f3023dfd4de733e2b96890bbecb92b2ecc1ca35",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 20,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 20
+      }
+    ],
+    "firstPartyRequests": 20,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 20
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}
