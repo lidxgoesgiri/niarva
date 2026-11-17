@@ -77,9 +77,26 @@ export type KaneExecution = {
  * only as a secret variable. The worker owns the deadline: Kane's own --timeout was observed not
  * to stop a run, so a watchdog kills the whole process tree.
  */
+/**
+ * Start page for Kane: only the origin of the preview link (scheme, host, port), never its path
+ * or token. Kane needs a start URL; without one it relies on a global default that may point to
+ * another site, or ends with "No start URL provided" (PROD-LOOP-01, attempt 2). The full
+ * preview link still reaches Kane only as a secret variable.
+ */
+export function startOrigin(variables: Record<string, { value: string; secret: boolean }>): string | null {
+  const raw = variables.preview_url?.value;
+  if (!raw) return null;
+  try {
+    return new URL(raw).origin;
+  } catch {
+    return null;
+  }
+}
+
 export function runKane(cli: KaneCli, objective: string, variables: Record<string, { value: string; secret: boolean }>, timeoutSeconds: number, watchdogMargin: number): Promise<KaneExecution> {
   return new Promise((resolve) => {
-    const args = [cli.entry, "run", objective, "--agent", "--headless", "--timeout", String(timeoutSeconds), "--variables", JSON.stringify(variables)];
+    const origin = startOrigin(variables);
+    const args = [cli.entry, "run", objective, "--agent", "--headless", "--timeout", String(timeoutSeconds), "--variables", JSON.stringify(variables), ...(origin ? ["--url", origin] : [])];
     const child = spawn(process.execPath, args, {
       shell: false,
       windowsHide: true,
