@@ -1,0 +1,931 @@
+{
+  "generatedBy": "m0-lab/build-manifest.mjs",
+  "environment": {
+    "kaneCli": "0.10.4",
+    "chrome": "157.0.8103.51",
+    "node": "v24.11.1",
+    "os": "Windows 11 (10.0.26200)"
+  },
+  "runs": [
+    {
+      "runId": "CTRL-comma-ok",
+      "objective": "O-COMMA",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:48:05.510Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 117.4,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 24.94,
+      "finalStateKeys": [
+        "gpa_required_content_check",
+        "obs_1_visible",
+        "obs_1_required",
+        "page_definition_hash"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "gpa_required_content_check": "3,5",
+        "obs_1_visible": "true",
+        "obs_1_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": {
+        "sha256": "8fbb6d4dee53b93d48250dddb69f2957f147ccb628412812498275e72d67988a",
+        "bytes": 280105
+      }
+    },
+    {
+      "runId": "FAIL-boundary-gt-2",
+      "objective": "O-BOUNDARY",
+      "variant": "lab-gt",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-17T02:13:23.564Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 162.7,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 42.98,
+      "finalStateKeys": [
+        "gpa_field_value",
+        "achievement_certificate_visible",
+        "achievement_certificate_required",
+        "page_footer_code"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_visible": "false",
+        "obs_1_required": "false",
+        "obs_2_visible": "false",
+        "obs_2_required": "false",
+        "gpa_field_content_check": "3.51",
+        "obs_3_visible": "true",
+        "obs_3_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "a73b7387aeefab37ffda1c613f6d67be2baeaaa0285862d558bb7280155846cd",
+        "bytes": 550064
+      }
+    },
+    {
+      "runId": "FAIL-boundary-gt",
+      "objective": "O-BOUNDARY",
+      "variant": "lab-gt",
+      "kaneRunId": null,
+      "startedUtc": "2026-11-16T21:43:35.169Z",
+      "exitCode": 1,
+      "watchdogFired": true,
+      "wallSeconds": 270.3,
+      "runEndStatus": null,
+      "reasonCode": null,
+      "creditsConsumed": null,
+      "finalStateKeys": [],
+      "observations": null,
+      "errorEvent": "new_cdp_session: Target page, context or browser has been closed",
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": null
+    },
+    {
+      "runId": "FAIL-comma-bug",
+      "objective": "O-COMMA",
+      "variant": "lab-comma",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:50:02.943Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 97.6,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 21.13,
+      "finalStateKeys": [
+        "GPA (required) value",
+        "Achievement certificate number visible",
+        "Achievement certificate number required",
+        "footer code"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "gpa_required_content_check": "3,5",
+        "obs_1_visible": "false",
+        "obs_1_required": "false"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "8a36b69b38de367b92f3c5f644bd24cbf4647cd4aaaceb964bc8c5c8cd23570b",
+        "bytes": 229693
+      }
+    },
+    {
+      "runId": "H01-boundary-1",
+      "objective": "O-BOUNDARY",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:36:30.143Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 144.1,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 42.61,
+      "finalStateKeys": [
+        "GPA (required)",
+        "page footer code",
+        "Achievement certificate number visible after 3.49",
+        "Achievement certificate number required after 3.49",
+        "Achievement certificate number visible after 3.50",
+        "Achievement certificate number required after 3.50",
+        "Achievement certificate number visible after 3.51",
+        "Achievement certificate number required after 3.51"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_visible": "false",
+        "obs_1_required": "false",
+        "obs_2_visible": "true",
+        "obs_2_required": "true",
+        "gpa_required_value_check": "3.51",
+        "obs_3_visible": "true",
+        "obs_3_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "76b9c3bcbbdb2d88c579b44ae9da4f8a80938ed8397c00b32c76e4d2fc4cdb5c",
+        "bytes": 558937
+      }
+    },
+    {
+      "runId": "H01-boundary-2",
+      "objective": "O-BOUNDARY",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:38:54.259Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 134.1,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 38.97,
+      "finalStateKeys": [
+        "GPA (required)",
+        "Achievement certificate number visible",
+        "Achievement certificate number required",
+        "page footer code"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_visible": "false",
+        "obs_1_required": "false",
+        "obs_2_visible": "true",
+        "obs_2_required": "true",
+        "gpa_field_content_check": "3.51",
+        "obs_3_visible": "true",
+        "obs_3_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "6c0221ec6cf7d1bf35b94b31c8e08dd0cfc314f21777075732bc40618ddb77e7",
+        "bytes": 563077
+      }
+    },
+    {
+      "runId": "H01-boundary-3",
+      "objective": "O-BOUNDARY",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:41:08.366Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 146.8,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 38.66,
+      "finalStateKeys": [
+        "gpa_field_content",
+        "obs_1_visible",
+        "obs_1_required",
+        "obs_2_visible",
+        "obs_2_required",
+        "obs_3_visible",
+        "obs_3_required",
+        "page_definition_hash"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_visible": "false",
+        "obs_1_required": "false",
+        "obs_2_visible": "true",
+        "obs_2_required": "true",
+        "gpa_field_content_check": "3.51",
+        "obs_3_visible": "true",
+        "obs_3_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "1554ac886e33fe132dd5c65e74cdc07d83054594b42b65399d3700d769813e61",
+        "bytes": 562447
+      }
+    },
+    {
+      "runId": "H01-hidden-1",
+      "objective": "O-HIDDEN",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:32:16.820Z",
+      "exitCode": 1,
+      "watchdogFired": false,
+      "wallSeconds": 93.9,
+      "runEndStatus": "failed",
+      "reasonCode": "infra_error.screenshot_failed",
+      "creditsConsumed": 23.04,
+      "finalStateKeys": [],
+      "observations": {
+        "page_definition_hash": "3f2a91c0"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "13dc15d74f8702999e3017d70cd7d42eb5df577931e22adeab495e873f4bbe9d",
+        "bytes": 220902
+      }
+    },
+    {
+      "runId": "H01-hidden-2",
+      "objective": "O-HIDDEN",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:33:50.473Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 159.7,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 40.21,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_1_shown",
+        "obs_2_visible",
+        "submitted",
+        "receipt_code",
+        "sent_keys"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_visible": "false",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "BC6N7RM9",
+        "sent_keys": "name, gpa"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "9b3aa0d4d8f3037ba7e6eda0e183d5b4ddbc0bf271981db00e76bf08d840a33c",
+        "bytes": 812664
+      }
+    },
+    {
+      "runId": "H01-hidden-3",
+      "objective": "O-HIDDEN",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:36:30.144Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 163.2,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 40.92,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_1_shown",
+        "obs_2_visible",
+        "submitted",
+        "receipt_code",
+        "sent_keys"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_visible": "false",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "CCLCC4V9",
+        "sent_keys": "name, gpa"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "a67f682f8a78c0cdeea00756d1c0dd4bdd31cd72ff0d770d444abfc0f5328a0c",
+        "bytes": 942177
+      }
+    },
+    {
+      "runId": "H01-presence-1",
+      "objective": "O-PRESENCE",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:32:16.453Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 79.9,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 13.29,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_name_visible",
+        "obs_name_required",
+        "obs_gpa_visible",
+        "obs_gpa_required",
+        "obs_certificate_visible",
+        "obs_certificate_required"
+      ],
+      "observations": {
+        "full_name_required_field_visible": "true",
+        "gpa_required_field_visible": "true",
+        "page_definition_hash": "3f2a91c0",
+        "obs_name_visible": "true",
+        "obs_name_required": "true",
+        "obs_gpa_visible": "true",
+        "obs_gpa_required": "true",
+        "obs_certificate_visible": "false",
+        "obs_certificate_required": "false"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "e8f9e1063f27f925b5bb463d4932e99430635566f404a304a2c1856767d38520",
+        "bytes": 76674
+      }
+    },
+    {
+      "runId": "H01-presence-2",
+      "objective": "O-PRESENCE",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:33:36.175Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 84.5,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 10.16,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_name_visible",
+        "obs_name_required",
+        "obs_gpa_visible",
+        "obs_gpa_required",
+        "obs_certificate_visible",
+        "obs_certificate_required"
+      ],
+      "observations": {
+        "obs_certificate_visible": "false",
+        "obs_certificate_required": "false",
+        "full_name_required_field_visible": "true",
+        "gpa_required_field_visible": "true",
+        "page_definition_hash": "3f2a91c0",
+        "obs_name_visible": "true",
+        "obs_name_required": "true",
+        "obs_gpa_visible": "true",
+        "obs_gpa_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "7477307fba5a441f19b7562b765eceb61d2fe7897bb058fa9931c295362be616",
+        "bytes": 75829
+      }
+    },
+    {
+      "runId": "H01-presence-3",
+      "objective": "O-PRESENCE",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:35:00.727Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 89.4,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 10.25,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_name_visible",
+        "obs_name_required",
+        "obs_gpa_visible",
+        "obs_gpa_required",
+        "obs_certificate_visible",
+        "obs_certificate_required"
+      ],
+      "observations": {
+        "full_name_required_field_visible": "true",
+        "gpa_required_field_visible": "true",
+        "obs_certificate_visible": "false",
+        "obs_certificate_required": "false",
+        "page_definition_hash": "3f2a91c0",
+        "obs_name_visible": "true",
+        "obs_name_required": "true",
+        "obs_gpa_visible": "true",
+        "obs_gpa_required": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "40f206607a1c39963041be83ba3d0d716f57bce7e359a350f5abe105c74c4eae",
+        "bytes": 75544
+      }
+    },
+    {
+      "runId": "H08-condreq-1",
+      "objective": "O-CONDREQ",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:39:13.412Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 176.1,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 48.47,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_active_visible",
+        "obs_active_required",
+        "obs_active_submitted",
+        "obs_active_error_shown",
+        "submitted",
+        "receipt_code"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_active_visible": "true",
+        "obs_active_required": "true",
+        "obs_active_submitted": "false",
+        "obs_active_error_shown": "true",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "O9VCV6PN"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "6a6471b3f1e909abefae7f3c07ddc3db1cceab3e776833166afdb52ab166cab0",
+        "bytes": 1051698
+      }
+    },
+    {
+      "runId": "H08-condreq-2",
+      "objective": "O-CONDREQ",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:42:09.496Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 183.3,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 44.77,
+      "finalStateKeys": [
+        "receipt_code",
+        "submitted",
+        "page_definition_hash"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_active_visible": "true",
+        "obs_active_required": "true",
+        "obs_active_error_shown": "true",
+        "obs_active_submitted": "false",
+        "confirmation_message_with_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "439222RY"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "edb529b9a889da25735c5e94c942a74635ed62f03099c3e56226407b10c7b873",
+        "bytes": 1051403
+      }
+    },
+    {
+      "runId": "H08-condreq-3",
+      "objective": "O-CONDREQ",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:45:12.794Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 195.8,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 46.03,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_active_visible",
+        "obs_active_required",
+        "obs_active_submitted",
+        "obs_active_error_shown",
+        "submitted",
+        "receipt_code"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_active_visible": "true",
+        "obs_active_required": "true",
+        "obs_active_submitted": "false",
+        "obs_active_error_shown": "true",
+        "confirmation_message_with_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "EX7FE9SU"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "cf34b0ef63c6c1415f2bf5227165d74251fccec4255eb65c5d6a38788997c17e",
+        "bytes": 1052412
+      }
+    },
+    {
+      "runId": "H08-condreq-reqoff",
+      "objective": "O-CONDREQ",
+      "variant": "lab-reqoff",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:48:28.643Z",
+      "exitCode": 1,
+      "watchdogFired": false,
+      "wallSeconds": 184.8,
+      "runEndStatus": "failed",
+      "reasonCode": "assertion_error.confirmed_product_bug",
+      "creditsConsumed": 36.67,
+      "finalStateKeys": [],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_active_visible": "true",
+        "obs_active_required": "true",
+        "obs_active_error_shown": "false",
+        "obs_active_submitted": "true"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": {
+        "sha256": "20a6d2ba5a1b73c2dfb64bc549ca315102b3e807d4f1bf1a1ac47a830c2ea53c",
+        "bytes": 693064
+      }
+    },
+    {
+      "runId": "H09-multi-1",
+      "objective": "O-HIDDEN-MULTI",
+      "variant": "lab-multi",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:32:17.213Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 170.9,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 41.99,
+      "finalStateKeys": [
+        "receipt_code",
+        "submitted",
+        "sent_keys",
+        "page_definition_hash"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_shown": "true",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "EN19Q3FA",
+        "sent_keys": "name, gpa"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "79f37b8f50b2257f76a06bf37158e3531c579ed69d5b5570a7f5d86eaeeb8788",
+        "bytes": 1112472
+      }
+    },
+    {
+      "runId": "H09-multi-2",
+      "objective": "O-HIDDEN-MULTI",
+      "variant": "lab-multi",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:35:07.924Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 168.5,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 39.42,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "achievement_certificate_field_visible",
+        "advisor_recommendation_field_visible",
+        "submitted",
+        "receipt_code",
+        "submitted_data"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_shown": "true",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "LMJWNJRY",
+        "sent_keys": "name, gpa"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "340122e9d2b83163b1be7b513af9114b0e7289e8472c1678b51f86791adcc3a1",
+        "bytes": 1046178
+      }
+    },
+    {
+      "runId": "H09-multi-3",
+      "objective": "O-HIDDEN-MULTI",
+      "variant": "lab-multi",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:37:56.464Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 168.8,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 37.28,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "obs_1_shown",
+        "obs_2_shown",
+        "submitted",
+        "receipt_code",
+        "sent_keys"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_shown": "true",
+        "confirmation_message_with_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "RN0XYCVG",
+        "sent_keys": "name, gpa"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "b15adb65fa1d5c84b3afbc791dd7e43361ddab53784a73b9a67bd74db54d88d6",
+        "bytes": 1029779
+      }
+    },
+    {
+      "runId": "H09-multi-leakB",
+      "objective": "O-HIDDEN-MULTI",
+      "variant": "lab-leakB",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:40:45.248Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 169.7,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 35.5,
+      "finalStateKeys": [
+        "submitted",
+        "receipt_code",
+        "sent_keys",
+        "page_definition_hash",
+        "obs_1_shown",
+        "obs_2_shown"
+      ],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "obs_1_shown": "true",
+        "obs_2_shown": "true",
+        "confirmation_message_receipt_code_shown": "true",
+        "submitted": "true",
+        "receipt_code": "DELLM13S",
+        "sent_keys": "name, gpa, recommendation"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": {
+        "sha256": "a0c0b566ac0229d059215f7a5e574d0f4015bbeb94d95da55dbfe0e476b53999",
+        "bytes": 1051022
+      }
+    },
+    {
+      "runId": "K02-basic",
+      "objective": "O-BASIC",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:29:52.751Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 90.3,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 14.93,
+      "finalStateKeys": [
+        "page_definition_hash",
+        "page_footer_version_code_visible"
+      ],
+      "observations": {
+        "page_footer_version_code_visible": "true",
+        "page_definition_hash": "3f2a91c0"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": {
+        "sha256": "0a65537cec9fcbb194c89e4af78bf171cf5747e4475dd82748709299af390dc7",
+        "bytes": 66544
+      }
+    },
+    {
+      "runId": "K04-timeout-20",
+      "objective": "O-SLOW",
+      "variant": "lab-local",
+      "kaneRunId": null,
+      "startedUtc": "2026-11-16T21:43:35.030Z",
+      "exitCode": 1,
+      "watchdogFired": true,
+      "wallSeconds": 50.4,
+      "runEndStatus": null,
+      "reasonCode": null,
+      "creditsConsumed": null,
+      "finalStateKeys": [],
+      "observations": null,
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": null
+    },
+    {
+      "runId": "K04-timeout-30",
+      "objective": "O-SLOW",
+      "variant": "lab-local",
+      "kaneRunId": null,
+      "startedUtc": "2026-11-17T02:16:17.826Z",
+      "exitCode": 1,
+      "watchdogFired": true,
+      "wallSeconds": 185.3,
+      "runEndStatus": null,
+      "reasonCode": null,
+      "creditsConsumed": null,
+      "finalStateKeys": [],
+      "observations": null,
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": null,
+      "evidencePack": null
+    },
+    {
+      "runId": "K06-missing-var",
+      "objective": "O-MISSINGVAR",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-16T21:44:25.419Z",
+      "exitCode": 1,
+      "watchdogFired": false,
+      "wallSeconds": 69.3,
+      "runEndStatus": "failed",
+      "reasonCode": "assertion_error.final_verification",
+      "creditsConsumed": 25.14,
+      "finalStateKeys": [],
+      "observations": {
+        "page_definition_hash": "3f2a91c0",
+        "full_name_field_non_empty": "false"
+      },
+      "errorEvent": null,
+      "warningCode": "unresolved_variables",
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "21ed2648a535374e262b95705392794a9ec2c47c4384cd8cf2bdf0c714ba1041",
+        "bytes": 205024
+      }
+    },
+    {
+      "runId": "K09-viewport-1920",
+      "objective": "O-VIEWPORT",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-17T02:20:50.363Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 104.1,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 6.45,
+      "finalStateKeys": [
+        "viewport_width",
+        "page_definition_hash",
+        "viewport_width_line_present"
+      ],
+      "observations": {
+        "viewport_width_line_present": "true",
+        "page_definition_hash": "3f2a91c0",
+        "viewport_width": "1920"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "a09db215b05b72d0d39e94db83f23bd350d9780812132172b3e9d33756172ca2",
+        "bytes": 92012
+      }
+    },
+    {
+      "runId": "K09-viewport-390",
+      "objective": "O-VIEWPORT",
+      "variant": "lab-local",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-17T02:19:14.021Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 94.7,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 15.47,
+      "finalStateKeys": [
+        "viewport_width",
+        "page_definition_hash",
+        "viewport_width_line_visible"
+      ],
+      "observations": {
+        "viewport_width_line_visible": "true",
+        "page_definition_hash": "3f2a91c0",
+        "viewport_width": "1920"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "a21a0f083f62902f78d80d4b671a1309fee4d8d2d9c5424206f1ec1b6db6f120",
+        "bytes": 91961
+      }
+    },
+    {
+      "runId": "K09-viewport-cdp-390",
+      "objective": "O-VIEWPORT",
+      "variant": "lab-local via --cdp-endpoint (390x844 window)",
+      "kaneRunId": "run-0",
+      "startedUtc": "2026-11-17T02:24:13.172Z",
+      "exitCode": 0,
+      "watchdogFired": false,
+      "wallSeconds": 105.5,
+      "runEndStatus": "passed",
+      "reasonCode": "success.complete",
+      "creditsConsumed": 12.02,
+      "finalStateKeys": [
+        "viewport_width",
+        "page_definition_hash"
+      ],
+      "observations": {
+        "viewport_width_line_visible": "true",
+        "page_definition_hash": "3f2a91c0",
+        "viewport_width": "1920"
+      },
+      "errorEvent": null,
+      "warningCode": null,
+      "testUrlHost": "test-manager.lambdatest.com",
+      "evidencePack": {
+        "sha256": "6b6b61d1895835aac84ac3ffc2612aa3ae5b261396a2f47104f9940974016372",
+        "bytes": 91963
+      }
+    }
+  ]
+}
