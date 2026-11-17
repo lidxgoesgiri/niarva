@@ -85,7 +85,7 @@ export default defineConfig([
     rules: {
       "no-restricted-imports": [
         "error",
-        { patterns: [{ group: ["@/server/*", "**/server/**"], message: "UI code must go through the HTTP API, not server modules." }] },
+        { patterns: [{ group: ["@/server/*", "**/server/**"], allowTypeImports: true, message: "UI code must go through the HTTP API, not server modules." }] },
       ],
     },
   },
