@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
@@ -13,6 +15,40 @@ for (const file of [".env.local", ".env"]) {
   } catch {
     // The file is optional.
   }
+}
+
+/**
+ * Renderer fingerprint: a hash of every source file that decides how a form renders, validates,
+ * or filters answers. Deny-by-default: any change in these folders yields a new identity and
+ * makes existing browser proof STALE.
+ */
+function rendererFingerprint(): string {
+  const roots = [
+    path.join(repoRoot, "apps/web/src/features/form-renderer"),
+    path.join(repoRoot, "apps/web/src/app/preview"),
+    path.join(repoRoot, "apps/web/src/app/f"),
+    path.join(repoRoot, "packages/core/src/eval"),
+    path.join(repoRoot, "packages/core/src/dsl"),
+    path.join(repoRoot, "packages/core/src/decimal"),
+  ];
+  const files: string[] = [];
+  const walk = (dir: string) => {
+    if (!fs.existsSync(dir)) return;
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (/\.(ts|tsx|css)$/.test(entry.name)) files.push(full);
+    }
+  };
+  roots.forEach(walk);
+  const hash = createHash("sha256");
+  for (const file of files.sort()) {
+    hash.update(path.relative(repoRoot, file).replace(/\\/g, "/"));
+    hash.update("\0");
+    hash.update(fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n"));
+    hash.update("\0");
+  }
+  return `r1-${hash.digest("hex").slice(0, 16)}`;
 }
 
 const securityHeaders = [
@@ -40,6 +76,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  env: { NIARVA_RENDERER_BUILD_ID: rendererFingerprint() },
   poweredByHeader: false,
   transpilePackages: ["@niarva/core", "@niarva/contracts"],
   serverExternalPackages: ["@electric-sql/pglite", "pg"],
