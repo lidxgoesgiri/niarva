@@ -1,0 +1,16 @@
+node_modules
+.next
+dist
+coverage
+pnpm-lock.yaml
+.pglite
+.context
+.testmuai
+m0-lab/results
+evidence
+docs
+governance
+handoff
+sources
+PRD_PACKAGE_README.md
+apps/web/src/server/db/migrations

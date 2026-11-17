@@ -1,0 +1,47 @@
+{
+  "name": "@niarva/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx src/server/db/migrate.ts"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "~0.5.16",
+    "@niarva/contracts": "workspace:*",
+    "@niarva/core": "workspace:*",
+    "@radix-ui/react-dialog": "~1.3.1",
+    "@radix-ui/react-tabs": "~1.2.1",
+    "better-auth": "~1.7.25",
+    "clsx": "~2.1.1",
+    "drizzle-orm": "~0.45.4",
+    "lucide-react": "~1.73.0",
+    "motion": "~14.14.0",
+    "next": "~16.4.6",
+    "pg": "~8.23.1",
+    "react": "~19.3.1",
+    "react-dom": "~19.3.1",
+    "server-only": "0.0.1",
+    "tailwind-merge": "~3.7.0",
+    "zod": "~4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "~4.3.5",
+    "@types/node": "~24.19.2",
+    "@types/pg": "~8.23.1",
+    "@types/react": "~19.3.0",
+    "@types/react-dom": "~19.3.0",
+    "drizzle-kit": "~0.31.11",
+    "postcss": "~8.5.33",
+    "tailwindcss": "~4.3.5",
+    "tsx": "~4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "~5.1.0"
+  }
+}

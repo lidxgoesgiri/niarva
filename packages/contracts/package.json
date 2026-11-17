@@ -1,0 +1,22 @@
+{
+  "name": "@niarva/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zod schemas for the HTTP boundary between web, worker, and clients.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@niarva/core": "workspace:*",
+    "zod": "~4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "~5.9.3",
+    "vitest": "~5.1.0"
+  }
+}
