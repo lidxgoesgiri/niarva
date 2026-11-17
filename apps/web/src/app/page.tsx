@@ -1,61 +1,200 @@
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowRight,
+  ArrowUpRight,
+  Braces,
+  GitBranch,
+  LockKeyhole,
+  Terminal,
+} from "lucide-react";
 import { BrandMark } from "@/components/composites/brand-mark";
 import { ButtonLink } from "@/components/ui/button";
+import { BoundarySandbox } from "@/features/landing/boundary-sandbox";
+import { LandingShell } from "@/features/landing/landing-shell";
+import styles from "@/features/landing/landing.module.css";
 
-/**
- * Landing page foundation: server-rendered headline, description, and calls to action.
- * The interactive landing sections are layered on top of this structure.
- */
 export default function LandingPage() {
   return (
-    <div className="relative flex min-h-dvh flex-col overflow-x-clip">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[720px] bg-[radial-gradient(60%_55%_at_50%_0%,rgba(79,108,246,0.32),transparent_70%),radial-gradient(40%_40%_at_70%_18%,rgba(184,148,250,0.22),transparent_70%)]"
-      />
-
-      <header className="sticky top-0 z-40 border-b border-transparent bg-canvas/80 backdrop-blur-md">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
-          <BrandMark />
-          <nav aria-label="Primary" className="flex items-center gap-2">
-            <ButtonLink href="/app" variant="secondary" size="sm">
-              Open Workspace
-            </ButtonLink>
-          </nav>
+    <LandingShell>
+      <main id="main">
+        <section className={styles.hero} aria-labelledby="hero-title" data-ambient>
+          <div className={styles.heroGrid} aria-hidden="true" />
+          <div className={styles.portal} aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
+          <div className={styles.heroCopy}>
+            <p className={styles.eyebrow}>
+              <span />
+              Intent-preserving form builder
+            </p>
+            <h1 id="hero-title">
+              From Intention
+              <br className={styles.heroBreak} /> to <span>Proof.</span>
+            </h1>
+            <p className={styles.heroLead}>
+              Build conditional forms from plain language. Catch hidden logic errors with
+              real-browser verification before you publish.
+            </p>
+            <div className={styles.heroActions}>
+              <ButtonLink href="/app" size="lg">
+                Build Verified Form <ArrowRight aria-hidden="true" size={17} />
+              </ButtonLink>
+              <a href="#golden-case" className={styles.inspectLink}>
+                Inspect Golden Case <ArrowDown size={16} aria-hidden="true" />
+              </a>
+            </div>
+            <p className={styles.heroSupport}>
+              <Terminal aria-hidden="true" size={13} />
+              Designed for real-browser verification with Kane CLI.
+            </p>
+          </div>
+          <div className={styles.heroFootnote} aria-hidden="true">
+            <span>APPROVED INTENT</span>
+            <span className={styles.traceLine} />
+            <span>OBSERVED BEHAVIOR</span>
+          </div>
+        </section>
+        <div className={styles.container}>
+          <BoundarySandbox />
         </div>
-      </header>
-
-      <main id="main" className="flex-1">
-        <section className="mx-auto flex w-full max-w-4xl flex-col items-center px-5 pb-24 pt-20 text-center sm:px-8 sm:pt-28">
-          <p className="rounded-full border border-line-strong bg-elevated/70 px-3.5 py-1 text-xs font-medium uppercase tracking-[0.18em] text-lavender">
-            Intent-preserving form builder
+        <section
+          id="verification"
+          className={`${styles.container} ${styles.semanticSection}`}
+          aria-labelledby="semantic-title"
+        >
+          <div className={styles.sectionIntro}>
+            <p className={styles.eyebrow}>01 / The semantic gap</p>
+            <h2 id="semantic-title">
+              Valid syntax does not
+              <br />
+              guarantee valid intent.
+            </h2>
+            <p>
+              A form can run perfectly and still ask the wrong question of the right person. The
+              boundary makes the difference visible.
+            </p>
+          </div>
+          <div className={styles.semanticComparison}>
+            <div>
+              <span className={styles.sectionLabel}>
+                <Braces size={16} aria-hidden="true" />
+                Syntax-only draft
+              </span>
+              <code>
+                gpa <mark>&gt;</mark> 3.5
+              </code>
+              <h3>Valid code. Missing meaning.</h3>
+              <p>
+                At exactly 3.5, the certificate disappears. The rule excludes a value the
+                requirement includes.
+              </p>
+            </div>
+            <span className={styles.comparisonBridge}>
+              <span>WITNESS</span>
+              <strong>GPA = 3.5</strong>
+              <ArrowRight size={20} aria-hidden="true" />
+            </span>
+            <div>
+              <span className={styles.sectionLabel}>
+                <GitBranch size={16} aria-hidden="true" />
+                NIARVA Intent Trace
+              </span>
+              <code>
+                gpa <mark data-repaired>≥</mark> 3.5
+              </code>
+              <h3>Trace the rule to its source.</h3>
+              <p>
+                Compare the approved claim, generated rule, and browser observation. Make the
+                disagreement explicit.
+              </p>
+            </div>
+          </div>
+          <p className={styles.caption}>
+            Illustrative comparison · a matching rule still needs real browser proof.
           </p>
-          <h1 className="mt-6 text-[clamp(2.25rem,5.5vw,5rem)] font-bold">From Intention to Proof.</h1>
-          <p className="mt-6 max-w-2xl text-lg text-ink-muted">
-            Build conditional forms from plain language. Catch hidden logic errors with real-browser
-            verification before you publish.
-          </p>
-          <p className="mt-3 text-sm text-ink-muted">
-            Designed for real-browser verification with Kane CLI.
-          </p>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink href="/app" size="lg">
-              Build Verified Form
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </ButtonLink>
+        </section>
+        <section
+          id="how-it-works"
+          className={`${styles.container} ${styles.storySection}`}
+          aria-labelledby="pipeline-title"
+        >
+          <div className={styles.sectionIntro}>
+            <p className={styles.eyebrow}>02 / Intent to proof</p>
+            <h2 id="pipeline-title">
+              Every rule should trace
+              <br />
+              back to its intent.
+            </h2>
+            <p>
+              Approve the requirements. Build deterministic rules. Observe the real browser. Gate
+              publication on fresh evidence.
+            </p>
+          </div>
+        </section>
+        <section
+          id="evidence"
+          className={`${styles.container} ${styles.storySection}`}
+          aria-labelledby="evidence-title"
+        >
+          <div className={styles.sectionIntro}>
+            <p className={styles.eyebrow}>03 / Evidence and accountability</p>
+            <h2 id="evidence-title">
+              Proof belongs to a version.
+              <br />
+              Trust belongs in the details.
+            </h2>
+            <p>
+              A timeout, unknown result, or stale proof cannot become success. Missing evidence
+              blocks publication.
+            </p>
+          </div>
+        </section>
+        <section className={styles.closing} aria-labelledby="closing-title">
+          <div className={styles.container}>
+            <p className={styles.eyebrow}>Build with intent. Publish with evidence.</p>
+            <h2 id="closing-title">
+              Verify behavior before your
+              <br />
+              respondents ever see the form.
+            </h2>
+            <div className={styles.heroActions}>
+              <ButtonLink href="/app" size="lg">
+                Open Creator Workspace <ArrowRight size={17} aria-hidden="true" />
+              </ButtonLink>
+              <a href="#golden-case" className={styles.inspectLink}>
+                Explore Judge Demo <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+            </div>
+            <p className={styles.closingNote}>
+              <LockKeyhole size={14} aria-hidden="true" />
+              Your approval defines the intent. Evidence controls publication.
+            </p>
           </div>
         </section>
       </main>
-
-      <footer className="border-t border-line">
-        <div className="mx-auto flex w-full max-w-7xl flex-col gap-2 px-5 py-8 text-sm text-ink-muted sm:px-8">
+      <footer className={styles.footer}>
+        <div className={styles.container}>
+          <div className={styles.footerTop}>
+            <BrandMark />
+            <nav aria-label="Footer">
+              <a href="https://github.com/lidxgoesgiri/niarva">
+                GitHub <ArrowUpRight size={13} aria-hidden="true" />
+              </a>
+              <a href="https://github.com/lidxgoesgiri/niarva#quick-start">Documentation</a>
+              <a href="https://github.com/lidxgoesgiri/niarva#how-kane-cli-is-used">
+                Kane CLI integration
+              </a>
+            </nav>
+          </div>
           <p>
             Verification covers supported scenarios for a specific form version. Changes may
             invalidate existing proof.
           </p>
-          <p>NIARVA · built for the KaneCLI Online Hackathon, November 2026.</p>
+          <p>Built for the KaneCLI Online Hackathon · November 2026</p>
         </div>
       </footer>
-    </div>
+    </LandingShell>
   );
 }

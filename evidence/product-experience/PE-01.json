@@ -1,0 +1,219 @@
+{
+  "testId": "PE-01",
+  "status": "PASS",
+  "scope": "Landing simulation only; not proof for a published form",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-02",
+    "UI-AC-03",
+    "UI-AC-04",
+    "UI-AC-05",
+    "UI-AC-06",
+    "UI-AC-14",
+    "UI-AC-17"
+  ],
+  "sourceBase": "e860ecfa73d15520f3d853cb91a4e8468df53e18",
+  "buildId": "lygGe-iV5L1noSQeByyIb",
+  "testedSourceHashes": {
+    "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+    "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+    "apps/web/src/features/landing/landing.module.css": "2f7f472e465b65f75e2d2e84872cde54b62d38d24220c48dacbefefd1cca38ce",
+    "apps/web/src/app/page.tsx": "21cf863a1322dbd5c5403eab684f4aa97f4aac08adf318ae8b01b877d9f1dfb1"
+  },
+  "objectiveSha256": "4539e39db7641cc3a7f2e945a77f4b9034f3027d3821f4ff48cadd72a777588c",
+  "startedAtUtc": "2026-11-17T14:47:25.229Z",
+  "completedAtUtc": "2026-11-17T14:54:13.451Z",
+  "sessionId": "cd10ce29-0004-41d1-a327-ab71e804b5c8",
+  "kaneVersion": "0.10.4",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 366.4,
+  "completedSteps": 31,
+  "creditsConsumed": 104.13624949999999,
+  "sharedBalanceBefore": 9285.7888,
+  "sharedBalanceAfter": 9118.9783,
+  "sealedPrivatePackSha256": "ed877b3e66034b6757af2fab0893f5f7300b7eca8d0dce033038380a25df5568",
+  "testManagerUrl": "https://test-manager.lambdatest.com/projects/01M7K3YXN5X28FCVQCMV3F4HN5/test-cases/01M7MZMCR7TY7SHJ8E2VSJY3J9/dashboard",
+  "observations": [
+    {
+      "key": "sandbox_default_rule_check",
+      "observed": "AI Draft (>)",
+      "expected": "AI Draft (>)",
+      "step": 5
+    },
+    {
+      "key": "sandbox_default_gpa_check",
+      "observed": "3.5",
+      "expected": "3.5",
+      "step": 5
+    },
+    {
+      "key": "default_certificate_field_absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 5
+    },
+    {
+      "key": "default_sample_witness_check",
+      "observed": "FAIL",
+      "expected": "FAIL",
+      "step": 5
+    },
+    {
+      "key": "default_simulated_gate_check",
+      "observed": "Blocked",
+      "expected": "Blocked",
+      "step": 5
+    },
+    {
+      "key": "gpa_34_draft_certificate_absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 9
+    },
+    {
+      "key": "gpa_34_draft_sample_witness_check",
+      "observed": "PASS",
+      "expected": "PASS",
+      "step": 9
+    },
+    {
+      "key": "gpa_34_draft_gate_check",
+      "observed": "Blocked",
+      "expected": "Blocked",
+      "step": 9
+    },
+    {
+      "key": "gpa_36_draft_certificate_visible",
+      "observed": "true",
+      "expected": "true",
+      "step": 12
+    },
+    {
+      "key": "gpa_36_draft_certificate_required",
+      "observed": "true",
+      "expected": "true",
+      "step": 12
+    },
+    {
+      "key": "gpa_36_draft_gate_check",
+      "observed": "Blocked",
+      "expected": "Blocked",
+      "step": 12
+    },
+    {
+      "key": "gpa_36_draft_sample_witness_check",
+      "observed": "PASS",
+      "expected": "PASS",
+      "step": 12
+    },
+    {
+      "key": "repaired_36_certificate_visible",
+      "observed": "true",
+      "expected": "true",
+      "step": 15
+    },
+    {
+      "key": "repaired_36_certificate_required",
+      "observed": "true",
+      "expected": "true",
+      "step": 15
+    },
+    {
+      "key": "repaired_36_gate_check",
+      "observed": "Full verification required",
+      "expected": "Full verification required",
+      "step": 15
+    },
+    {
+      "key": "actual_verified_result_absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 15
+    },
+    {
+      "key": "repaired_36_sample_witness_check",
+      "observed": "PASS",
+      "expected": "PASS",
+      "step": 15
+    },
+    {
+      "key": "repaired_35_certificate_visible",
+      "observed": "true",
+      "expected": "true",
+      "step": 18
+    },
+    {
+      "key": "repaired_35_certificate_required",
+      "observed": "true",
+      "expected": "true",
+      "step": 18
+    },
+    {
+      "key": "repaired_35_sample_witness_check",
+      "observed": "PASS",
+      "expected": "PASS",
+      "step": 18
+    },
+    {
+      "key": "repaired_34_certificate_input_removed",
+      "observed": "false",
+      "expected": "false",
+      "step": 23
+    },
+    {
+      "key": "repaired_34_certificate_input_focusable",
+      "observed": "false",
+      "expected": "false",
+      "step": 23
+    },
+    {
+      "key": "repaired_34_gate_check",
+      "observed": "Full verification required",
+      "expected": "Full verification required",
+      "step": 23
+    },
+    {
+      "key": "repaired_34_sample_witness_check",
+      "observed": "PASS",
+      "expected": "PASS",
+      "step": 23
+    },
+    {
+      "key": "simulated_gate_explanatory_text",
+      "observed": "true",
+      "expected": "true",
+      "step": 25
+    },
+    {
+      "key": "status_meaning_readable_text",
+      "observed": "true",
+      "expected": "true",
+      "step": 25
+    },
+    {
+      "key": "status_meaning_icon",
+      "observed": "true",
+      "expected": "true",
+      "step": 25
+    },
+    {
+      "key": "real_publish_action_absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 25
+    },
+    {
+      "key": "real_creator_workspace_access",
+      "observed": "true",
+      "expected": "true",
+      "step": 29
+    }
+  ],
+  "notes": [
+    "Typed assertions come from the command context memory because final_state omitted intermediate extraction keys, consistent with runtime validation.",
+    "The workspace-or-sign-in alternative resolved to sign-in; the unauthenticated workspace check itself was false, as expected for this alternative.",
+    "This is an extracted sanitized derivative. It is not the original sealed evidence pack.",
+    "Subsequent testing uses the NIARVA intent verification project."
+  ]
+}
