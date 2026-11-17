@@ -150,4 +150,3 @@ export async function publicForm(slug: string) {
     label: { kind: fresh ? ("FULLY_VERIFIED" as const) : ("BROWSER_EVIDENCE_STALE" as const), verifiedAt: run?.completedAt ?? null },
   };
 }
-

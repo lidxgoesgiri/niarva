@@ -19,7 +19,7 @@ import { EXTRACT_PROMPT_VERSION, extractClaims } from "../ai/extract-claims";
 import { audit } from "./audit";
 
 export const createFormInput = z.discriminatedUnion("source", [
-  z.object({ source: z.literal("template"), template: z.literal("scholarship") }),
+  z.object({ source: z.literal("template"), template: z.literal("scholarship"), title: z.string().trim().min(1).max(120).optional() }),
   z.object({ source: z.literal("ai"), prompt: z.string().trim().min(20).max(4000) }),
   z.object({ source: z.literal("manual"), title: z.string().trim().min(1).max(120), prompt: z.string().trim().max(4000).default("") }),
 ]);
@@ -59,7 +59,7 @@ export async function createForm(actor: Actor, input: CreateFormInput, requestId
 
   if (input.source === "template") {
     content = GOLDEN_CLAIMS;
-    title = GOLDEN_TITLE;
+    title = input.title ?? GOLDEN_TITLE;
     sourcePrompt = GOLDEN_PROMPT;
     origin = "template";
   } else if (input.source === "manual") {

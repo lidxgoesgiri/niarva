@@ -51,7 +51,7 @@ export function FormPanel({ state, busy, onAction }: { state: FormState; busy: b
       <div className="flex flex-wrap items-center gap-2">
         <span className="rounded-md bg-raised px-2 py-1 font-mono text-xs" data-testid="version-label">v{version.versionNo}</span>
         <span className="text-xs text-ink-muted">{ORIGIN_TEXT[version.createdVia] ?? version.createdVia}</span>
-        {version.createdVia === "template" ? <StatusBadge status="BLOCKED" label="Seeded defect" /> : null}
+        {version.createdVia === "template" ? <StatusBadge status="BLOCKED" label="Seeded defect for demonstration" /> : null}
       </div>
       <p className="text-xs text-ink-muted">
         Page identity <code className="font-mono text-ink">{version.pageIdentity}</code> · {version.versionCount} version{version.versionCount === 1 ? "" : "s"} in history

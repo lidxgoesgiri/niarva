@@ -84,6 +84,7 @@ export function VerifyPanel({ state, busy, onAction }: { state: FormState; busy:
             <article key={finding.key} data-testid="counterexample" className="rounded-xl border border-fail/50 bg-fail/5 p-4">
               <p className="text-xs font-medium uppercase tracking-wide text-fail">Counterexample · {finding.claimKeys.join(", ")}</p>
               <p className="mt-1 text-sm">{finding.message}</p>
+              {state.version?.createdVia === "template" ? <p className="mt-1 text-xs font-medium text-warn">Seeded defect for demonstration</p> : null}
               <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
                 <dt className="text-ink-muted">Witness</dt>
                 <dd className="font-mono">{Object.entries(cex.assignment).map(([key, value]) => `${key} = ${value || "(empty)"}`).join(", ") || "initial state"}</dd>
@@ -92,6 +93,9 @@ export function VerifyPanel({ state, busy, onAction }: { state: FormState; busy:
                 <dt className="text-ink-muted">Actual</dt>
                 <dd className="text-fail">{label} {cex.actual.visible ? "visible" : "hidden"}{cex.actual.visible ? (cex.actual.required ? " and required" : ", optional") : ""}</dd>
               </dl>
+              <p className="mt-3 text-xs text-ink-muted">
+                The expected behavior comes from the approved claim {finding.claimKeys.join(", ")}, not from the generated rule. This mismatch was found by static analysis; it is not yet observed in a browser.
+              </p>
             </article>
           );
         })}
