@@ -42,6 +42,8 @@ export function IntentPanel({
       claims: claimSet.content.claims.map((candidate) => {
         if (candidate.key !== claim.key) return candidate;
         const resolved = { ...candidate, reviewState: "edited" as const, ambiguity: candidate.ambiguity ? { ...candidate.ambiguity, resolvedChoice: choice } : undefined };
+        // Keeping a manual check is the creator's explicit acknowledgement that it is not verified.
+        if (resolved.kind === "MANUAL" && /keep/i.test(choice)) return { ...resolved, acknowledged: true };
         if ((resolved.kind === "VISIBLE_WHEN" || resolved.kind === "REQUIRED_WHEN") && resolved.when.kind === "cmp" && /exclude/i.test(choice)) {
           const op = resolved.when.op === "gte" ? "gt" : resolved.when.op === "lte" ? "lt" : resolved.when.op;
           return { ...resolved, when: { ...resolved.when, op } };
