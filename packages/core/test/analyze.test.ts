@@ -12,7 +12,7 @@ describe("intent analysis on the golden scholarship case", () => {
 
   it("renders the boundary claim with an explicit inclusion note", () => {
     const fields = new Map(catalogFields(GOLDEN_CLAIMS).map((field) => [field.key, field]));
-    const claim = GOLDEN_CLAIMS.claims.find((candidate) => candidate.key === "C-03");
+    const claim = GOLDEN_CLAIMS.claims.find((candidate) => candidate.key === "C-GPA");
     expect(renderStatement(claim!, fields)).toBe(
       "Achievement certificate number is shown and must be filled in when GPA ≥ 3.5 (3.5 included). Otherwise it is hidden and its answer is not submitted.",
     );
@@ -24,14 +24,14 @@ describe("intent analysis on the golden scholarship case", () => {
     expect(result.findings.filter((finding) => finding.severity === "error")).toEqual([]);
     expect(result.verdict).toBe("PASS");
     expect(Object.values(result.claimStatuses).map((status) => status.status)).toEqual(["PASS", "PASS", "PASS", "PASS"]);
-    expect(result.ruleTrace).toEqual([expect.objectContaining({ target: "certificate", status: "supported", servesClaims: ["C-03"] })]);
+    expect(result.ruleTrace).toEqual([expect.objectContaining({ target: "certificate", status: "supported", servesClaims: ["C-GPA"] })]);
   });
 
   it("finds the seeded gt defect with the GPA 3.5 witness mapped to the approved claim", () => {
     const result = analyze(goldenDefinitionWithSeededDefect(), GOLDEN_CLAIMS);
     expect(result.verdict).toBe("FAILED");
     const visibility = result.findings.find((finding) => finding.code === "INTENT_MISMATCH_VISIBILITY");
-    expect(visibility?.claimKeys).toEqual(["C-03"]);
+    expect(visibility?.claimKeys).toEqual(["C-GPA"]);
     expect(visibility?.counterexample).toMatchObject({
       field: "certificate",
       aspect: "visible",
@@ -41,7 +41,7 @@ describe("intent analysis on the golden scholarship case", () => {
       boundary: { field: "gpa", value: "3.5" },
     });
     expect(result.findings.find((finding) => finding.code === "INTENT_MISMATCH_REQUIRED")?.counterexample?.assignment).toEqual({ gpa: "3.50" });
-    expect(result.claimStatuses["C-03"]?.status).toBe("FAILED");
+    expect(result.claimStatuses["C-GPA"]?.status).toBe("FAILED");
     expect(result.claimStatuses["C-01"]?.status).toBe("PASS");
     expect(result.claimStatuses["C-04"]?.status).toBe("PASS");
     expect(result.ruleTrace[0]?.status).toBe("conflicting");
@@ -56,7 +56,7 @@ describe("intent analysis on the golden scholarship case", () => {
 
   it("flags a widened condition as a mismatch below the approved boundary", () => {
     const definition = goldenDefinition();
-    const widened = { ...definition, rules: [makeRule("certificate", "show", { kind: "cmp", field: "gpa", op: "gte", value: "3" }, ["C-03"])] };
+    const widened = { ...definition, rules: [makeRule("certificate", "show", { kind: "cmp", field: "gpa", op: "gte", value: "3" }, ["C-GPA"])] };
     const result = analyze(widened, GOLDEN_CLAIMS);
     const finding = result.findings.find((candidate) => candidate.code === "INTENT_MISMATCH_VISIBILITY");
     expect(finding?.counterexample?.expected.visible).toBe(false);
@@ -101,6 +101,6 @@ describe("intent analysis on the golden scholarship case", () => {
     const result = analyze(loosened, GOLDEN_CLAIMS);
     expect(result.findings.map((finding) => finding.code)).toContain("INTENT_MISMATCH_CONSTRAINT");
     expect(result.claimStatuses["C-04"]?.status).toBe("FAILED");
-    expect(result.claimStatuses["C-03"]?.status).toBe("PASS");
+    expect(result.claimStatuses["C-GPA"]?.status).toBe("PASS");
   });
 });

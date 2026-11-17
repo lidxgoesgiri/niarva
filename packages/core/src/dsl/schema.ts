@@ -10,7 +10,8 @@ export const FIELD_KEY = /^[a-z][a-z0-9_]{1,39}$/;
 export const DECIMAL_STRING = /^-?(0|[1-9]\d{0,14})(\.\d{1,4})?$/;
 export const OPTION_VALUE = /^[a-z0-9_]{1,40}$/;
 export const RULE_ID = /^rule_[a-f0-9]{4,12}$/;
-export const CLAIM_KEY = /^C-\d{2,3}$/;
+/** "C-01" style keys, or a short readable name such as "C-GPA". */
+export const CLAIM_KEY = /^C-(?:\d{2,3}|[A-Z][A-Z0-9-]{1,11})$/;
 
 export const LIMITS = {
   fields: 50,
