@@ -182,13 +182,24 @@ class Objective {
   constructor(private ctx: Ctx, submits: boolean) {
     this.lines.push("Open {{preview_url}}");
     this.lines.push(submits ? "This is an automated form check that uses synthetic data." : "This is an automated form check that uses synthetic data. Do not submit the form.");
+    // A browser agent may plan ahead and look for a field before the answer that reveals it is
+    // entered (DEV-LOOP-02). The order of the steps below is part of the check.
+    if (ctx.definition.fields.some((field) => field.visibility === "conditional")) {
+      this.lines.push("Some fields appear only after an earlier answer is entered. Follow the steps in order, and do not look for a field before the step that names it.");
+    }
     this.lines.push("Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.");
   }
   label(key: string) {
     return this.ctx.labels.get(key) ?? key;
   }
+  private conditional(key: string) {
+    return this.ctx.definition.fields.find((field) => field.key === key)?.visibility === "conditional";
+  }
   set(key: string, value: string | boolean) {
     const field = this.ctx.catalog.get(key) as FieldLike;
+    // A conditional field is only set where the approved claims make it visible, so it must be on
+    // the page by now; waiting for it keeps the agent from concluding that it is missing.
+    if (this.conditional(key)) this.lines.push(`Wait until a field labeled "${this.label(key)}" is shown; it appears only after the earlier answers.`);
     if (field.type === "checkbox") {
       this.lines.push(value === true || value === "true" ? `Make sure the checkbox labeled "${this.label(key)}" is checked.` : `Make sure the checkbox labeled "${this.label(key)}" is not checked.`);
     } else if (field.type === "single_select") {
