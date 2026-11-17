@@ -17,29 +17,12 @@ import { createHash } from "node:crypto";
 import { createWriteStream, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveKaneEntry } from "./lib/kane-entry.mjs";
+import { acquireKaneLock } from "./lib/kane-lock.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const testsDir = join(root, ".testmuai", "tests");
 const WATCHDOG_SECONDS = 15 * 60;
-
-function resolveKaneEntry() {
-  if (process.env.KANE_CLI_ENTRY) return process.env.KANE_CLI_ENTRY;
-  const candidates = [];
-  if (process.env.APPDATA) candidates.push(join(process.env.APPDATA, "npm", "node_modules"));
-  try {
-    candidates.push(execFileSync("npm", ["root", "-g"], { encoding: "utf8", shell: true }).trim());
-  } catch {
-    // Fall through to the error below.
-  }
-  for (const base of candidates) {
-    const pkgPath = join(base, "@testmuai", "kane-cli", "package.json");
-    if (!existsSync(pkgPath)) continue;
-    const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
-    const bin = typeof pkg.bin === "string" ? pkg.bin : pkg.bin["kane-cli"];
-    return { entry: resolve(dirname(pkgPath), bin), version: pkg.version };
-  }
-  throw new Error("Kane CLI not found. Install it with `npm install -g @testmuai/kane-cli`.");
-}
 
 function resolveTest(selector) {
   if (existsSync(resolve(root, selector))) return resolve(root, selector);
@@ -223,12 +206,19 @@ const results = [];
 // One Kane run at a time: M0 showed infrastructure failures under parallel execution.
 for (const selector of selectors) {
   const testPath = resolveTest(selector);
-  let summary = await runOne(kane, testPath, label, headed);
-  if (summary.outcome === "UNKNOWN" && summary.stepsStarted === 0 && SIGN_IN_NOT_STARTED.test(summary.notStartedReason ?? "")) {
-    console.log(JSON.stringify(summary));
-    console.error(`run did not start (${summary.notStartedReason}); retrying once in ${RETRY_PAUSE_MS / 1000}s`);
-    await new Promise((resolvePause) => setTimeout(resolvePause, RETRY_PAUSE_MS));
-    summary = await runOne(kane, testPath, label, headed, summary.runDir);
+  // Machine-wide lock: never overlap with another Kane run (another agent, worktree, or the worker).
+  const release = await acquireKaneLock(`verify-kane: ${basename(testPath)}`);
+  let summary;
+  try {
+    summary = await runOne(kane, testPath, label, headed);
+    if (summary.outcome === "UNKNOWN" && summary.stepsStarted === 0 && SIGN_IN_NOT_STARTED.test(summary.notStartedReason ?? "")) {
+      console.log(JSON.stringify(summary));
+      console.error(`run did not start (${summary.notStartedReason}); retrying once in ${RETRY_PAUSE_MS / 1000}s`);
+      await new Promise((resolvePause) => setTimeout(resolvePause, RETRY_PAUSE_MS));
+      summary = await runOne(kane, testPath, label, headed, summary.runDir);
+    }
+  } finally {
+    release();
   }
   results.push(summary);
   console.log(JSON.stringify(summary));
