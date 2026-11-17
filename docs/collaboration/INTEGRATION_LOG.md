@@ -4,6 +4,8 @@ Writer: Claude. Newest entry first.
 
 | When (WIB) | Action | Result |
 |---|---|---|
+| 2026-11-17 23:05 | PR #6 reviewed: CI green (build, tests, secret scan); landing copy labels samples, claims no browser proof, names `C-GPA` | Not merged yet: the UI track still has uncommitted work. Merge after Codex reports done in `CODEX_HANDOFF.md`, followed by Kane checks on the integrated build. |
+| 2026-11-17 23:00 | DEV-LOOP-02: PROD-LOOP-01 attempt 1 ended UNVERIFIED (P-05 UNKNOWN); probe objectives fixed in `4359d55` (+ test `6a3be40`); policy `MPP-v4` | Attempt 2 running on port 3200 |
 | 2026-11-17 22:40 | Overlap check: PR #6 and the local branch `feature/interactive-landing` both implement the landing page | `feature/interactive-landing` is retired as an active line. UI belongs to Codex; the branch is kept locally as reference and not merged. |
 | 2026-11-17 22:28 | Core verification moved to its own worktree, port 3200, with its own PGlite database and environment id `local-verify-3200` | No shared server or database with the UI track |
 | 2026-11-17 22:27 | `feature/creator-workflow` (`ecb199d`) merged into `feature/verification-worker` → `4ff20f5` | Clean |

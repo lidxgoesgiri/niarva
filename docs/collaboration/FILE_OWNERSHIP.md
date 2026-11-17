@@ -31,6 +31,7 @@ Writer: Claude. Codex requests changes in `CODEX_HANDOFF.md`.
 | `apps/web/src/styles/**` | global styles and motion tokens |
 | `apps/web/src/components/ui/**` | primitive UI components |
 | `evidence/product-experience/**` | Kane evidence of the UI track |
+| `.testmuai/tests/niarva-pe-*_test.md`, `.testmuai/tests/output-niarva-pe-*/` | Kane tests of the UI track (prefix `niarva-pe-`); run them through `node scripts/kane-locked.mjs` |
 | `docs/collaboration/CODEX_HANDOFF.md` | Codex's channel |
 
 ## Shared under rules
