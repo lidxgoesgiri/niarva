@@ -101,6 +101,12 @@ function runOne(kane, testPath, label, headed) {
     }, WATCHDOG_SECONDS * 1000);
 
     const startedAt = Date.now();
+    // Record the revision under test when the run starts, not when it ends.
+    const sourceAtStart = {
+      commit: git(["rev-parse", "HEAD"]),
+      branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
+      dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
+    };
     child.on("close", (exitCode) => {
       clearTimeout(watchdog);
       out.end();
@@ -167,11 +173,7 @@ function runOne(kane, testPath, label, headed) {
         streamVersion: events.find((event) => event.v !== undefined)?.v ?? null,
         nonJsonLines: nonJson,
         evidencePack: pack,
-        source: {
-          commit: git(["rev-parse", "HEAD"]),
-          branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
-          dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
-        },
+        source: sourceAtStart,
         startedAtUtc: new Date(startedAt).toISOString(),
         runDir: runDir.replace(root, ".").replace(/\\/g, "/"),
       };
