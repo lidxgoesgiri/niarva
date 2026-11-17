@@ -222,5 +222,8 @@ for (const selector of selectors) {
   }
   results.push(summary);
   console.log(JSON.stringify(summary));
+  // Yield the machine-wide lock between tests so a Kane run waiting in another worktree (which
+  // polls every 5 seconds) can start instead of waiting for this whole batch.
+  if (selectors.indexOf(selector) < selectors.length - 1) await new Promise((resolvePause) => setTimeout(resolvePause, 12_000));
 }
 process.exit(results.every((result) => result.outcome === "PASS") ? 0 : 1);

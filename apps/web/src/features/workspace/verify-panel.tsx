@@ -95,6 +95,15 @@ export function VerifyPanel({
         <dd className="font-mono">{version.definitionHash.slice(0, 8)}</dd>
         <dt className="text-ink-muted">Engine</dt>
         <dd className="font-mono">{analysis?.engineVersion ?? "not analysed"}</dd>
+        <dt className="text-ink-muted">Lineage</dt>
+        <dd data-testid="version-lineage">
+          {[...state.versions].reverse().map((entry, index) => (
+            <span key={entry.id}>
+              {index > 0 ? " → " : ""}v{entry.versionNo} ({CREATED_VIA[entry.createdVia] ?? entry.createdVia}
+              {entry.id === version.id ? ", current" : ""})
+            </span>
+          ))}
+        </dd>
       </dl>
 
       <IntentTrace state={state} focus={traceFocus} />
@@ -193,7 +202,7 @@ export function VerifyPanel({
           <p className="text-xs text-ink-muted">Full browser verification starts once static checks pass.</p>
         )}
         {activeRun ? <Button size="sm" variant="ghost" className="self-start" disabled={busy} onClick={() => onAction(`${base}/runs/${activeRun.id}/cancel`, {})}>Cancel run</Button> : null}
-        {state.runs.map((run) => <RunCard key={run.id} run={run} />)}
+        {state.runs.map((run) => <RunCard key={run.id} run={run} pageIdentity={version.pageIdentity} />)}
       </section>
 
       {/* Publish gate */}
@@ -226,7 +235,7 @@ export function VerifyPanel({
   );
 }
 
-function RunCard({ run }: { run: Run }) {
+function RunCard({ run, pageIdentity }: { run: Run; pageIdentity: string }) {
   const [open, setOpen] = useState(run.state !== "VERIFIED");
   const badge = runBadge(run);
   return (
@@ -243,7 +252,7 @@ function RunCard({ run }: { run: Run }) {
       </button>
       {open ? (
         <ol className="flex flex-col gap-2 border-t border-line px-4 py-3">
-          {run.probes.map((probe) => <ProbeRow key={probe.probeKey} probe={probe} />)}
+          {run.probes.map((probe) => <ProbeRow key={probe.probeKey} probe={probe} pageIdentity={pageIdentity} />)}
           <li className="text-[11px] text-ink-muted">Renderer {run.rendererBuildId} · environment {run.environmentId} · requested {new Date(run.requestedAt).toLocaleString()}</li>
         </ol>
       ) : null}
@@ -251,7 +260,7 @@ function RunCard({ run }: { run: Run }) {
   );
 }
 
-function ProbeRow({ probe }: { probe: ProbeView }) {
+function ProbeRow({ probe, pageIdentity }: { probe: ProbeView; pageIdentity: string }) {
   const [details, setDetails] = useState(false);
   const badge = verdictBadge(probe);
   const latest = probe.latest;
@@ -276,17 +285,102 @@ function ProbeRow({ probe }: { probe: ProbeView }) {
         </button>
       ) : null}
       {details && latest ? (
-        <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[11px]">
-          <dt className="text-ink-muted">Kane run ID</dt><dd className="break-all font-mono">{latest.kaneRunId ?? "—"}</dd>
-          <dt className="text-ink-muted">Kane CLI</dt><dd className="font-mono">{latest.kaneCliVersion ?? "—"}</dd>
-          <dt className="text-ink-muted">Kane status</dt><dd className="font-mono">{latest.agentVerdict ?? "—"}</dd>
-          <dt className="text-ink-muted">Credits</dt><dd className="font-mono">{latest.creditsConsumed ?? "—"}</dd>
-          <dt className="text-ink-muted">Pack SHA-256</dt><dd className="break-all font-mono">{(latest.evidence as { packSha256?: string } | null)?.packSha256 ?? "—"}</dd>
-          <dt className="text-ink-muted">Objective hash</dt><dd className="break-all font-mono">{probe.objectiveHash}</dd>
-          <dt className="text-ink-muted">Attempt</dt><dd className="font-mono">{latest.attempt}</dd>
-          <dt className="text-ink-muted">Observed</dt><dd className="break-all font-mono">{JSON.stringify(Object.fromEntries(Object.entries((latest.observation ?? {}) as Record<string, unknown>).filter(([key]) => key !== "mismatches")))}</dd>
-        </dl>
+        <div className="mt-2 flex flex-col gap-2 text-[11px]" data-testid="probe-evidence">
+          <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+            <dt className="text-ink-muted">Kane run ID</dt><dd className="break-all font-mono">{latest.kaneRunId ?? "—"}</dd>
+            <dt className="text-ink-muted">Kane CLI</dt><dd className="font-mono">{latest.kaneCliVersion ?? "—"}</dd>
+            <dt className="text-ink-muted">Kane status</dt><dd className="font-mono">{latest.agentVerdict ?? "—"}</dd>
+            <dt className="text-ink-muted">Credits</dt><dd className="font-mono">{latest.creditsConsumed ?? "—"}</dd>
+            <dt className="text-ink-muted">Pack SHA-256</dt><dd className="break-all font-mono">{(latest.evidence as { packSha256?: string } | null)?.packSha256 ?? "—"}</dd>
+            <dt className="text-ink-muted">Objective hash</dt><dd className="break-all font-mono">{probe.objectiveHash}</dd>
+            <dt className="text-ink-muted">Attempt</dt><dd className="font-mono">{latest.attempt}</dd>
+          </dl>
+          <ExpectedObserved probe={probe} pageIdentity={pageIdentity} />
+          {probe.objective ? (
+            <details>
+              <summary className="cursor-pointer text-lavender">Objective sent to Kane CLI</summary>
+              <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap rounded-lg border border-line bg-canvas p-2 font-mono" data-testid="probe-objective">{probe.objective}</pre>
+              <p className="mt-1 text-ink-muted">The preview link reaches Kane only as a secret variable; it is not part of this text.</p>
+            </details>
+          ) : null}
+        </div>
       ) : null}
     </li>
+  );
+}
+
+type StageView = { stage: number; name: string; expect: Record<string, { type: "bool"; value: boolean } | { type: "receipt" }> };
+
+/**
+ * Expected versus observed for one probe (FR-18). Expectations come from the approved claims
+ * through the probe plan; observations are what Kane stored. A value that was never observed is
+ * shown as such and is never counted as a match.
+ */
+function ExpectedObserved({ probe, pageIdentity }: { probe: ProbeView; pageIdentity: string }) {
+  const latest = probe.latest;
+  if (!latest) return null;
+  if (probe.executor === "http") {
+    const outcomes = Object.entries((latest.serverEvidence ?? {}) as Record<string, string>);
+    if (outcomes.length === 0) return null;
+    return (
+      <table className="w-full text-left" data-testid="probe-expected-observed">
+        <caption className="pb-1 text-left text-ink-muted">Server checks (no browser)</caption>
+        <thead><tr className="text-ink-muted"><th scope="col" className="font-normal">Check</th><th scope="col" className="font-normal">Result</th></tr></thead>
+        <tbody>
+          {outcomes.map(([checkKey, outcome]) => (
+            <tr key={checkKey} className="border-t border-line"><td className="py-0.5 font-mono">{checkKey}</td><td className={outcome === "PASS" ? "" : "text-fail"}>{outcome}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+  const observed = (latest.observation ?? {}) as Record<string, unknown>;
+  const rows: { stage: number; key: string; expected: string; observed: string; matches: boolean | null }[] = [
+    {
+      stage: 0,
+      key: "page_definition_hash",
+      expected: pageIdentity,
+      observed: observed.page_definition_hash === undefined ? "not observed" : String(observed.page_definition_hash),
+      matches: observed.page_definition_hash === undefined ? null : String(observed.page_definition_hash) === pageIdentity,
+    },
+  ];
+  for (const stage of (probe.stages ?? []) as StageView[]) {
+    for (const [key, expectation] of Object.entries(stage.expect)) {
+      const value = observed[key];
+      const seen = value !== undefined && value !== null;
+      rows.push({
+        stage: stage.stage,
+        key,
+        expected: expectation.type === "bool" ? String(expectation.value) : "8-character receipt code",
+        observed: seen ? String(value) : "not observed",
+        matches: !seen ? null : expectation.type === "bool" ? String(value) === String(expectation.value) : /^[A-Z0-9]{8}$/.test(String(value)),
+      });
+    }
+  }
+  return (
+    <table className="w-full text-left" data-testid="probe-expected-observed">
+      <caption className="pb-1 text-left text-ink-muted">Expected (from the approved claims) and observed (by Kane)</caption>
+      <thead>
+        <tr className="text-ink-muted">
+          <th scope="col" className="font-normal">Stage</th>
+          <th scope="col" className="font-normal">Observation</th>
+          <th scope="col" className="font-normal">Expected</th>
+          <th scope="col" className="font-normal">Observed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr key={`${row.stage}-${row.key}`} className="border-t border-line" data-match={row.matches === null ? "unobserved" : String(row.matches)}>
+            <td className="py-0.5 font-mono">{row.stage}</td>
+            <td className="font-mono">{row.key}</td>
+            <td className="font-mono">{row.expected}</td>
+            <td className={`font-mono ${row.matches === false ? "text-fail" : row.matches === null ? "text-unknown" : ""}`}>
+              {row.observed}
+              {row.matches === false ? " (differs)" : ""}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 }

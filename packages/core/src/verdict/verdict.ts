@@ -99,6 +99,9 @@ export function evaluateProbeRun(
   const runEnd = report.runEnd;
   if (!runEnd || (runEnd.status !== "passed" && runEnd.status !== "failed")) return unknown("UNPARSEABLE_STATE", report);
   if (report.unresolvedVariables) return unknown("WORKER_ERROR", report);
+  // Kane ended without executing a single step (seen in PROD-LOOP-01: "No start URL provided").
+  // Nothing about the product was observed, so the run never started; it is retried once.
+  if (runEnd.status === "failed" && report.progressSteps === 0) return unknown("RUN_NOT_STARTED", report, { retryable: true });
 
   const observations: Record<string, string> = { ...runEnd.finalState, ...runEnd.memory };
   const observation: Record<string, string | boolean> = {};

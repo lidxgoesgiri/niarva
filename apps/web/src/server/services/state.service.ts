@@ -36,6 +36,23 @@ export async function getFormState(actor: Actor, formId: string) {
     const [{ versionCount } = { versionCount: 0 }] = version
       ? await db.select({ versionCount: count() }).from(formVersions).where(eq(formVersions.formId, formId))
       : [];
+    // Version lineage (FR-18): every proof belongs to one immutable version; judges need to see
+    // which version a repair produced and from which parent.
+    const lineage = version
+      ? await db
+          .select({
+            id: formVersions.id,
+            versionNo: formVersions.versionNo,
+            createdVia: formVersions.createdVia,
+            parentVersionId: formVersions.parentVersionId,
+            definitionHash: formVersions.definitionHash,
+            createdAt: formVersions.createdAt,
+          })
+          .from(formVersions)
+          .where(eq(formVersions.formId, formId))
+          .orderBy(desc(formVersions.versionNo))
+          .limit(20)
+      : [];
     const identity = version ? await currentVerificationKey(db, version, form.workspaceId) : null;
     const analysis = identity?.analysis ?? null;
     const plan = (analysis?.probePlan ?? null) as (Partial<ProbePlan> & { ruleTrace?: RuleTrace[] }) | null;
@@ -170,6 +187,7 @@ export async function getFormState(actor: Actor, formId: string) {
             stats: analysis.stats,
           }
         : null,
+      versions: lineage.map((entry) => ({ ...entry, createdAt: entry.createdAt.toISOString() })),
       intentTrace: trace
         ? {
             unrequestedRules: trace.unrequestedRules,

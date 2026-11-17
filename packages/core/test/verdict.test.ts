@@ -135,6 +135,15 @@ describe("probe verdict contract (constructed edge cases)", () => {
     expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", notStarted, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "RUN_NOT_STARTED", retryable: true });
   });
 
+  it("treats a failed run that executed no step as not started and retryable, never as a product result", () => {
+    // PROD-LOOP-01 attempt 2, P-03: Kane ended with "No start URL provided" before any step.
+    const noStep = { ...base, exitCode: 1, progressSteps: 0, runEnd: { ...base.runEnd!, status: "failed", memory: {}, creditsConsumed: 0 } };
+    expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", noStep, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "RUN_NOT_STARTED", retryable: true });
+    // A failed run that did execute steps keeps its normal judgement.
+    const worked = { ...base, exitCode: 1, progressSteps: 3, runEnd: { ...base.runEnd!, status: "failed", memory: {} } };
+    expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", worked, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "MISSING_OBSERVATION", retryable: false });
+  });
+
   it("fails on server evidence of a stored hidden value", () => {
     const withReceipt = { ...base, runEnd: { ...base.runEnd!, memory: { page_definition_hash: "abcd1234", submitted: "true", receipt_code: "AB12CD34" } } };
     const submitStages: Stage[] = [{ stage: 1, name: "submit", expect: { submitted: bool(true), receipt_code: { type: "receipt" } } }];
