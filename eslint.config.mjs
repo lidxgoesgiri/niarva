@@ -17,6 +17,9 @@ export default defineConfig([
     ".testmuai/**",
     "m0-lab/results/**",
     "evidence/**",
+    // Local-only material and other worktrees placed under it; never part of the repository.
+    "private/**",
+    "**/.pglite/**",
   ]),
 
   js.configs.recommended,
