@@ -104,7 +104,7 @@ export function Workspace({ initial }: { initial: FormState }) {
           <h1 className="truncate text-2xl">{state.form.title}</h1>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {state.version ? <span className="rounded-md bg-raised px-2 py-1 font-mono text-xs">v{state.version.versionNo}</span> : null}
+          {state.version ? <span className="rounded-md bg-raised px-2 py-1 font-mono text-xs" aria-label={`Version ${state.version.versionNo}`}>v{state.version.versionNo}</span> : null}
           {state.publication ? <StatusBadge status="PUBLISHED" /> : <StatusBadge status="DRAFT" />}
           {state.gate.eligible ? <StatusBadge status="VERIFIED" label="Ready to publish" /> : <StatusBadge status="BLOCKED" label="Not publishable" />}
         </div>
