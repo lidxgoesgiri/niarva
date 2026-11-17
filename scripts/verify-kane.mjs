@@ -66,7 +66,7 @@ function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
-function runOne(kane, testPath, label, headed) {
+function runOne(kane, testPath, label, headed, retryOf = null) {
   return new Promise((resolveRun) => {
     const stem = basename(testPath).replace(/_test\.md$/, "");
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
@@ -101,6 +101,12 @@ function runOne(kane, testPath, label, headed) {
     }, WATCHDOG_SECONDS * 1000);
 
     const startedAt = Date.now();
+    // Record the revision under test when the run starts, not when it ends.
+    const sourceAtStart = {
+      commit: git(["rev-parse", "HEAD"]),
+      branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
+      dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
+    };
     child.on("close", (exitCode) => {
       clearTimeout(watchdog);
       out.end();
@@ -113,6 +119,8 @@ function runOne(kane, testPath, label, headed) {
         try { events.push(JSON.parse(line)); } catch { nonJson += 1; }
       }
       const done = events.filter((event) => event.type === "test_md_done");
+      const mdSummary = events.find((event) => event.type === "test_md_summary") ?? null;
+      const stepsStarted = events.filter((event) => event.type === "test_md_step_start").length;
       const runEnds = events.filter((event) => event.type === "run_end");
       const failedSteps = events
         .filter((event) => !event.type && event.status === "failed")
@@ -146,6 +154,7 @@ function runOne(kane, testPath, label, headed) {
         assuranceId: (readFileSync(testPath, "utf8").match(/^\s*id:\s*(t-\d+)/m) ?? [])[1] ?? null,
         testFileSha256: sha256File(testPath),
         label: label ?? null,
+        retryOf,
         outcome,
         exitCode,
         watchdogFired,
@@ -162,16 +171,24 @@ function runOne(kane, testPath, label, headed) {
         })),
         failedSteps,
         warnings,
+        // Kane may replay recorded actions for unchanged steps instead of authoring them again.
+        // A replay still runs in a real browser, but it is reported separately and never hidden.
+        decisions: mdSummary
+          ? {
+              replayed: mdSummary.steps?.replay_decisions ?? null,
+              authored: mdSummary.steps?.author_decisions ?? null,
+              adaptiveHealTriggered: mdSummary.adaptive_heal?.triggered ?? null,
+            }
+          : null,
+        stepsStarted,
+        notStartedReason:
+          stepsStarted === 0 && completion === null ? (stderrText.match(/error:\s*([^\r\n]{1,200})/i)?.[1] ?? null) : null,
         creditsConsumed: Math.round(credits * 100) / 100,
         kaneCliVersion: events.find((event) => event.type === "stream_start")?.cli_version ?? kane.version ?? null,
         streamVersion: events.find((event) => event.v !== undefined)?.v ?? null,
         nonJsonLines: nonJson,
         evidencePack: pack,
-        source: {
-          commit: git(["rev-parse", "HEAD"]),
-          branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
-          dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
-        },
+        source: sourceAtStart,
         startedAtUtc: new Date(startedAt).toISOString(),
         runDir: runDir.replace(root, ".").replace(/\\/g, "/"),
       };
@@ -195,12 +212,24 @@ if (selectors.length === 0) {
   process.exit(64);
 }
 
+// A run that never started a step because Kane's own sign-in check failed says nothing about
+// NIARVA. As decided in M0 (RUN_NOT_STARTED is retryable once), such a run is retried once
+// after a pause. Both attempts keep their own record; the first stays UNKNOWN.
+const SIGN_IN_NOT_STARTED = /org_id|token refresh failed|re-authenticate|kane-cli login/i;
+const RETRY_PAUSE_MS = 20_000;
+
 const kane = resolveKaneEntry();
 const results = [];
 // One Kane run at a time: M0 showed infrastructure failures under parallel execution.
 for (const selector of selectors) {
   const testPath = resolveTest(selector);
-  const summary = await runOne(kane, testPath, label, headed);
+  let summary = await runOne(kane, testPath, label, headed);
+  if (summary.outcome === "UNKNOWN" && summary.stepsStarted === 0 && SIGN_IN_NOT_STARTED.test(summary.notStartedReason ?? "")) {
+    console.log(JSON.stringify(summary));
+    console.error(`run did not start (${summary.notStartedReason}); retrying once in ${RETRY_PAUSE_MS / 1000}s`);
+    await new Promise((resolvePause) => setTimeout(resolvePause, RETRY_PAUSE_MS));
+    summary = await runOne(kane, testPath, label, headed, summary.runDir);
+  }
   results.push(summary);
   console.log(JSON.stringify(summary));
 }

@@ -48,4 +48,22 @@ describe("AI extraction guard", () => {
     expect(flagged.ambiguity?.question).toBeTruthy();
     expect(content.claims.find((claim) => claim.key === "C-01")!.reviewState).toBe("proposed");
   });
+
+  it("never lets the model acknowledge a manual check on the creator's behalf", () => {
+    const content = normalizeExtraction(
+      {
+        fields: base.fields.slice(0, 2),
+        claims: [
+          ...base.claims.slice(0, 2),
+          { key: "C-03", kind: "MANUAL", text: "Certificate handled outside the form", acknowledged: true, sourceQuote: "Applicants above 3.5 GPA must upload a transcript." },
+        ],
+      },
+      PROMPT,
+    )!;
+    const manual = content.claims.find((claim) => claim.key === "C-03")!;
+    expect(manual.kind).toBe("MANUAL");
+    expect(manual.kind === "MANUAL" && manual.acknowledged).toBe(false);
+    expect(manual.reviewState).toBe("needs_review");
+    expect(manual.ambiguity?.choices).toEqual(["Keep as manual check", "Remove"]);
+  });
 });
