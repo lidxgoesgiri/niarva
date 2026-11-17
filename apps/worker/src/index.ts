@@ -10,6 +10,7 @@
 import type { ServerCheck } from "@niarva/core";
 import { loadConfig } from "./config";
 import { resolveKaneCli, runKane } from "./kane";
+import { acquireKaneLock } from "./kane-lock";
 import { runServerContract } from "./server-contract";
 import { WORKER_VERSION } from "./version";
 
@@ -69,7 +70,11 @@ async function handle(lease: Lease) {
 async function main() {
   log("info", "worker started", { workerId: config.NIARVA_WORKER_ID, workerVersion: WORKER_VERSION, kaneCli: cli.version, api: config.NIARVA_WORKER_API_URL });
   while (!stopping) {
+    // Take the machine-wide Kane lock before leasing, so a probe is never leased (and its lease
+    // never expires) while another Kane run on this computer is in progress.
+    let release: (() => void) | null = null;
     try {
+      release = await acquireKaneLock(`worker ${config.NIARVA_WORKER_ID}`, { log: (message) => log("info", message) });
       const { lease } = await api<{ lease: Lease | null }>("/api/v1/worker/lease", { workerId: config.NIARVA_WORKER_ID, kaneCliVersion: cli.version });
       if (lease) {
         await handle(lease);
@@ -77,6 +82,8 @@ async function main() {
       }
     } catch (error) {
       log("warn", "worker loop error", { error: error instanceof Error ? error.message : String(error) });
+    } finally {
+      release?.();
     }
     await new Promise((resolve) => setTimeout(resolve, config.WORKER_IDLE_POLL_MS));
   }
