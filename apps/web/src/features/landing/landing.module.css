@@ -3,6 +3,7 @@
   --landing-paper-ink: #17203b;
   --landing-paper-muted: #4c5872;
   --landing-paper-line: #7a869e;
+  --landing-control-line: #667399;
   --landing-duration: 240ms;
   position: relative;
   isolation: isolate;
@@ -72,13 +73,14 @@
 }
 .workspaceLink {
   font-size: 12px;
+  border-color: var(--landing-control-line);
 }
 .menuTrigger {
   display: none;
   min-width: 44px;
   min-height: 44px;
   place-items: center;
-  border: 1px solid var(--color-line-strong);
+  border: 1px solid var(--landing-control-line);
   border-radius: 8px;
 }
 .mobileMenu {
@@ -443,7 +445,7 @@
   flex-direction: column;
   align-items: center;
   padding: 10px;
-  border: 1px solid var(--color-line-strong);
+  border: 1px solid var(--landing-control-line);
   border-radius: 8px;
   cursor: pointer;
   transition:
@@ -679,7 +681,7 @@
   gap: 7px;
   min-height: 44px;
   padding: 8px 10px;
-  border: 1px solid var(--color-line-strong);
+  border: 1px solid var(--landing-control-line);
   border-radius: 6px;
   font-size: 11px;
 }
@@ -839,13 +841,16 @@
   padding: 10px 14px;
   font-size: 10px;
   background: var(--color-elevated);
-  border: 1px solid var(--color-line-strong);
+  border: 1px solid var(--landing-control-line);
   border-radius: 8px;
   box-shadow: 0 4px 20px -8px #000;
 }
 .landing[data-motion="paused"] *,
 .landing[data-motion="paused"] *::before,
-.landing[data-motion="paused"] *::after,
+.landing[data-motion="paused"] *::after {
+  animation: none !important;
+  transition: none !important;
+}
 .landing [data-in-view="false"] * {
   animation-play-state: paused !important;
 }

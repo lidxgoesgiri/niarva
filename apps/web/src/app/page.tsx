@@ -11,6 +11,8 @@ import { BrandMark } from "@/components/composites/brand-mark";
 import { ButtonLink } from "@/components/ui/button";
 import { BoundarySandbox } from "@/features/landing/boundary-sandbox";
 import { LandingShell } from "@/features/landing/landing-shell";
+import { ClosedLoops, EvidenceInspector, ProofPipeline } from "@/features/landing/story-panels";
+import { VerificationConcepts } from "@/features/landing/verification-concepts";
 import styles from "@/features/landing/landing.module.css";
 
 export default function LandingPage() {
@@ -59,6 +61,7 @@ export default function LandingPage() {
         <div className={styles.container}>
           <BoundarySandbox />
         </div>
+        <VerificationConcepts />
         <section
           id="verification"
           className={`${styles.container} ${styles.semanticSection}`}
@@ -132,6 +135,25 @@ export default function LandingPage() {
               publication on fresh evidence.
             </p>
           </div>
+          <ProofPipeline />
+        </section>
+        <section
+          className={`${styles.container} ${styles.storySection}`}
+          aria-labelledby="loops-title"
+        >
+          <div className={styles.sectionIntro}>
+            <p className={styles.eyebrow}>03 / Two closed loops</p>
+            <h2 id="loops-title">
+              From failure to repair,
+              <br />
+              then back to proof.
+            </h2>
+            <p>
+              Configuration mistakes and source defects have different repair paths. Both return to
+              the same approved expectation.
+            </p>
+          </div>
+          <ClosedLoops />
         </section>
         <section
           id="evidence"
@@ -139,17 +161,18 @@ export default function LandingPage() {
           aria-labelledby="evidence-title"
         >
           <div className={styles.sectionIntro}>
-            <p className={styles.eyebrow}>03 / Evidence and accountability</p>
+            <p className={styles.eyebrow}>04 / Evidence and accountability</p>
             <h2 id="evidence-title">
-              Proof belongs to a version.
+              Inspect the evidence
               <br />
-              Trust belongs in the details.
+              behind the decision.
             </h2>
             <p>
               A timeout, unknown result, or stale proof cannot become success. Missing evidence
               blocks publication.
             </p>
           </div>
+          <EvidenceInspector />
         </section>
         <section className={styles.closing} aria-labelledby="closing-title">
           <div className={styles.container}>
