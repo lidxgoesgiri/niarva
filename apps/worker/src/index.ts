@@ -60,6 +60,8 @@ async function handle(lease: Lease) {
     probeKey: lease.probeKey,
     ...outcome,
     kaneSessionId: execution.report.sessionId ?? null,
+    // Test Manager case id only; the full test_url carries a share token and is not logged.
+    kaneTestCaseId: /\/test-cases\/([A-Za-z0-9]+)/.exec(execution.report.runEnd?.testUrl ?? "")?.[1] ?? null,
     kaneStatus: execution.report.runEnd?.status ?? null,
     exitCode: execution.report.exitCode,
     credits: execution.report.runEnd?.creditsConsumed ?? null,
