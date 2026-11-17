@@ -73,11 +73,6 @@ export type KaneExecution = {
 };
 
 /**
- * Runs one objective with `kane-cli run --agent --headless`. The tokenized preview URL is passed
- * only as a secret variable. The worker owns the deadline: Kane's own --timeout was observed not
- * to stop a run, so a watchdog kills the whole process tree.
- */
-/**
  * Start page for Kane: only the origin of the preview link (scheme, host, port), never its path
  * or token. Kane needs a start URL; without one it relies on a global default that may point to
  * another site, or ends with "No start URL provided" (PROD-LOOP-01, attempt 2). The full
@@ -93,6 +88,26 @@ export function startOrigin(variables: Record<string, { value: string; secret: b
   }
 }
 
+/** The Test Manager project Kane CLI uploads to, read from `kane-cli config show --agent`. */
+export function kaneProjectId(cli: KaneCli): string | null {
+  try {
+    const output = execFileSync(process.execPath, [cli.entry, "config", "show", "--agent"], { encoding: "utf8", windowsHide: true, timeout: 30_000 });
+    for (const line of output.split(/\r?\n/)) {
+      if (!line.trim().startsWith("{")) continue;
+      const parsed = JSON.parse(line) as { project_id?: unknown };
+      if (typeof parsed.project_id === "string") return parsed.project_id;
+    }
+  } catch {
+    // Reported as unknown by the caller.
+  }
+  return null;
+}
+
+/**
+ * Runs one objective with `kane-cli run --agent --headless`. The tokenized preview URL is passed
+ * only as a secret variable. The worker owns the deadline: Kane's own --timeout was observed not
+ * to stop a run, so a watchdog kills the whole process tree.
+ */
 export function runKane(cli: KaneCli, objective: string, variables: Record<string, { value: string; secret: boolean }>, timeoutSeconds: number, watchdogMargin: number): Promise<KaneExecution> {
   return new Promise((resolve) => {
     const origin = startOrigin(variables);

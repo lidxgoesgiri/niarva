@@ -20,6 +20,8 @@ const schema = z.object({
   /** Seconds added to a probe's timeout before the watchdog kills the Kane process tree. */
   WORKER_WATCHDOG_MARGIN: z.coerce.number().int().min(5).max(600).default(45),
   WORKER_IDLE_POLL_MS: z.coerce.number().int().min(500).max(60_000).default(4000),
+  /** Optional: the Test Manager project Kane sessions must upload to; the worker refuses to start otherwise. */
+  NIARVA_KANE_PROJECT_ID: z.string().regex(/^[0-9A-Z]{26}$/, "Use the 26-character Test Manager project id.").optional(),
 });
 
 export type WorkerConfig = z.infer<typeof schema>;

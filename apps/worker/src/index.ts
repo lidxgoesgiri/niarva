@@ -9,7 +9,7 @@
  */
 import type { ServerCheck } from "@niarva/core";
 import { loadConfig } from "./config";
-import { resolveKaneCli, runKane } from "./kane";
+import { kaneProjectId, resolveKaneCli, runKane } from "./kane";
 import { acquireKaneLock } from "./kane-lock";
 import { runServerContract } from "./server-contract";
 import { WORKER_VERSION } from "./version";
@@ -23,6 +23,15 @@ const log = (level: "info" | "warn" | "error", msg: string, extra: Record<string
 
 const config = loadConfig();
 const cli = resolveKaneCli(config.KANE_CLI_ENTRY);
+if (config.NIARVA_KANE_PROJECT_ID) {
+  // Every Kane session uploads to the profile's Test Manager project; refuse to scatter probe
+  // sessions into another project.
+  const actual = kaneProjectId(cli);
+  if (actual !== config.NIARVA_KANE_PROJECT_ID) {
+    log("error", "Kane CLI uploads to a different Test Manager project; not starting", { expected: config.NIARVA_KANE_PROJECT_ID, actual });
+    process.exit(78);
+  }
+}
 let stopping = false;
 process.on("SIGINT", () => {
   stopping = true;
