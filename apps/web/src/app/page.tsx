@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   ArrowDown,
   ArrowRight,
@@ -11,9 +12,14 @@ import { BrandMark } from "@/components/composites/brand-mark";
 import { ButtonLink } from "@/components/ui/button";
 import { BoundarySandbox } from "@/features/landing/boundary-sandbox";
 import { LandingShell } from "@/features/landing/landing-shell";
+import { landingIcon } from "@/features/landing/landing-icon";
 import { ClosedLoops, EvidenceInspector, ProofPipeline } from "@/features/landing/story-panels";
 import { VerificationConcepts } from "@/features/landing/verification-concepts";
 import styles from "@/features/landing/landing.module.css";
+
+export const metadata: Metadata = {
+  icons: { icon: { url: landingIcon, type: "image/svg+xml" } },
+};
 
 export default function LandingPage() {
   return (
