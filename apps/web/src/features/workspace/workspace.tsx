@@ -7,6 +7,7 @@ import type { FormState } from "@/server/services/state.service";
 import { api, ClientApiError } from "./api";
 import { FormPanel } from "./form-panel";
 import { IntentPanel } from "./intent-panel";
+import type { TraceFocus } from "./intent-trace";
 import { VerifyPanel } from "./verify-panel";
 
 type Stage = "intent" | "form" | "verify" | "responses";
@@ -26,6 +27,13 @@ export function Workspace({ initial }: { initial: FormState }) {
   const [stage, setStage] = useState<Stage>(initial.version ? "verify" : "intent");
   const [responses, setResponses] = useState<Responses | null>(null);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [traceFocus, setTraceFocus] = useState<TraceFocus>(null);
+
+  // Opens a claim's Intent Trace in the verification workspace (a tab below xl, a column on xl).
+  const openTrace = useCallback((claimKey: string) => {
+    setStage("verify");
+    setTraceFocus({ claimKey, nonce: Date.now() });
+  }, []);
 
   const refresh = useCallback(async () => {
     try {
@@ -71,11 +79,11 @@ export function Workspace({ initial }: { initial: FormState }) {
   const panel = (id: Stage) => {
     switch (id) {
       case "intent":
-        return <IntentPanel state={state} busy={busy} onAction={onAction} />;
+        return <IntentPanel state={state} busy={busy} onAction={onAction} onOpenTrace={state.intentTrace ? openTrace : undefined} />;
       case "form":
         return <FormPanel key={state.version?.id ?? "none"} state={state} busy={busy} onAction={onAction} />;
       case "verify":
-        return <VerifyPanel state={state} busy={busy} onAction={onAction} />;
+        return <VerifyPanel state={state} busy={busy} onAction={onAction} traceFocus={traceFocus} />;
       case "responses":
         return <ResponsesPanel data={responses} />;
     }

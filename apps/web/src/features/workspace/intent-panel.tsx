@@ -1,7 +1,7 @@
 "use client";
 
 import type { Claim, ClaimSetContent } from "@niarva/core";
-import { CircleAlert, Lock, Quote } from "lucide-react";
+import { CircleAlert, Lock, Quote, Waypoints } from "lucide-react";
 import { useState } from "react";
 import { StatusBadge } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
@@ -23,10 +23,13 @@ export function IntentPanel({
   state,
   busy,
   onAction,
+  onOpenTrace,
 }: {
   state: FormState;
   busy: boolean;
   onAction: (path: string, body?: unknown, method?: string) => Promise<boolean>;
+  /** Present once a version exists: opens the claim in the Intent Trace. */
+  onOpenTrace?: (claimKey: string) => void;
 }) {
   const claimSet = state.claimSet;
   const [jsonOpen, setJsonOpen] = useState(false);
@@ -105,6 +108,17 @@ export function IntentPanel({
             <p className="mt-2 text-sm leading-relaxed text-ink">{claim.statement}</p>
             {claim.sourceQuote ? (
               <p className="mt-2 flex items-start gap-1.5 text-xs text-ink-muted"><Quote aria-hidden="true" className="mt-0.5 size-3 shrink-0" />{claim.sourceQuote}</p>
+            ) : null}
+            {onOpenTrace && claim.reviewState !== "rejected" ? (
+              <button
+                type="button"
+                className="mt-2 inline-flex min-h-8 items-center gap-1.5 text-xs text-lavender underline-offset-4 hover:underline"
+                aria-label={`Open the Intent Trace for ${claim.key}`}
+                onClick={() => onOpenTrace(claim.key)}
+              >
+                <Waypoints aria-hidden="true" className="size-3.5" />
+                Intent Trace
+              </button>
             ) : null}
             {draft && claim.ambiguity && !claim.ambiguity.resolvedChoice ? (
               <div className="mt-3 rounded-lg border border-warn/40 bg-warn/10 p-3">

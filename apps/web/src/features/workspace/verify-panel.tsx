@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StatusBadge, type StatusKind } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
 import type { FormState } from "@/server/services/state.service";
+import { IntentTrace, type TraceFocus } from "./intent-trace";
 
 type Run = FormState["runs"][number];
 type ProbeView = Run["probes"][number];
@@ -51,7 +52,17 @@ function verdictBadge(probe: ProbeView): { status: StatusKind; label?: string } 
   return { status: (latest.verdict ?? "UNKNOWN") as StatusKind };
 }
 
-export function VerifyPanel({ state, busy, onAction }: { state: FormState; busy: boolean; onAction: (path: string, body?: unknown, method?: string) => Promise<boolean> }) {
+export function VerifyPanel({
+  state,
+  busy,
+  onAction,
+  traceFocus = null,
+}: {
+  state: FormState;
+  busy: boolean;
+  onAction: (path: string, body?: unknown, method?: string) => Promise<boolean>;
+  traceFocus?: TraceFocus;
+}) {
   const { analysis, version, gate } = state;
   const base = `/api/v1/forms/${state.form.id}`;
   const activeRun = state.runs.find((run) => run.state === "QUEUED" || run.state === "RUNNING");
@@ -63,6 +74,8 @@ export function VerifyPanel({ state, busy, onAction }: { state: FormState; busy:
 
   return (
     <div className="flex flex-col gap-5">
+      <IntentTrace state={state} focus={traceFocus} />
+
       {/* Static analysis */}
       <section aria-labelledby="static-heading" className="flex flex-col gap-3">
         <div className="flex items-center justify-between gap-2">

@@ -1,10 +1,14 @@
 import "server-only";
 import {
+  buildIntentTrace,
   catalogFields,
+  claimBrowserStatus,
   claimSetContentSchema,
+  formDefinitionSchema,
   compositionProblems,
   pageIdentity,
   renderStatement,
+  type ClaimStatus,
   type Finding,
   type ProbePlan,
   type RuleTrace,
@@ -100,6 +104,27 @@ export async function getFormState(actor: Actor, formId: string) {
     const gate = await gateFor(db, form);
     const env = getEnv();
 
+    // Intent Trace: only for the claim set this version was generated from, so the ledger never
+    // mixes a newer claims revision with an older form.
+    const definition = version ? formDefinitionSchema.safeParse(version.definition) : null;
+    const traceable = Boolean(version && claimSet && content?.success && definition?.success && version.claimSetId === claimSet.id);
+    const trace =
+      traceable && content?.success && definition?.success
+        ? buildIntentTrace(
+            content.data,
+            definition.data,
+            analysis
+              ? { findings: analysis.findings as Finding[], claimStatuses: staticStatuses as Record<string, ClaimStatus>, ruleTrace: plan?.ruleTrace ?? [] }
+              : null,
+          )
+        : null;
+    const traceRuns = runs.map((run) => ({
+      id: run.id,
+      mode: run.mode,
+      fresh: run.fresh,
+      probes: run.probes.map((probe) => ({ probeKey: probe.probeKey, claimKeys: probe.claimKeys, status: probe.latest?.status ?? null, verdict: probe.latest?.verdict ?? null })),
+    }));
+
     return {
       form: { id: form.id, title: form.title, slug: form.slug, status: form.status },
       claimSet: claimSet
@@ -145,6 +170,13 @@ export async function getFormState(actor: Actor, formId: string) {
             stats: analysis.stats,
           }
         : null,
+      intentTrace: trace
+        ? {
+            unrequestedRules: trace.unrequestedRules,
+            rows: trace.rows.map((row) => ({ ...row, browser: claimBrowserStatus(row.claimKey, row.kind, traceRuns) })),
+          }
+        : null,
+      intentTraceNote: version && claimSet && version.claimSetId !== claimSet.id ? "A newer claims revision exists. Create a version for it to trace it." : null,
       repairs: repairs.map((repair) => ({
         id: repair.id,
         strategy: repair.strategy,
