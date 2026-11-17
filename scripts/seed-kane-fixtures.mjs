@@ -111,7 +111,8 @@ async function call(cookie, path, body, method = "POST") {
 /** Template form → approved claims → generated version (skeleton or the labeled seeded defect). */
 async function ensureForm(cookie, variable, title, strategy) {
   const known = storedValue(`${variable}__id`);
-  if (known) {
+  // A changed title marks a new fixture generation (for example after the template changed).
+  if (known && storedValue(variable) === title) {
     try {
       await call(cookie, `/api/v1/forms/${known}`, undefined, "GET");
       return "reused";
@@ -129,11 +130,13 @@ async function ensureForm(cookie, variable, title, strategy) {
 }
 
 const ownerCookie = cookies.get(storedValue("owner_email")) ?? (await signIn(storedValue("owner_email"), storedValue("owner_password")));
+// Bump when the scholarship template changes so fixtures are rebuilt from the current template.
+const GENERATION = "B";
 const fixtures = [
-  ["seeded_gt_form_name", "Kane Seeded Defect Scholarship", "seeded_demo"],
-  ["observed_mismatch_form_name", "Kane Repair Scholarship", "seeded_demo"],
-  ["owned_form_name", "Kane Verified Scholarship", "skeleton"],
-  ["unverified_form_name", "Kane Unverified Scholarship", "skeleton"],
+  ["seeded_gt_form_name", `Kane Seeded Defect Scholarship ${GENERATION}`, "seeded_demo"],
+  ["observed_mismatch_form_name", `Kane Repair Scholarship ${GENERATION}`, "seeded_demo"],
+  ["owned_form_name", `Kane Verified Scholarship ${GENERATION}`, "skeleton"],
+  ["unverified_form_name", `Kane Unverified Scholarship ${GENERATION}`, "skeleton"],
 ];
 for (const [variable, title, strategy] of fixtures) {
   report.push(`${title}: ${await ensureForm(ownerCookie, variable, title, strategy)}`);
