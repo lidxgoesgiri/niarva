@@ -90,6 +90,24 @@ The Intent Trace changed the verification panel, so the tests that use it were r
 - **Classification:** not a proven product defect. The outcome stays FAIL because Kane's completion event says failed.
 - **Related product gap that was fixed anyway:** the verification column showed the version only as `v1`. The proof layout in the requirements asks for a version identity header (version, specification hash, definition hash, engine). That header was added. It is recorded here because it touches the same step; it is not claimed as the cause of the failure.
 
+## 5. Retest on `71564be` (version identity header, `7cdc71b`)
+
+| Started (UTC) | Test | Outcome | Exit | Credits | Kane decisions | Evidence pack SHA-256 |
+|---|---|---|---|---|---|---|
+| 2026-11-17 14:57:08 | t-36 | **PASS** | 0 | 13.51 | 4 replayed, 1 authored, no adaptive heal | `d1ed0530827d233d5d4375b1867aa62f56d106a7e3f3b7e7cb0a1e4049f909fe` |
+
+Step 5 was authored afresh. Kane reported: "The form showed one saved version, labeled 'Version 1 of 1,' generated from approved claims."
+
+## Current status of the regression set
+
+| Test | Latest outcome | Revision |
+|---|---|---|
+| t-36 | PASS | `71564be` |
+| t-37 | PASS | `e860ecf` |
+| t-44 | PASS (replay) | `e860ecf` |
+
+From this point, Kane CLI sessions are uploaded to the Test Manager project "NIARVA intent verification", folder "Assurance regression tests". Earlier sessions remain in the account's default project.
+
 ## Notes
 
 - Evidence packs and raw NDJSON streams stay private (`evidence/private/`, gitignored) because they contain the local environment URL and the synthetic account session. The digests above identify them.
