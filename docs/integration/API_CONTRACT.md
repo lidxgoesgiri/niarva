@@ -112,3 +112,20 @@ Keep these attributes and visible texts; Kane tests read them.
 | `5411b9f` | `buildIntentTrace`, `claimBrowserStatus`, `conditionDsl`, `ruleDsl`, `claimDsl` exported from `@niarva/core` | none (additive) |
 | `e860ecf` | `intentTrace` and `intentTraceNote` added to the form state; `IntentTrace` component; `onOpenTrace` / `traceFocus` props | additive; the verification column now starts with the ledger |
 | (this branch, after `e860ecf`) | Version identity header in `VerifyPanel` (`data-testid="version-identity"`) | additive; restyle freely but keep the four facts and the hook |
+
+## 6. Local environments during parallel work
+
+Both tracks run servers on the same machine. Each one keeps its own port and database so a restart on one side never stops or corrupts the other.
+
+| Use | Port | Code | Database |
+|---|---|---|---|
+| UI development (`pnpm dev`) | 3000 | main checkout | `apps/web/.pglite` in that checkout |
+| UI preview build | 3101 | the UI track's own worktree | its own `.pglite` |
+| Kane verification, worker, PROD-LOOP (core track) | 3200, production build | a separate worktree on `feature/verification-worker` | its own `.pglite`; environment id `local-verify-3200` |
+
+Rules:
+
+- Never stop a server you did not start. Pick a free port instead.
+- An embedded PGlite directory must be opened by one server process at a time.
+- Kane CLI: M0 recorded infrastructure failures when several runs overlapped. Prefer one Kane run at a time per machine. A run that ends UNKNOWN while another track's run overlaps it is recorded as such, never as a product result.
+- `next dev` writes `apps/web/AGENTS.md`. It is ignored by git, like every `AGENTS.md` and `CLAUDE.md`.
