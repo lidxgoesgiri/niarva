@@ -43,6 +43,7 @@ Type: `FormState` in `apps/web/src/server/services/state.service.ts` (import it 
 | `claimSet` | latest claim set: `status` (`draft` / `approved`), `revision`, `claimsHash`, `sourcePrompt`, `fields`, `claims[]` (each with `statement` and `staticStatus`), `problems[]` |
 | `version` | latest version: `versionNo`, `createdVia` (`template` = seeded demo, `skeleton`, `manual_edit`, `repair`), `definitionHash`, `pageIdentity`, `definition` |
 | `analysis` | static result for the version: `verdict`, `findings[]` (with `counterexample`), `claimStatuses`, `ruleTrace`, `probes`, `gaps`, `stats`, `engineVersion` |
+| `versions` | **new**: version lineage, newest first: `id`, `versionNo`, `createdVia`, `parentVersionId`, `definitionHash`, `createdAt` (FR-18) |
 | `intentTrace` | **new, see §3**; `null` when there is no version or the version belongs to an older claims revision |
 | `intentTraceNote` | text to show when `intentTrace` is `null` because a newer claims revision exists |
 | `repairs[]` | proposals for the version |
@@ -99,6 +100,7 @@ Shared components (in `apps/web/src/features/workspace/`):
 
 Keep these attributes and visible texts; Kane tests read them.
 
+- Evidence (FR-18): `data-testid="version-lineage"`, `data-testid="probe-evidence"`, `data-testid="probe-expected-observed"` (rows carry `data-match` = `true` / `false` / `unobserved`), `data-testid="probe-objective"`; texts "Show evidence", "Objective sent to Kane CLI".
 - Workspace: `data-testid="version-identity"` (version, approved-claims hash, definition hash, engine at the top of the verification column), `data-claim`, `data-testid="claims-hash"`, `data-testid="counterexample"`, `data-testid="repair-proposal"`, `data-testid="verification-run"` + `data-run-state`, `data-probe` + `data-verdict`, `data-testid="publish-gate"`.
 - Intent Trace: `data-testid="intent-trace"`, heading text "Intent Trace", `data-trace-claim` + `data-static` + `data-browser`, `data-testid="trace-source" | "trace-expectation" | "trace-boundary" | "trace-discrepancy" | "trace-consequence" | "trace-browser-note" | "trace-coverage" | "trace-unrequested"`.
 - Visible texts relied on: "Seeded defect for demonstration", "Intent Trace", "Static checks passed", "Publishing blocked", "Ready to publish".
