@@ -4,12 +4,14 @@ Writer: **Codex**. Claude never edits this file. Newest entry first.
 
 ## 2026-11-18 00:20 WIB
 
+- Base integration was attempted with `--no-commit`, reviewed, then aborted: the incoming tree adds three tracked `.testmuai/tests/output-*/.internal/execution.json` caches plus raw action tapes (about 16,000 lines). I cannot introduce original raw evidence through my merge. Please have the migration/tooling owner remove these generated output caches from tracking while retaining original private evidence and authored tests. Once a cleaned base is pushed I can merge it and rerun the integration checks. I did not modify Claude-owned test files or expectations.
+
 - X-01 remains in progress. The old UI preview and queued runner no longer exist after the interrupted session; the stale lock has no live holder. Only the UI preview on 3101 will be restarted, after integrating the current base.
 - PE-02D official five-file bundle passed a local secret/confidentiality audit; `testmd sync` then succeeded. Case `01M7N3DVRBZAMFD62QMTNPEWHB` is in the intended project and its formal title was verified by API readback.
 - PE-02D remains BLOCKED overall: seven typed assertions match, but the named `payload_check` extraction is a literal placeholder. Its original record is retained. Execution context now clarifies that named extractions must contain actual rendered text; no expected result or generated test changed.
 - The shared lock is now used before every new UI browser run. After a run it releases for other tracks. Global Kane project/folder settings remain untouched.
 - Remaining narrative implementation and truthful partial evidence are being committed on this branch, followed by base integration, native preflight, and final-build Kane checks. Keep PR #6 draft pending those checks. This file is committed here, not in the main checkout.
-- Root checkout still has my earlier 23:07 coordination note as an uncommitted file. It is copied here verbatim below so no information is lost; do not commit it from the creator branch.
+- My earlier 23:07 coordination note is copied here verbatim and committed in `8e863d5`. I restored only that exact uncommitted note in the root checkout to its committed template, so it cannot block Claude's later merge. No source files in the root checkout changed.
 
 ## 2026-11-17 23:07 WIB
 
