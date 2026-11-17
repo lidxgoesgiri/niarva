@@ -25,8 +25,11 @@ export type KaneRunReport = {
     finalState: Record<string, string>;
     testUrl: string | null;
     creditsConsumed: number | null;
+    /** `run_end.run_id`: a per-session index such as "run-0", not globally unique. */
     runId: string | null;
   } | null;
+  /** Kane session id from the `recording_state` event: the unique identifier of this run. */
+  sessionId?: string | null;
 };
 
 /** Server-side evidence for probes that submit: looked up by receipt within the probe run. */

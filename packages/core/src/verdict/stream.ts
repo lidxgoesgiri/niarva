@@ -13,6 +13,7 @@ export function parseKaneRunStream(input: { stdout: string; stderr: string; exit
   let cliVersion: string | null = null;
   let progressSteps = 0;
   let unresolvedVariables = false;
+  let sessionId: string | null = null;
   const runEnds: Record<string, unknown>[] = [];
 
   for (const line of input.stdout.split(/\r?\n/)) {
@@ -29,6 +30,9 @@ export function parseKaneRunStream(input: { stdout: string; stderr: string; exit
       case "stream_start":
         surface = typeof event.surface === "string" ? event.surface : null;
         cliVersion = typeof event.cli_version === "string" ? event.cli_version : null;
+        break;
+      case "recording_state":
+        if (typeof event.session_id === "string") sessionId = event.session_id;
         break;
       case "warning":
         if (event.code === "unresolved_variables") unresolvedVariables = true;
@@ -73,6 +77,7 @@ export function parseKaneRunStream(input: { stdout: string; stderr: string; exit
     progressSteps,
     unresolvedVariables,
     authFailure: AUTH_HINT.test(input.stderr),
+    sessionId,
     runEnd: last
       ? {
           status: typeof last.status === "string" ? last.status : "",

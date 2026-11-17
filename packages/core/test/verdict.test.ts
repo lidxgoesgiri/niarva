@@ -32,6 +32,7 @@ describe("Kane stream parser on real runs", () => {
     expect(report.runEnd?.status).toBe("passed");
     expect(report.runEnd?.creditsConsumed).toBeGreaterThan(0);
     expect(report.runEnd?.memory.page_definition_hash).toBe(LAB_IDENTITY);
+    expect(report.sessionId).toMatch(/^[0-9a-f-]{36}$/);
   });
 
   it("recovers observation keys from context.memory when final_state renamed them", () => {

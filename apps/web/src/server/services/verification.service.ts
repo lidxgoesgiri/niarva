@@ -333,7 +333,7 @@ export async function recordResult(workerId: string, probeRunId: string, input: 
         exitCode: input.report.exitCode,
         runEnd: runEnd ? (redact({ status: runEnd.status, reasonCode: runEnd.reasonCode, finalState: runEnd.finalState, memory: runEnd.memory }) as object) : null,
         creditsConsumed: runEnd?.creditsConsumed !== null && runEnd?.creditsConsumed !== undefined ? String(runEnd.creditsConsumed) : null,
-        kaneRunId: runEnd?.runId ?? null,
+        kaneRunId: input.report.sessionId ?? runEnd?.runId ?? null,
         kaneCliVersion: input.report.cliVersion,
         streamVersion: input.report.envelopeOk ? "1" : "invalid",
         evidence: input.evidence,
