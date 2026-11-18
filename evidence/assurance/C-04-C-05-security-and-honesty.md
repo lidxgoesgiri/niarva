@@ -48,4 +48,38 @@ The worker was then stopped. Because the canceled run is now the latest full run
 
 ## Retests after the fixes
 
-Pending. Recorded below when the batch finishes.
+Batch label `retest-after-fixes`, 2026-11-18 06:37–07:04 UTC, same runner and lock as batch 1. Server: production build `WUeJG6ZD2Q3DMMH6XZjk8` on `http://localhost:3200`, built at 06:35:50 UTC from `be71f6b`, which contains the fixes `b3a89bd`, `4c88995` (DEV-LOOP-03), `db315d5` (access-denied page), and `459a6bc` (run report). The worktree commits recorded by the runner (`be71f6b`, `a102f19`, `d58db3b`) have identical `apps/` and `packages/`. t-7 and t-8 belong to C-03 and are listed here because they ran in this batch.
+
+**Test text.** Every retest used the same test file as its first run (same SHA-256 prefix as batch 1 and C-03: t-1 `1c10ef000643`, t-2 `0521654fa75e`, t-7 `35ef38c465b7`, t-8 `7f89fa777f73`, t-33 `73dba047215d`, t-57 `b1106355676d`). The owner-approved rewording of t-1, t-2, t-7 (`71f84cd`) and t-10, t-32, t-48 (`67c9a2d`) was committed during or after this batch, so **the reworded tests have not been executed yet**. Current digests: t-1 `399f0ab4a8d5`, t-2 `c1ec3f7382d1`, t-7 `9ef6a77b34ce`.
+
+| Started (UTC) | Test | Outcome | Exit | Kane decisions (authored / replayed) | Credits | Evidence pack SHA-256 | Execution |
+|---|---|---|---|---|---:|---|---|
+| 06:37:02 | t-33 | FAIL | 1 | 2 / 2 | 0 | `4f61dd0b339f0c7190e44f9d2c4402f66c9c5f23ca53d30ecd07103f148907eb` | `e3f81b73-d8f0-4f11-b8e4-aaacdab052f6` |
+| 06:39:23 | t-2 | FAIL | 1 | 2 / 1 | 35.62 | `a234d6145f39e04d3775307abb560bc1835a6f1d74bc8fd9c755054d922a4fda` | `09cb0f1f-b841-40e6-bfa5-eb213a797fbe` |
+| 06:42:49 | t-2 | UNKNOWN | — | — | not reported | — (no pack) | — |
+| 06:45:01 | t-57 | FAIL | 1 | 1 / 1 | 17.74 | `e50b89422a2d483b8b73d40f1446096b904d69b8e7710f0a4f76c4d7804dafa6` | `f8149699-0c0d-45eb-935f-cfb1f8c8f533` |
+| 06:48:02 | t-1 | FAIL | 1 | 2 / 1 | 20.84 | `769e003ce140c3e87a9716605c5d9409f57f810bb22811cb951f6de8446134cb` | `7987c319-daa8-46b5-905c-ebfb04f636db` |
+| 06:50:45 | t-7 | FAIL | 1 | 2 / 3 | 39.59 | `1546c0e3b68a6178662e017a64ed7356af27779c3d83214d4588f5789de10621` | `046a69c8-dd67-42d4-8d19-5b0942e5b13e` |
+| 07:01:24 | t-8 | FAIL | 1 | 3 / 1 | 35.87 | `5464271c2ec9ed802dd7d49ca814e749ae80e44fa9d6fbb5d4e42e8f227cfb96` | `7a8e7339-5a94-478e-a372-bc23ca915d35` |
+
+Totals: 7 executions of 6 tests, **0 PASS, 6 FAIL, 1 UNKNOWN**, 149.66 credits reported. The UNKNOWN t-2 run has a stream that stops at a pending checkpoint without `run_end` or `test_md_done`, and the runner wrote no summary: it was interrupted, so it counts as UNKNOWN, never as a result.
+
+### Classification
+
+| Test | Failing step | Kane's account | Classification | What else covers the behavior |
+|---|---|---|---|---|
+| t-33 | 1, then 2 | Replaying the earlier recording opened a KaneAI page instead of NIARVA (Kane: `automation_bug`, `config_issue`); the second replay stopped while scrolling, before the save-and-assert steps | **Inconclusive: replay of a stale recording.** Steps 3–4 never ran, so the fix is not proven by Kane yet. | `apps/web/tests/integration/invalid-edit.test.ts` (the `alert(1)` edit is refused with `422 VALIDATION_FAILED`, and a stored invalid version no longer breaks the workspace) |
+| t-2 | 2 | "The run reached the expected access-denied page but did not transition to completion" (`stuck.ap_stuck`) | **Inconclusive: assertion mechanics.** Kane observed the intended denial page, but the test produced no PASS. | `apps/web/tests/integration/auth-workspace.test.ts` (tenant isolation, a foreign resource is reported as missing); access-denied page `db315d5` |
+| t-57 | 2 | The agent asserted every report requirement after recording only one cache-flag observation (`assertion_error.final_verification`) | **Inconclusive: incomplete observation.** | `packages/core/test/verdict.test.ts` "aggregates runs fail-closed": a full run with no probe results is UNVERIFIED, never VERIFIED |
+| t-1 | 2 | The private page was denied correctly; the network-response check timed out (`assertion_error.step_not_achievable`) | **Inconclusive: Kane could not complete the response check.** | `apps/web/tests/integration/auth-workspace.test.ts` ("resolves no actor without a session and rejects protected calls") |
+| t-7 | 3 and 7 | Step 3: replayed assertion disagreed with a form that was "visibly in the expected below-threshold state" (`automation_bug`); step 7: the raw request had completed before inspection started (`timing_sync`) | **Inconclusive: request capture**, as in the first run (C-03). A receipt was issued. | PROD-LOOP-01 and VERCEL-PROD-01 P-04 `hidden_exclusion` PASS; P-08 server contract PASS |
+| t-8 | 2 | The submission succeeded with a receipt, but the request body needed for the replay was not retained (`assertion_error.step_not_achievable`) | **Inconclusive: request capture**, as in the first run. | Idempotency integration tests (`apps/web/tests/integration/golden-flow.test.ts`) |
+
+No product defect was found in this batch, and none is claimed fixed by it. Every one of these tests stays **FAIL** in every count until a later run passes with the same objective and oracle; an inconclusive run is never a pass. No test file or expected result was changed to obtain a different outcome.
+
+### What remains owed
+
+- Run the **reworded** t-1, t-2, t-7, t-10, t-32, t-48 (never executed).
+- t-33: rerun without the stale recording so that Kane authors every step against the current build.
+- t-57: rerun; if Kane again inspects only part of the report, record it as a Kane observation limit.
+- t-8 and the request-body steps of t-7 depend on Kane retaining a completed request body; this is listed in [`docs/testing/KNOWN_LIMITATIONS.md`](../../docs/testing/KNOWN_LIMITATIONS.md).
