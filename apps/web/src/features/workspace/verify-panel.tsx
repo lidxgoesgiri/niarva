@@ -46,6 +46,13 @@ const CREATED_VIA: Record<string, string> = {
   repair: "approved repair",
 };
 
+const REPAIR_STATUS: Record<string, string> = {
+  proposed: "proposed, waiting for the creator",
+  applied: "approved by the creator and applied",
+  rejected: "rejected by the creator",
+  stale: "stale: the version changed before a decision",
+};
+
 function runBadge(run: Run): { status: StatusKind; label?: string } {
   if (run.mode === "full" && run.fresh === false) return { status: "STALE" };
   if (run.state === "UNVERIFIED") return { status: "UNKNOWN", label: run.detail === "DIAGNOSTIC_ONLY" ? "Diagnostic only" : "Unverified" };
@@ -204,6 +211,47 @@ export function VerifyPanel({
         {activeRun ? <Button size="sm" variant="ghost" className="self-start" disabled={busy} onClick={() => onAction(`${base}/runs/${activeRun.id}/cancel`, {})}>Cancel run</Button> : null}
         {state.runs.map((run, index) => <RunCard key={run.id} run={run} pageIdentity={version.pageIdentity} report={{ versionNo: version.versionNo, definitionHash: version.definitionHash, claimsHash: state.claimSet?.claimsHash ?? null, gate, latestFull: index === state.runs.findIndex((candidate) => candidate.mode === "full") }} />)}
       </section>
+
+      {/* Proof history: earlier versions keep their own runs and the repairs proposed on them. */}
+      {state.history.length > 0 ? (
+        <section aria-labelledby="history-heading" className="flex flex-col gap-3" data-testid="proof-history">
+          <div>
+            <h3 id="history-heading" className="text-sm font-semibold">Earlier versions and their proof</h3>
+            <p className="mt-1 text-xs text-ink-muted">Each version keeps its own runs. Proof never carries over to a new version.</p>
+          </div>
+          {state.history.map((entry) => (
+            <article key={entry.versionId} className="flex flex-col gap-2 rounded-xl border border-line p-3" data-testid="history-version" data-version={entry.versionNo}>
+              <p className="text-sm">
+                <span className="font-mono">v{entry.versionNo}</span>
+                <span className="text-ink-muted"> · {CREATED_VIA[entry.createdVia] ?? entry.createdVia} · definition </span>
+                <span className="font-mono">{entry.definitionHash.slice(0, 8)}</span>
+                {entry.createdVia === "template" ? <span className="block text-xs font-medium text-warn">Seeded defect for demonstration</span> : null}
+              </p>
+              {entry.runs.map((run) => (
+                <RunCard
+                  key={run.id}
+                  run={run}
+                  pageIdentity={entry.pageIdentity}
+                  report={{ versionNo: entry.versionNo, definitionHash: entry.definitionHash, claimsHash: entry.claimsHash, gate, latestFull: false }}
+                />
+              ))}
+              {entry.repairs.map((repair) => {
+                const resulting = state.versions.find((candidate) => candidate.id === repair.resultingVersionId);
+                return (
+                  <p key={repair.id} className="text-xs" data-testid="history-repair" data-status={repair.status}>
+                    <span className="font-medium">Repair {repair.strategy}</span>
+                    <span className="text-ink-muted">
+                      {" "}
+                      · {REPAIR_STATUS[repair.status] ?? repair.status}
+                      {resulting ? ` → v${resulting.versionNo}` : ""} · {repair.explanation}
+                    </span>
+                  </p>
+                );
+              })}
+            </article>
+          ))}
+        </section>
+      ) : null}
 
       {/* Publish gate */}
       <section aria-labelledby="publish-heading" className="flex flex-col gap-3 rounded-xl border border-line bg-canvas/60 p-4" data-testid="publish-gate">
