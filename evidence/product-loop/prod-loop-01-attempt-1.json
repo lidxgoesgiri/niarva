@@ -1,0 +1,426 @@
+{
+  "loop": "PROD-LOOP-01",
+  "base": "http://localhost:3200",
+  "startedAt": "2026-11-17T15:28:38.736Z",
+  "steps": [
+    {
+      "name": "seeded version created",
+      "at": "2026-11-17T15:28:38.847Z",
+      "formId": "01a1ea1f-db5e-7b3f-a88f-b5312ae1caf9",
+      "versionNo": 1,
+      "definitionHash": "a8ebe142b52bf7dec4f47ea9254d13ffc0e7a517cc938f244b5a8679bbb73ae9",
+      "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7",
+      "staticVerdict": "FAILED",
+      "counterexample": {
+        "field": "certificate",
+        "actual": {
+          "visible": false,
+          "required": false
+        },
+        "aspect": "visible",
+        "boundary": {
+          "field": "gpa",
+          "value": "3.5"
+        },
+        "expected": {
+          "visible": true,
+          "required": true
+        },
+        "assignment": {
+          "gpa": "3.50"
+        }
+      }
+    },
+    {
+      "name": "diagnostic requested",
+      "at": "2026-11-17T15:28:38.874Z",
+      "status": 202,
+      "runId": "01a1ea1f-dbd1-75d5-9152-645b7083d0f3"
+    },
+    {
+      "name": "diagnostic finished",
+      "at": "2026-11-17T15:30:59.250Z",
+      "run": {
+        "id": "01a1ea1f-dbd1-75d5-9152-645b7083d0f3",
+        "mode": "diagnostic",
+        "state": "FAILED",
+        "detail": null,
+        "counts": {
+          "fail": 1,
+          "pass": 0,
+          "unknown": 0,
+          "required": 1
+        },
+        "creditsTotal": "25.25",
+        "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+        "requestedAt": "2026-11-17T15:28:38.859Z",
+        "completedAt": "2026-11-17T15:30:43.636Z",
+        "probes": [
+          {
+            "probeKey": "D-01",
+            "kind": "counterexample_confirmation",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "4cece9f8310b00c0fba55876127b4c0d2ab468fc6ca46c39e99b38661cbc538c",
+            "verdict": "FAIL",
+            "reasonCode": "OBSERVATION_MISMATCH",
+            "failedStage": 1,
+            "mismatches": [
+              {
+                "key": "obs_certificate_visible",
+                "stage": 1,
+                "expected": "true",
+                "observed": "false"
+              },
+              {
+                "key": "obs_certificate_required",
+                "stage": 1,
+                "expected": "true",
+                "observed": "false"
+              }
+            ],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": true,
+            "kaneSessionId": "ad1c0fdf-9463-4c59-ab65-8b44b3250fcc",
+            "kaneCliVersion": "0.10.4",
+            "credits": "25.2509275",
+            "packSha256": "ddbaa8e19a5e3a9b034ece65efd8515b285c3c36c9e53eb15b9f5fdb51924d52",
+            "attempt": 2
+          }
+        ]
+      }
+    },
+    {
+      "name": "repair proposed",
+      "at": "2026-11-17T15:30:59.306Z",
+      "proposals": [
+        {
+          "strategy": "ALIGN_OPERATOR",
+          "ops": [
+            {
+              "op": "set_operator",
+              "ruleId": "rule_d0c84c42",
+              "path": [],
+              "from": "gt",
+              "to": "gte"
+            }
+          ],
+          "explanation": "Change the comparison in rule_d0c84c42 from \">\" to \"≥\" so GPA 3.5 is handled as the approved claim states."
+        },
+        {
+          "strategy": "REGENERATE_FROM_CLAIM",
+          "ops": [
+            {
+              "op": "remove_rule",
+              "rule": {
+                "id": "rule_d0c84c42",
+                "target": "certificate",
+                "effect": "show",
+                "when": {
+                  "kind": "cmp",
+                  "field": "gpa",
+                  "op": "gt",
+                  "value": "3.5"
+                },
+                "originClaimKeys": [
+                  "C-GPA"
+                ]
+              }
+            },
+            {
+              "op": "add_rule",
+              "rule": {
+                "id": "rule_0a9f644b",
+                "target": "certificate",
+                "effect": "show",
+                "when": {
+                  "kind": "cmp",
+                  "field": "gpa",
+                  "op": "gte",
+                  "value": "3.5"
+                },
+                "originClaimKeys": [
+                  "C-GPA"
+                ]
+              }
+            }
+          ],
+          "explanation": "Rebuild the rules for \"Achievement certificate number\" directly from its approved claims."
+        }
+      ]
+    },
+    {
+      "name": "repair approved",
+      "at": "2026-11-17T15:30:59.372Z",
+      "status": 200,
+      "newVersionNo": 2,
+      "definitionHash": "9796f3daf46a47bcc109968373741d36cc299976f39bdbf610be60200be41c2d",
+      "parentVersionId": "01a1ea1f-db9a-7080-96a2-a29cf585d339",
+      "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7",
+      "claimsHashUnchanged": true,
+      "staticVerdict": "PASS"
+    },
+    {
+      "name": "publish before proof",
+      "at": "2026-11-17T15:30:59.398Z",
+      "status": 409,
+      "code": "GATE_BLOCKED",
+      "reasons": [
+        "BROWSER_UNVERIFIED"
+      ]
+    },
+    {
+      "name": "full verification requested",
+      "at": "2026-11-17T15:30:59.431Z",
+      "status": 202,
+      "runId": "01a1ea22-00d2-7b06-87ff-1d2ad40656b2"
+    },
+    {
+      "name": "full verification finished",
+      "at": "2026-11-17T15:53:09.815Z",
+      "run": {
+        "id": "01a1ea22-00d2-7b06-87ff-1d2ad40656b2",
+        "mode": "full",
+        "state": "UNVERIFIED",
+        "detail": "BLOCKED",
+        "counts": {
+          "fail": 0,
+          "pass": 7,
+          "unknown": 1,
+          "required": 8
+        },
+        "creditsTotal": "247.99",
+        "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+        "requestedAt": "2026-11-17T15:30:59.406Z",
+        "completedAt": "2026-11-17T15:52:52.780Z",
+        "probes": [
+          {
+            "probeKey": "P-01",
+            "kind": "initial_required",
+            "executor": "kane",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-04"
+            ],
+            "objectiveHash": "2061c0e51805668e64b87ed5a92ef596b5a25d703975cb0c2e2000915dfcb3ab",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "6df0252f-8412-4a0a-8854-9bf43d2d95cf",
+            "kaneCliVersion": "0.10.4",
+            "credits": "21.604367000000003",
+            "packSha256": "b280d572a7def9244b86286c41b691d2a1c108522e1951d9b0e43c5912af5100",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-02",
+            "kind": "boundary_bundle",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-01",
+              "K-02",
+              "K-03"
+            ],
+            "objectiveHash": "59c14c699fba8c221410718358a05d40b8c43ebebc0619f618f81ec64d8df1aa",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "372b5cd1-8cfd-4a0b-8a24-7f21fa80179f",
+            "kaneCliVersion": "0.10.4",
+            "credits": "44.86438700000001",
+            "packSha256": "2a32324e90b1cdc29833655649cb578c48a1dd241c63129c6c25d06ff355ff31",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-03",
+            "kind": "conditional_required_empty",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "dfbb4d834f5511a6451664ba6fa4cc474110b9189f386403137df8553c15f6c3",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "b6d9b8b1-6f1e-4c86-98b0-c279d1317679",
+            "kaneCliVersion": "0.10.4",
+            "credits": "50.341420499999984",
+            "packSha256": "8b20b366ada0a89d79098c40923fa5266d3dec737d59b736f1fba0a13022ac82",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-04",
+            "kind": "hidden_exclusion",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-05"
+            ],
+            "objectiveHash": "94020a3cc9966fd5f757d46a8706a778298c3c8c0bfaf1fe0c6f7d0b2ae953f4",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "92422026-da84-4d9e-b1c3-a22dc46ae985",
+            "kaneCliVersion": "0.10.4",
+            "credits": "49.313187500000005",
+            "packSha256": "574a470a8e21745b4075681a5dce592e374ed05d9b17967dbb73784ff88c06a7",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-05",
+            "kind": "valid_submission",
+            "executor": "kane",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-04",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-06"
+            ],
+            "objectiveHash": "1f826fe33a6b0254f56c1299ae9fb6806e75c1777ac7643c85cdf0bf8f90f60f",
+            "verdict": "UNKNOWN",
+            "reasonCode": "MISSING_OBSERVATION",
+            "failedStage": 1,
+            "mismatches": [],
+            "kaneStatus": "failed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "87f8a649-dc26-4a72-a6f5-356a55348fe1",
+            "kaneCliVersion": "0.10.4",
+            "credits": "20.9800575",
+            "packSha256": "a3ae564211154d42d5d1690305a2720aa05108c5f23213e714b3d4f2fba4fc51",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-06",
+            "kind": "decimal_comma",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "2b2b8e21969a583d75967fca2e5d372aa380b8976bc5575f7bc5304b3546dc88",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "f14b2c4d-548b-411e-9344-e4f4e6b7bab6",
+            "kaneCliVersion": "0.10.4",
+            "credits": "25.2025375",
+            "packSha256": "0bce7739d04f2bcd753c64c3f0ab6edf0b8d2e751c73ced2f0f46cb4484386f3",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-07",
+            "kind": "constraint_check",
+            "executor": "kane",
+            "claimKeys": [
+              "C-04"
+            ],
+            "goldenIds": [],
+            "objectiveHash": "378c720795e49c5d1e02695152dfc0011844503eb9d37ea7061fd725d5f9f146",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "fc9cb192-4bd4-4af7-ab17-8b0140525185",
+            "kaneCliVersion": "0.10.4",
+            "credits": "35.68492",
+            "packSha256": "6d54f1cb1a59adeed8cfcd5ff18776914ad5677ffa346a033d1047b4f6c9adf2",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-08",
+            "kind": "server_contract",
+            "executor": "http",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-04",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-04",
+              "K-05",
+              "K-06"
+            ],
+            "objectiveHash": "d38c9763c44bb7fb09eb3abe83ed4c9bbc3f9561ce8aed5247d105c7baf56011",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": null,
+            "agentVerdictMismatch": false,
+            "kaneSessionId": null,
+            "kaneCliVersion": null,
+            "credits": null,
+            "packSha256": null,
+            "attempt": 1
+          }
+        ]
+      },
+      "gate": {
+        "eligible": false,
+        "reasons": [
+          "BROWSER_UNVERIFIED"
+        ],
+        "instability": {
+          "unstable": false,
+          "consecutiveVerifiedAfterFailure": 0,
+          "required": 2
+        },
+        "versionId": "01a1ea22-007f-70d7-bffb-78ab78718f8c",
+        "latestRunId": "01a1ea22-00d2-7b06-87ff-1d2ad40656b2",
+        "reasonTexts": [
+          "This exact version has no complete browser proof."
+        ]
+      }
+    },
+    {
+      "name": "publish after proof",
+      "at": "2026-11-17T15:53:09.880Z",
+      "status": 409,
+      "code": "GATE_BLOCKED",
+      "reasons": [
+        "BROWSER_UNVERIFIED"
+      ]
+    }
+  ],
+  "finishedAt": "2026-11-17T15:53:09.881Z"
+}

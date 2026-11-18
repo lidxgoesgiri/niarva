@@ -1,0 +1,193 @@
+{
+  "loop": "PROD-LOOP-01",
+  "attempt": 2,
+  "base": "http://localhost:3200",
+  "status": "interrupted",
+  "note": "All local processes stopped at about 2026-11-17T16:14Z while P-04 was running. The driver was killed before it wrote its record; the steps before that are copied from its log, the runs from the server state. The full run was then canceled on purpose (P-03 was already UNKNOWN, so the run could not become VERIFIED).",
+  "formId": "01a1ea3f-0625-7dd8-bb1f-51cd405e9fc9",
+  "versionNo": 2,
+  "definitionHash": "9796f3daf46a47bcc109968373741d36cc299976f39bdbf610be60200be41c2d",
+  "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7",
+  "cancelStatus": 200,
+  "runs": [
+    {
+      "id": "01a1ea41-7c17-72c9-8e85-83881613d584",
+      "mode": "full",
+      "state": "CANCELED",
+      "detail": null,
+      "counts": {
+        "fail": 0,
+        "pass": 3,
+        "unknown": 1,
+        "required": 8
+      },
+      "creditsTotal": "68.79",
+      "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+      "requestedAt": "2026-11-17T16:05:22.573Z",
+      "completedAt": "2026-11-17T17:19:38.557Z",
+      "probes": [
+        {
+          "probeKey": "P-01",
+          "kind": "initial_required",
+          "executor": "kane",
+          "claimKeys": [
+            "C-01",
+            "C-02",
+            "C-GPA"
+          ],
+          "verdict": "PASS",
+          "status": "completed",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": "passed",
+          "agentVerdictMismatch": false,
+          "kaneSessionId": "2e3c99ac-cd51-45be-a700-b3bd7ea3f0e8",
+          "credits": "23.5379515",
+          "packSha256": "1b985d6915d0beb18528a163d8212aeaac4f8fca55be26020c41be29d0512b8b",
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-02",
+          "kind": "boundary_bundle",
+          "executor": "kane",
+          "claimKeys": [
+            "C-GPA"
+          ],
+          "verdict": "PASS",
+          "status": "completed",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": "passed",
+          "agentVerdictMismatch": false,
+          "kaneSessionId": "fc3c734c-7529-4f9d-814e-b3e363d9d1a7",
+          "credits": "45.2520995",
+          "packSha256": "670d711751def606dba5ebb4510dc5c2b9b277cb9ce7ecd694482d5d6c706ad5",
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-03",
+          "kind": "conditional_required_empty",
+          "executor": "kane",
+          "claimKeys": [
+            "C-GPA"
+          ],
+          "verdict": "UNKNOWN",
+          "status": "completed",
+          "reasonCode": "MISSING_OBSERVATION",
+          "failedStage": 0,
+          "kaneStatus": "failed",
+          "agentVerdictMismatch": false,
+          "kaneSessionId": "bf3621b7-7fc0-406a-ba3c-4a8e2005514b",
+          "credits": "0",
+          "packSha256": "42934dcfb1e1b549d183e725c01ebeec159e0e64138a3ffeedd0b1bd5149f335",
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-04",
+          "kind": "hidden_exclusion",
+          "executor": "kane",
+          "claimKeys": [
+            "C-GPA"
+          ],
+          "verdict": null,
+          "status": "leased",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": null,
+          "agentVerdictMismatch": false,
+          "kaneSessionId": null,
+          "credits": null,
+          "packSha256": null,
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-05",
+          "kind": "valid_submission",
+          "executor": "kane",
+          "claimKeys": [
+            "C-01",
+            "C-02",
+            "C-04",
+            "C-GPA"
+          ],
+          "verdict": null,
+          "status": "canceled",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": null,
+          "agentVerdictMismatch": false,
+          "kaneSessionId": null,
+          "credits": null,
+          "packSha256": null,
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-06",
+          "kind": "decimal_comma",
+          "executor": "kane",
+          "claimKeys": [
+            "C-GPA"
+          ],
+          "verdict": null,
+          "status": "canceled",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": null,
+          "agentVerdictMismatch": false,
+          "kaneSessionId": null,
+          "credits": null,
+          "packSha256": null,
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-07",
+          "kind": "constraint_check",
+          "executor": "kane",
+          "claimKeys": [
+            "C-04"
+          ],
+          "verdict": null,
+          "status": "canceled",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": null,
+          "agentVerdictMismatch": false,
+          "kaneSessionId": null,
+          "credits": null,
+          "packSha256": null,
+          "attempt": 1,
+          "mismatches": []
+        },
+        {
+          "probeKey": "P-08",
+          "kind": "server_contract",
+          "executor": "http",
+          "claimKeys": [
+            "C-01",
+            "C-02",
+            "C-04",
+            "C-GPA"
+          ],
+          "verdict": "PASS",
+          "status": "completed",
+          "reasonCode": null,
+          "failedStage": null,
+          "kaneStatus": null,
+          "agentVerdictMismatch": false,
+          "kaneSessionId": null,
+          "credits": null,
+          "packSha256": null,
+          "attempt": 1,
+          "mismatches": []
+        }
+      ]
+    }
+  ],
+  "capturedAt": "2026-11-17T17:19:38.600Z"
+}
