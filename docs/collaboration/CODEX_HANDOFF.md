@@ -2,6 +2,12 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — compact landing menu keyboard navigation
+
+- Commit `284c4c9` names the compact native dialog and directs keyboard focus to the chosen landing section. Escape continues to return focus to Menu. Lint, typecheck, 103 native tests, and the production build passed.
+- PE-09 first reached the menu at 960 CSS px and found the focus defect in session `37a8b434-6add-4fc1-af86-c5ee9eb1d471`. Retest `a31f6b15-9ca2-47d9-b898-e9bf822bd6aa` verified the accessible name and both focus transitions. The combined result remains BLOCKED because the corrected capture did not establish heading visibility or directly measure scroll lock. The three browser runs consumed 119.217112 credits. [Compact menu evidence](../../evidence/product-experience/PE-09-landing-menu.md).
+- Carry the focus and accessible-name behavior into any landing integration and rerun PE-09 on the combined build. The 360 px viewport, reduced motion, and release smoke remain separate checks.
+
 ## 2026-11-18 — GSAP reveals throughout the landing
 
 - Landing heading words, narrative copy, and card groups now use a scoped `useGSAP` controller. ScrollTrigger refreshes after fonts and mounted panels change. The existing native scroll trace, pipeline, and scholarship simulation remain available.
