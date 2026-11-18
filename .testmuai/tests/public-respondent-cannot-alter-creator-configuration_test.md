@@ -13,4 +13,4 @@ Open {{published_form_url}} in the browser as a respondent without signing in to
 
 ## Step 2 @verifies ac-77
 
-From the public NIARVA form, attempt to change its field or conditional-rule configuration with the respondent's session, including a direct mutation request to {{config_api_url}} if the public UI provides no editor, then assert no respondent-authorized configuration change is accepted.
+Without signing in, call POST {{config_api_url}} with body {"baseVersionId": "{{published_version_id}}", "definition": {"schemaVersion": 1, "title": "Changed by a respondent", "sections": [{"key": "main"}], "fields": [{"key": "full_name", "sectionKey": "main", "type": "short_text", "label": "Full name", "required": false, "visibility": "always"}], "rules": [], "settings": {}}}, save the response as respondent_change, and assert the respondent_change response status is 401 or 403. Then open {{published_form_url}} and verify the form still shows the Full name and GPA fields.

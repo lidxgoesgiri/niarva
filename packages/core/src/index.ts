@@ -23,3 +23,4 @@ export * from "./probes/probes";
 export * from "./verdict/verdict";
 export * from "./verdict/stream";
 export * from "./gate/gate";
+export * from "./trace/trace";

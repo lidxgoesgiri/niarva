@@ -173,6 +173,23 @@ describe("probe plan", () => {
     for (const probe of first.probes) if (probe.objectiveTemplate) expect(probe.objectiveTemplate).not.toMatch(/https?:\/\//);
   });
 
+  // DEV-LOOP-02: Kane looked for the certificate field before entering the GPA that reveals it,
+  // found nothing, and the valid-submission probe ended UNKNOWN (session 87f8a649).
+  it("tells the browser agent that conditional fields appear only after the answers that reveal them", () => {
+    const plan = deriveProbePlan(goldenDefinition(), GOLDEN_CLAIMS, "abcd1234");
+    const lines = plan.probes.find((probe) => probe.kind === "valid_submission")!.objectiveTemplate!.split("\n");
+    const at = (pattern: RegExp) => lines.findIndex((line) => pattern.test(line));
+    expect(at(/appear only after an earlier answer is entered\. Follow the steps in order/)).toBeGreaterThan(0);
+    const gpa = at(/field labeled "GPA", clear any existing text, type exactly "3\.50"/);
+    const wait = at(/^Wait until a field labeled "Achievement certificate number" is shown/);
+    const certificate = at(/field labeled "Achievement certificate number", clear any existing text, type exactly/);
+    expect(gpa).toBeGreaterThan(0);
+    expect(wait).toBe(certificate - 1);
+    expect(gpa).toBeLessThan(wait);
+    // Always-visible fields get no wait line.
+    expect(lines.some((line) => /^Wait until a field labeled "(Full name|GPA)"/.test(line))).toBe(false);
+  });
+
   it("derives expectations from the claims, not from the implementation", () => {
     const fromCorrect = deriveProbePlan(goldenDefinition(), GOLDEN_CLAIMS, "abcd1234");
     const fromBroken = deriveProbePlan(goldenDefinitionWithSeededDefect(), GOLDEN_CLAIMS, "abcd1234");

@@ -17,29 +17,19 @@ import { createHash } from "node:crypto";
 import { createWriteStream, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { resolveKaneEntry } from "./lib/kane-entry.mjs";
+import { acquireKaneLock } from "./lib/kane-lock.mjs";
+import {
+  OFFICIAL_TMS_PROJECT,
+  assertProfileProject,
+  assertRecordingProject,
+  readRecordingBinding,
+  testCaseIdsFromEvents,
+} from "./lib/kane-project.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const testsDir = join(root, ".testmuai", "tests");
 const WATCHDOG_SECONDS = 15 * 60;
-
-function resolveKaneEntry() {
-  if (process.env.KANE_CLI_ENTRY) return process.env.KANE_CLI_ENTRY;
-  const candidates = [];
-  if (process.env.APPDATA) candidates.push(join(process.env.APPDATA, "npm", "node_modules"));
-  try {
-    candidates.push(execFileSync("npm", ["root", "-g"], { encoding: "utf8", shell: true }).trim());
-  } catch {
-    // Fall through to the error below.
-  }
-  for (const base of candidates) {
-    const pkgPath = join(base, "@testmuai", "kane-cli", "package.json");
-    if (!existsSync(pkgPath)) continue;
-    const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
-    const bin = typeof pkg.bin === "string" ? pkg.bin : pkg.bin["kane-cli"];
-    return { entry: resolve(dirname(pkgPath), bin), version: pkg.version };
-  }
-  throw new Error("Kane CLI not found. Install it with `npm install -g @testmuai/kane-cli`.");
-}
 
 function resolveTest(selector) {
   if (existsSync(resolve(root, selector))) return resolve(root, selector);
@@ -66,7 +56,7 @@ function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
-function runOne(kane, testPath, label, headed) {
+function runOne(kane, testPath, label, headed, retryOf = null, profile = null) {
   return new Promise((resolveRun) => {
     const stem = basename(testPath).replace(/_test\.md$/, "");
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
@@ -101,6 +91,13 @@ function runOne(kane, testPath, label, headed) {
     }, WATCHDOG_SECONDS * 1000);
 
     const startedAt = Date.now();
+    // Record the revision under test when the run starts, not when it ends.
+    const recordingBefore = readRecordingBinding(testPath);
+    const sourceAtStart = {
+      commit: git(["rev-parse", "HEAD"]),
+      branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
+      dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
+    };
     child.on("close", (exitCode) => {
       clearTimeout(watchdog);
       out.end();
@@ -113,6 +110,8 @@ function runOne(kane, testPath, label, headed) {
         try { events.push(JSON.parse(line)); } catch { nonJson += 1; }
       }
       const done = events.filter((event) => event.type === "test_md_done");
+      const mdSummary = events.find((event) => event.type === "test_md_summary") ?? null;
+      const stepsStarted = events.filter((event) => event.type === "test_md_step_start").length;
       const runEnds = events.filter((event) => event.type === "run_end");
       const failedSteps = events
         .filter((event) => !event.type && event.status === "failed")
@@ -146,6 +145,7 @@ function runOne(kane, testPath, label, headed) {
         assuranceId: (readFileSync(testPath, "utf8").match(/^\s*id:\s*(t-\d+)/m) ?? [])[1] ?? null,
         testFileSha256: sha256File(testPath),
         label: label ?? null,
+        retryOf,
         outcome,
         exitCode,
         watchdogFired,
@@ -162,16 +162,33 @@ function runOne(kane, testPath, label, headed) {
         })),
         failedSteps,
         warnings,
+        // Kane may replay recorded actions for unchanged steps instead of authoring them again.
+        // A replay still runs in a real browser, but it is reported separately and never hidden.
+        decisions: mdSummary
+          ? {
+              replayed: mdSummary.steps?.replay_decisions ?? null,
+              authored: mdSummary.steps?.author_decisions ?? null,
+              adaptiveHealTriggered: mdSummary.adaptive_heal?.triggered ?? null,
+            }
+          : null,
+        stepsStarted,
+        notStartedReason:
+          stepsStarted === 0 && completion === null ? (stderrText.match(/error:\s*([^\r\n]{1,200})/i)?.[1] ?? null) : null,
         creditsConsumed: Math.round(credits * 100) / 100,
         kaneCliVersion: events.find((event) => event.type === "stream_start")?.cli_version ?? kane.version ?? null,
         streamVersion: events.find((event) => event.v !== undefined)?.v ?? null,
         nonJsonLines: nonJson,
         evidencePack: pack,
-        source: {
-          commit: git(["rev-parse", "HEAD"]),
-          branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
-          dirty: (git(["status", "--porcelain", "--", "apps", "packages"]) ?? "") !== "",
+        // Where Kane was told to publish this run, and where it says the run went.
+        testManager: {
+          officialProjectId: OFFICIAL_TMS_PROJECT.id,
+          profileProjectId: profile?.projectId ?? null,
+          profileFolderId: profile?.folderId ?? null,
+          recordingBefore,
+          recordingAfter: readRecordingBinding(testPath),
+          testCasesInStream: testCaseIdsFromEvents(events),
         },
+        source: sourceAtStart,
         startedAtUtc: new Date(startedAt).toISOString(),
         runDir: runDir.replace(root, ".").replace(/\\/g, "/"),
       };
@@ -195,13 +212,39 @@ if (selectors.length === 0) {
   process.exit(64);
 }
 
+// A run that never started a step because Kane's own sign-in check failed says nothing about
+// NIARVA. As decided in M0 (RUN_NOT_STARTED is retryable once), such a run is retried once
+// after a pause. Both attempts keep their own record; the first stays UNKNOWN.
+const SIGN_IN_NOT_STARTED = /org_id|token refresh failed|re-authenticate|kane-cli login/i;
+const RETRY_PAUSE_MS = 20_000;
+
 const kane = resolveKaneEntry();
+// Every run goes to the official Test Manager project. Check the profile and each test's local
+// recording before anything runs, so a result can never land in another project by default.
+const profile = assertProfileProject(kane);
+const testPaths = selectors.map(resolveTest);
+for (const testPath of testPaths) assertRecordingProject(testPath);
 const results = [];
 // One Kane run at a time: M0 showed infrastructure failures under parallel execution.
-for (const selector of selectors) {
-  const testPath = resolveTest(selector);
-  const summary = await runOne(kane, testPath, label, headed);
+for (const [position, testPath] of testPaths.entries()) {
+  // Machine-wide lock: never overlap with another Kane run (another agent, worktree, or the worker).
+  const release = await acquireKaneLock(`verify-kane: ${basename(testPath)}`);
+  let summary;
+  try {
+    summary = await runOne(kane, testPath, label, headed, null, profile);
+    if (summary.outcome === "UNKNOWN" && summary.stepsStarted === 0 && SIGN_IN_NOT_STARTED.test(summary.notStartedReason ?? "")) {
+      console.log(JSON.stringify(summary));
+      console.error(`run did not start (${summary.notStartedReason}); retrying once in ${RETRY_PAUSE_MS / 1000}s`);
+      await new Promise((resolvePause) => setTimeout(resolvePause, RETRY_PAUSE_MS));
+      summary = await runOne(kane, testPath, label, headed, summary.runDir, profile);
+    }
+  } finally {
+    release();
+  }
   results.push(summary);
   console.log(JSON.stringify(summary));
+  // Yield the machine-wide lock between tests so a Kane run waiting in another worktree (which
+  // polls every 5 seconds) can start instead of waiting for this whole batch.
+  if (position < testPaths.length - 1) await new Promise((resolvePause) => setTimeout(resolvePause, 12_000));
 }
 process.exit(results.every((result) => result.outcome === "PASS") ? 0 : 1);

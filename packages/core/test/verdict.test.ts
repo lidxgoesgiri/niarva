@@ -32,6 +32,7 @@ describe("Kane stream parser on real runs", () => {
     expect(report.runEnd?.status).toBe("passed");
     expect(report.runEnd?.creditsConsumed).toBeGreaterThan(0);
     expect(report.runEnd?.memory.page_definition_hash).toBe(LAB_IDENTITY);
+    expect(report.sessionId).toMatch(/^[0-9a-f-]{36}$/);
   });
 
   it("recovers observation keys from context.memory when final_state renamed them", () => {
@@ -132,6 +133,15 @@ describe("probe verdict contract (constructed edge cases)", () => {
   it("marks a run that never started as retryable", () => {
     const notStarted = { ...base, exitCode: 2, runEndCount: 0, progressSteps: 0, runEnd: null };
     expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", notStarted, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "RUN_NOT_STARTED", retryable: true });
+  });
+
+  it("treats a failed run that executed no step as not started and retryable, never as a product result", () => {
+    // PROD-LOOP-01 attempt 2, P-03: Kane ended with "No start URL provided" before any step.
+    const noStep = { ...base, exitCode: 1, progressSteps: 0, runEnd: { ...base.runEnd!, status: "failed", memory: {}, creditsConsumed: 0 } };
+    expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", noStep, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "RUN_NOT_STARTED", retryable: true });
+    // A failed run that did execute steps keeps its normal judgement.
+    const worked = { ...base, exitCode: 1, progressSteps: 3, runEnd: { ...base.runEnd!, status: "failed", memory: {} } };
+    expect(evaluateProbeRun({ stages, serverEvidence: null }, "abcd1234", worked, null)).toMatchObject({ verdict: "UNKNOWN", reasonCode: "MISSING_OBSERVATION", retryable: false });
   });
 
   it("fails on server evidence of a stored hidden value", () => {

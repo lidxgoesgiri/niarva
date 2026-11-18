@@ -23,7 +23,7 @@ export const GOLDEN_CLAIMS: ClaimSetContent = {
     { key: "C-01", kind: "FIELD", field: "full_name", required: "always", origin: "template", reviewState: "proposed", ...quote("Name and GPA are required.") },
     { key: "C-02", kind: "FIELD", field: "gpa", required: "always", origin: "template", reviewState: "proposed", ...quote("Name and GPA are required.") },
     {
-      key: "C-03",
+      key: "C-GPA",
       kind: "VISIBLE_WHEN",
       field: "certificate",
       when: { kind: "cmp", field: "gpa", op: "gte", value: "3.5" },
@@ -58,6 +58,6 @@ export function goldenDefinitionWithSeededDefect(): FormDefinition {
   const definition = goldenDefinition();
   return {
     ...definition,
-    rules: [makeRule("certificate", "show", { kind: "cmp", field: "gpa", op: "gt", value: "3.5" }, ["C-03"])],
+    rules: [makeRule("certificate", "show", { kind: "cmp", field: "gpa", op: "gt", value: "3.5" }, ["C-GPA"])],
   };
 }

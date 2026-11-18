@@ -10,7 +10,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const examplePath = join(root, ".env.example");
 const targetPath = join(root, ".env.local");
 
-const GENERATED = ["BETTER_AUTH_SECRET", "PREVIEW_TOKEN_SECRET", "IP_HASH_SECRET"];
+const GENERATED = ["BETTER_AUTH_SECRET", "PREVIEW_TOKEN_SECRET", "IP_HASH_SECRET", "WORKER_SHARED_TOKEN"];
 const PLACEHOLDER = /^replace-with/;
 
 const source = existsSync(targetPath) ? readFileSync(targetPath, "utf8") : readFileSync(examplePath, "utf8");
@@ -27,7 +27,34 @@ const lines = source.split(/\r?\n/).map((line) => {
   return line;
 });
 
-writeFileSync(targetPath, lines.join("\n"));
+// Append variables introduced after .env.local was first created; drop retired ones.
+const RETIRED = new Set(["NIARVA_WORKER_TOKEN"]);
+const kept = lines.filter((line) => !RETIRED.has(line.split("=")[0]));
+const present = new Set(kept.map((line) => line.split("=")[0]));
+for (const line of readFileSync(examplePath, "utf8").split(/\r?\n/)) {
+  const name = line.match(/^([A-Z0-9_]+)=/)?.[1];
+  if (!name || present.has(name)) continue;
+  if (GENERATED.includes(name)) {
+    filled.push(name);
+    kept.push(`${name}=${randomBytes(32).toString("base64url")}`);
+  } else {
+    kept.push(line);
+  }
+}
+// Fill empty worker defaults from the example.
+const defaults = Object.fromEntries(
+  readFileSync(examplePath, "utf8")
+    .split(/\r?\n/)
+    .map((line) => line.match(/^(NIARVA_WORKER_[A-Z_]+)=(.+)$/))
+    .filter(Boolean)
+    .map((match) => [match[1], match[2]]),
+);
+const final = kept.map((line) => {
+  const match = line.match(/^(NIARVA_WORKER_[A-Z_]+)=$/);
+  return match && defaults[match[1]] ? `${match[1]}=${defaults[match[1]]}` : line;
+});
+
+writeFileSync(targetPath, final.join("\n"));
 
 // Report names only; secret values are never printed.
 console.log(

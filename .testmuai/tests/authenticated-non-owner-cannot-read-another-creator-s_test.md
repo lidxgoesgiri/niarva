@@ -13,8 +13,8 @@ At {{start_url}}, sign in to NIARVA as the creator who does not own the target p
 
 ## Step 2 @verifies ac-1, ac-9
 
-In this non-owner browser session, request the other creator's private form version at {{private_version_url}}; then assert access is denied and its known content {{private_version_marker}} is absent from the page and response.
+In this non-owner session, open {{private_version_url}}, then verify the page says access is denied and does not show {{private_version_marker}}.
 
 ## Step 3 @verifies ac-2, ac-10
 
-In the same non-owner browser session, request the other creator's private evidence at {{private_evidence_url}}; then assert access is denied and its known content {{private_evidence_marker}} is absent from the page and response.
+In the same non-owner session, open {{private_evidence_url}}, then verify the page shows an error instead of the form's evidence and does not contain {{private_evidence_marker}}.

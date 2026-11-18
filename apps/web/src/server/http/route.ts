@@ -30,6 +30,28 @@ export function route<P = Record<string, never>>(handler: Handler<P>) {
   };
 }
 
+/**
+ * CSRF defence for cookie-authenticated mutations: a browser always sends Origin on POST/PATCH,
+ * and it must be this deployment. Requests without Origin (server-to-server) are allowed.
+ */
+export function assertSameOrigin(request: Request): void {
+  const origin = request.headers.get("origin");
+  if (!origin) return;
+  const allowed = new Set<string>();
+  const host = request.headers.get("host");
+  if (host) {
+    allowed.add(`http://${host}`);
+    allowed.add(`https://${host}`);
+  }
+  if (process.env.NIARVA_BASE_URL) allowed.add(process.env.NIARVA_BASE_URL.replace(/\/+$/, ""));
+  if (!allowed.has(origin)) throw new ApiError("FORBIDDEN", "Cross-site requests are not allowed.");
+}
+
+/** Best-effort client address for rate limiting (hashed before storage). */
+export function clientIp(request: Request): string | null {
+  return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || request.headers.get("x-real-ip") || null;
+}
+
 export function json<T>(body: T, init: { status?: number; headers?: HeadersInit } = {}): Response {
   return NextResponse.json(body, {
     status: init.status ?? 200,
