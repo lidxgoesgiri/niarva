@@ -2,6 +2,10 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — integrated keyboard regression complete
+
+PE-03K PASS on the integrated build `-0Q19m_sHu5FEM9F0CQrt`: 40 completed keyboard steps cover the skip link, main CTA, rule/GPA choices, loop tabs and animation controls. Actual findings and final screenshot agree: Resume animations is focused with a visible purple ring inside the viewport, below the header. Zero console errors, 20 first-party HTTP200 responses. Case `01M7P5N302JVMBFWNTSCCR2CEW` has a verified formal title in the official project. Same approved objective/oracle and extraction supplement; 58.971595 credits. The reduced-motion and zoom attempts remain BLOCKED as described below. Source remains frozen; only sanitized evidence and documentation are being finalized. Scanner owner request below remains open.
+
 ## 2026-11-18 — scanner owner request
 
 CI for `4fa5251` passes lint/typecheck/test/build but gitleaks flags four **observation identifiers**, not secrets, in newly sanitized UI records. Verified exact lines: `PE-01-before-global-icon.json`:94=`default_gpa_35`,145=`certificate_gpa_34_absent`,182=`achievement_certificate_visible_gpa_36`; `PE-01-integrated.json`:142=`certificate_absent_gpa_3_4`. All are under the observation `key` property. The staged native scanner checked four actual local secret values and found none. Original private evidence is unchanged.

@@ -50,7 +50,7 @@
   },
   "observations": [
     {
-      "key": "intention_to_proof_heading_present",
+      "observationId": "intention_to_proof_heading_present",
       "condition": "the heading 'From Intention to Proof.' is present",
       "subject": "the heading 'From Intention to Proof.'",
       "mustBe": "present",
@@ -59,7 +59,7 @@
       "step": 2
     },
     {
-      "key": "conditional_forms_description_present",
+      "observationId": "conditional_forms_description_present",
       "condition": "the description of conditional forms and real-browser verification is present",
       "subject": "the description of conditional forms and real-browser verification",
       "mustBe": "present",
@@ -68,7 +68,7 @@
       "step": 2
     },
     {
-      "key": "build_verified_form_link_present",
+      "observationId": "build_verified_form_link_present",
       "condition": "a 'Build Verified Form' link to /app is present",
       "subject": "a 'Build Verified Form' link to /app",
       "mustBe": "present",
@@ -77,7 +77,7 @@
       "step": 2
     },
     {
-      "key": "seeded_defect_simulation_label_present",
+      "observationId": "seeded_defect_simulation_label_present",
       "condition": "the permanent 'Seeded Defect Simulation' label is present",
       "subject": "the permanent 'Seeded Defect Simulation' label",
       "mustBe": "present",
@@ -86,7 +86,7 @@
       "step": 5
     },
     {
-      "key": "no_browser_test_notice_present",
+      "observationId": "no_browser_test_notice_present",
       "condition": "the notice that no browser test is executed here is present",
       "subject": "the notice that no browser test is executed here",
       "mustBe": "present",
@@ -95,14 +95,14 @@
       "step": 5
     },
     {
-      "key": "default_gpa_check",
+      "observationId": "default_gpa_check",
       "condition": "the sandbox default GPA is 3.5",
       "observed": "3.5",
       "expected": "3.5",
       "step": 5
     },
     {
-      "key": "default_certificate_field_absent",
+      "observationId": "default_certificate_field_absent",
       "condition": "the certificate field is absent",
       "subject": "the certificate field",
       "mustBe": "absent",
@@ -111,56 +111,56 @@
       "step": 5
     },
     {
-      "key": "default_sample_witness_check",
+      "observationId": "default_sample_witness_check",
       "condition": "the sample witness says FAIL",
       "observed": "FAIL",
       "expected": "FAIL",
       "step": 5
     },
     {
-      "key": "default_simulated_gate_check",
+      "observationId": "default_simulated_gate_check",
       "condition": "the simulated gate is Blocked",
       "observed": "Blocked",
       "expected": "Blocked",
       "step": 5
     },
     {
-      "key": "draft_35",
+      "observationId": "draft_35",
       "condition": "the visible default witness and gate explanation is stored as {{draft_35}}",
       "observed": "Sample witness: FAIL\nAt GPA 3.5, the draft fails to require the certificate.\nSimulated gate: Blocked\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 5
     },
     {
-      "key": "draft_35_2",
+      "observationId": "draft_35_2",
       "condition": "the visible default witness and gate explanation for AI Draft (>) at GPA 3.5 is saved as {{draft_35}}",
       "observed": "Sample witness: FAIL\nAt GPA 3.5, the draft fails to require the certificate.\nSimulated gate: Blocked\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 5
     },
     {
-      "key": "default_rule_check",
+      "observationId": "default_rule_check",
       "condition": "the sandbox default is 'AI Draft (>)'",
       "observed": "AI Draft (>)",
       "expected": "AI Draft (>)",
       "step": 5
     },
     {
-      "key": "gpa_34_draft_sample_witness_check",
+      "observationId": "gpa_34_draft_sample_witness_check",
       "condition": "the sample witness says PASS",
       "observed": "Sample witness: PASS",
       "expected": "PASS",
       "step": 9
     },
     {
-      "key": "gpa_34_draft_gate_check",
+      "observationId": "gpa_34_draft_gate_check",
       "condition": "the draft gate remains Blocked because a known boundary mismatch exists",
       "observed": "Blocked\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "Blocked",
       "step": 9
     },
     {
-      "key": "gpa_34_draft_certificate_absent",
+      "observationId": "gpa_34_draft_certificate_absent",
       "condition": "the certificate is absent",
       "subject": "the certificate",
       "mustBe": "absent",
@@ -169,14 +169,14 @@
       "step": 9
     },
     {
-      "key": "draft_34",
+      "observationId": "draft_34",
       "condition": "the witness and gate text is stored as {{draft_34}}",
       "observed": "Sample witness: PASS\nAt GPA 3.4, the sample matches this boundary expectation.\nSimulated gate: Blocked\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 9
     },
     {
-      "key": "draft_34_2",
+      "observationId": "draft_34_2",
       "condition": "the witness and gate text for AI Draft (>) at GPA 3.4 is saved as {{draft_34}}",
       "observed": "Sample witness: PASS\nAt GPA 3.4, the sample matches this boundary expectation.\nSimulated gate: Blocked\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",

@@ -36,42 +36,60 @@
   "creditsConsumed": 26.246350000000003,
   "sealedPrivatePackSha256": "6d7500414c997e77e155452bab9e53d030ece024e94d7426966fd31bcd957f0e",
   "testManager": {
-    "verified": false,
-    "error": "fetch failed"
+    "id": "01M7NB6N1W2P6VFZFF1HVFJ2KQ",
+    "title": "NIARVA landing: product loop approval and keyboard selection",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
   },
   "observations": [
     {
-      "key": "product_loop_selected",
+      "observationId": "product_loop_selected",
+      "condition": "Product Loop is selected.",
+      "subject": "Product Loop selected",
+      "mustBe": "present",
       "observed": "true",
       "expected": "true",
       "step": 7
     },
     {
-      "key": "selected_tab_visible_panel_agree",
+      "observationId": "selected_tab_visible_panel_agree",
+      "condition": "The selected tab and visible panel agree.",
+      "subject": "selected tab and visible panel agreement",
+      "mustBe": "present",
       "observed": "true",
       "expected": "true",
       "step": 7
     },
     {
-      "key": "panel_creator_review_approval_required",
+      "observationId": "panel_creator_review_approval_required",
+      "condition": "The panel requires creator review and approval.",
+      "subject": "panel requirement for creator review and approval",
+      "mustBe": "present",
       "observed": "true",
       "expected": "true",
       "step": 7
     },
     {
-      "key": "product_loop_selected_final",
+      "observationId": "product_loop_selected_final",
+      "condition": "Product Loop is selected.",
+      "subject": "Product Loop selected",
+      "mustBe": "present",
       "observed": "true",
       "expected": "true",
       "step": 7
     },
     {
-      "key": "panel_matches_selected_tab_final",
+      "observationId": "panel_matches_selected_tab_final",
+      "condition": "Its panel still matches the selected tab.",
+      "subject": "panel matching the selected tab",
+      "mustBe": "present",
       "observed": "true",
       "expected": "true",
       "step": 7
     },
     {
-      "key": "loop_tabs",
+      "observationId": "loop_tabs",
+      "condition": "The actual selected tab label and actual visible panel explanation are extracted and stored as {{loop_tabs}}.",
       "observed": "{\"selectedTab\":\"Product Loop\",\"visiblePanelExplanation\":\"The proposal changes a bounded piece of configuration. Your approved requirements stay intact.\"}",
       "expected": "",
       "step": 7

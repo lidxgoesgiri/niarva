@@ -1,0 +1,55 @@
+{
+  "sourceCommit": "4fa5251a4e133433800d9b683fd6a448221c9c92",
+  "testedBuildId": "-0Q19m_sHu5FEM9F0CQrt",
+  "recordedSourceCommit": "ab690f303e62e786d9cad33c924ffdb8c223b051",
+  "recordedWorkingDiffSha256": "bb93e395939afe57014e1fa8c88a0ddb7671a87abd82ced8d43b22c1f5faadc3",
+  "status": "PASS",
+  "scope": "Identity check of the nine captured UI files only; not a browser acceptance result",
+  "files": [
+    {
+      "path": "apps/web/src/app/layout.tsx",
+      "sha256": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/app/page.tsx",
+      "sha256": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/boundary-sandbox.tsx",
+      "sha256": "ab1a64929ecefa4b0f124a400b0ddd6a0f1002f0bbb8f829c42eaa058e4cd7e4",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/landing-icon.ts",
+      "sha256": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/landing-shell.tsx",
+      "sha256": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/landing.module.css",
+      "sha256": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/story-panels.tsx",
+      "sha256": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/story.module.css",
+      "sha256": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+      "match": true
+    },
+    {
+      "path": "apps/web/src/features/landing/verification-concepts.tsx",
+      "sha256": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+      "match": true
+    }
+  ]
+}

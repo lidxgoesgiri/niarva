@@ -50,7 +50,7 @@
   },
   "observations": [
     {
-      "key": "from_intention_to_proof_heading_present",
+      "observationId": "from_intention_to_proof_heading_present",
       "condition": "the heading 'From Intention to Proof.' is present",
       "subject": "the heading 'From Intention to Proof.'",
       "mustBe": "present",
@@ -59,7 +59,7 @@
       "step": 2
     },
     {
-      "key": "conditional_forms_real_browser_description_present",
+      "observationId": "conditional_forms_real_browser_description_present",
       "condition": "the description of conditional forms and real-browser verification is present",
       "subject": "the description of conditional forms and real-browser verification",
       "mustBe": "present",
@@ -68,7 +68,7 @@
       "step": 2
     },
     {
-      "key": "build_verified_form_link_present",
+      "observationId": "build_verified_form_link_present",
       "condition": "a 'Build Verified Form' link to /app is present",
       "subject": "a 'Build Verified Form' link to /app",
       "mustBe": "present",
@@ -77,7 +77,7 @@
       "step": 2
     },
     {
-      "key": "seeded_defect_simulation_label_present",
+      "observationId": "seeded_defect_simulation_label_present",
       "condition": "the permanent 'Seeded Defect Simulation' label is present",
       "subject": "the permanent 'Seeded Defect Simulation' label",
       "mustBe": "present",
@@ -86,7 +86,7 @@
       "step": 5
     },
     {
-      "key": "no_browser_test_notice_present",
+      "observationId": "no_browser_test_notice_present",
       "condition": "the notice that no browser test is executed here is present",
       "subject": "the notice that no browser test is executed here",
       "mustBe": "present",
@@ -95,7 +95,7 @@
       "step": 5
     },
     {
-      "key": "certificate_field_absent_default",
+      "observationId": "certificate_field_absent_default",
       "condition": "the certificate field is absent",
       "subject": "the certificate field",
       "mustBe": "absent",
@@ -104,42 +104,42 @@
       "step": 5
     },
     {
-      "key": "sample_witness_fail_default",
+      "observationId": "sample_witness_fail_default",
       "condition": "the sample witness says FAIL",
       "observed": "Sample witness: FAIL",
       "expected": "FAIL",
       "step": 5
     },
     {
-      "key": "simulated_gate_blocked_default",
+      "observationId": "simulated_gate_blocked_default",
       "condition": "the simulated gate is Blocked",
       "observed": "Blocked",
       "expected": "Blocked",
       "step": 5
     },
     {
-      "key": "sandbox_default_rule_and_gpa",
+      "observationId": "sandbox_default_rule_and_gpa",
       "condition": "the sandbox default is 'AI Draft (>)' and GPA 3.5",
       "observed": "{\"rule\":\"AI Draft (>)\",\"gpa\":\"3.5\"}",
       "expected": "{\"rule\":\"AI Draft (>)\",\"gpa\":\"3.5\"}",
       "step": 5
     },
     {
-      "key": "draft_35",
+      "observationId": "draft_35",
       "condition": "the visible default witness and gate explanation is stored as {{draft_35}}",
       "observed": "At GPA 3.5, the draft fails to require the certificate.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 5
     },
     {
-      "key": "draft_35_2",
+      "observationId": "draft_35_2",
       "condition": "the visible default witness and gate explanation is saved as {{draft_35}}",
       "observed": "At GPA 3.5, the draft fails to require the certificate.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 5
     },
     {
-      "key": "certificate_absent_gpa_3_4",
+      "observationId": "certificate_absent_gpa_3_4",
       "condition": "the certificate is absent",
       "subject": "the certificate",
       "mustBe": "absent",
@@ -148,35 +148,35 @@
       "step": 9
     },
     {
-      "key": "sample_witness_pass_gpa_3_4",
+      "observationId": "sample_witness_pass_gpa_3_4",
       "condition": "the sample witness says PASS",
       "observed": "Sample witness: PASS",
       "expected": "Sample witness: PASS",
       "step": 9
     },
     {
-      "key": "draft_gate_blocked_boundary_mismatch",
+      "observationId": "draft_gate_blocked_boundary_mismatch",
       "condition": "the draft gate remains Blocked because a known boundary mismatch exists",
       "observed": "Blocked",
       "expected": "Blocked",
       "step": 9
     },
     {
-      "key": "draft_34",
+      "observationId": "draft_34",
       "condition": "the witness and gate text is stored as {{draft_34}}",
       "observed": "At GPA 3.4, the sample matches this boundary expectation.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 9
     },
     {
-      "key": "draft_34_2",
+      "observationId": "draft_34_2",
       "condition": "the witness and gate text for AI Draft (>) at GPA 3.4 is saved as {{draft_34}}",
       "observed": "At GPA 3.4, the sample matches this boundary expectation.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 9
     },
     {
-      "key": "achievement_certificate_visible_required",
+      "observationId": "achievement_certificate_visible_required",
       "condition": "'Achievement certificate number (required)' is visible and required",
       "subject": "'Achievement certificate number (required)' visible and required",
       "mustBe": "present",
@@ -185,35 +185,35 @@
       "step": 12
     },
     {
-      "key": "sample_witness_pass_gpa_3_6",
+      "observationId": "sample_witness_pass_gpa_3_6",
       "condition": "the sample witness says PASS",
       "observed": "PASS",
       "expected": "PASS",
       "step": 12
     },
     {
-      "key": "draft_gate_blocked_gpa_3_6",
+      "observationId": "draft_gate_blocked_gpa_3_6",
       "condition": "the draft gate remains Blocked",
       "observed": "Blocked",
       "expected": "Blocked",
       "step": 12
     },
     {
-      "key": "draft_36",
+      "observationId": "draft_36",
       "condition": "the witness and gate text is stored as {{draft_36}}",
       "observed": "At GPA 3.6, the sample matches this boundary expectation.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 12
     },
     {
-      "key": "draft_36_2",
+      "observationId": "draft_36_2",
       "condition": "the witness and gate text for AI Draft (>) at GPA 3.6 is saved as {{draft_36}}",
       "observed": "At GPA 3.6, the sample matches this boundary expectation.\nKnown boundary mismatch. A matching individual sample cannot unlock publishing.",
       "expected": "",
       "step": 12
     },
     {
-      "key": "repaired_certificate_visible_required_3_6",
+      "observationId": "repaired_certificate_visible_required_3_6",
       "condition": "the certificate is visible and required",
       "subject": "the certificate visible and required",
       "mustBe": "present",
@@ -222,21 +222,21 @@
       "step": 15
     },
     {
-      "key": "repaired_sample_witness_pass_3_6",
+      "observationId": "repaired_sample_witness_pass_3_6",
       "condition": "the sample witness says PASS",
       "observed": "Sample witness: PASS",
       "expected": "PASS",
       "step": 15
     },
     {
-      "key": "repaired_gate_full_verification_required",
+      "observationId": "repaired_gate_full_verification_required",
       "condition": "the gate says 'Full verification required'",
       "observed": "Full verification required",
       "expected": "Full verification required",
       "step": 15
     },
     {
-      "key": "actual_verified_result",
+      "observationId": "actual_verified_result",
       "condition": "no actual VERIFIED result is present",
       "subject": "an actual VERIFIED result",
       "mustBe": "absent",
@@ -245,21 +245,21 @@
       "step": 15
     },
     {
-      "key": "repaired_36",
+      "observationId": "repaired_36",
       "condition": "the witness and gate text is stored as {{repaired_36}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 15
     },
     {
-      "key": "repaired_36_2",
+      "observationId": "repaired_36_2",
       "condition": "the witness and gate text for Repaired Rule (≥) at GPA 3.6 is saved as {{repaired_36}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 15
     },
     {
-      "key": "repaired_certificate_visible_required_3_5",
+      "observationId": "repaired_certificate_visible_required_3_5",
       "condition": "the certificate remains visible and required",
       "subject": "the certificate visible and required",
       "mustBe": "present",
@@ -268,28 +268,28 @@
       "step": 18
     },
     {
-      "key": "repaired_sample_witness_pass_3_5",
+      "observationId": "repaired_sample_witness_pass_3_5",
       "condition": "the sample witness says PASS",
       "observed": "Sample witness: PASS",
       "expected": "Sample witness: PASS",
       "step": 18
     },
     {
-      "key": "repaired_35",
+      "observationId": "repaired_35",
       "condition": "this result is stored as {{repaired_35}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 18
     },
     {
-      "key": "repaired_35_2",
+      "observationId": "repaired_35_2",
       "condition": "the certificate visibility and required state and the sample witness result for Repaired Rule (≥) at GPA 3.5 is saved as {{repaired_35}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 18
     },
     {
-      "key": "certificate_input_removed_gpa_3_4",
+      "observationId": "certificate_input_removed_gpa_3_4",
       "condition": "the certificate input is removed",
       "subject": "the certificate input",
       "mustBe": "absent",
@@ -298,7 +298,7 @@
       "step": 22
     },
     {
-      "key": "certificate_input_keyboard_focusable_gpa_3_4",
+      "observationId": "certificate_input_keyboard_focusable_gpa_3_4",
       "condition": "the certificate input is not keyboard focusable",
       "subject": "the certificate input keyboard focusable",
       "mustBe": "absent",
@@ -307,35 +307,35 @@
       "step": 22
     },
     {
-      "key": "repaired_sample_witness_pass_3_4",
+      "observationId": "repaired_sample_witness_pass_3_4",
       "condition": "the sample witness says PASS",
       "observed": "Sample witness: PASS",
       "expected": "Sample witness: PASS",
       "step": 22
     },
     {
-      "key": "repaired_gate_full_verification_required_3_4",
+      "observationId": "repaired_gate_full_verification_required_3_4",
       "condition": "the gate still requires full verification",
       "observed": "Full verification required",
       "expected": "Full verification required",
       "step": 22
     },
     {
-      "key": "repaired_34",
+      "observationId": "repaired_34",
       "condition": "this result is stored as {{repaired_34}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 22
     },
     {
-      "key": "repaired_34_2",
+      "observationId": "repaired_34_2",
       "condition": "the certificate input state, keyboard focusability, sample witness result, and gate requirement for Repaired Rule (≥) at GPA 3.4 is saved as {{repaired_34}}",
       "observed": "Sample witness: PASS\nFull verification required",
       "expected": "",
       "step": 22
     },
     {
-      "key": "simulated_gate_explanatory_text",
+      "observationId": "simulated_gate_explanatory_text",
       "condition": "the simulated gate is explanatory text",
       "subject": "the simulated gate explanatory text",
       "mustBe": "present",
@@ -344,7 +344,7 @@
       "step": 26
     },
     {
-      "key": "real_publish_action",
+      "observationId": "real_publish_action",
       "condition": "a real Publish action is absent",
       "subject": "a real Publish action",
       "mustBe": "absent",
@@ -353,7 +353,7 @@
       "step": 26
     },
     {
-      "key": "status_meaning_readable_text_plus_icon",
+      "observationId": "status_meaning_readable_text_plus_icon",
       "condition": "status meaning uses readable text plus an icon",
       "subject": "status meaning using readable text plus an icon",
       "mustBe": "present",
@@ -362,7 +362,7 @@
       "step": 26
     },
     {
-      "key": "supported_workspace_opens",
+      "observationId": "supported_workspace_opens",
       "condition": "a supported workspace opens",
       "subject": "a supported workspace",
       "mustBe": "present",
@@ -371,7 +371,7 @@
       "step": 30
     },
     {
-      "key": "sign_in_page_opens",
+      "observationId": "sign_in_page_opens",
       "condition": "a sign-in page opens",
       "subject": "a sign-in page",
       "mustBe": "present",
@@ -380,7 +380,7 @@
       "step": 30
     },
     {
-      "key": "fabricated_verification_result",
+      "observationId": "fabricated_verification_result",
       "condition": "a fabricated verification result is absent",
       "subject": "a fabricated verification result",
       "mustBe": "absent",
@@ -389,7 +389,7 @@
       "step": 30
     },
     {
-      "key": "usable_way_into_real_creator_workspace",
+      "observationId": "usable_way_into_real_creator_workspace",
       "condition": "the destination provides a usable way into the real creator workspace",
       "subject": "a usable way into the real creator workspace",
       "mustBe": "present",
@@ -398,14 +398,14 @@
       "step": 30
     },
     {
-      "key": "real_demo_destination",
+      "observationId": "real_demo_destination",
       "condition": "the destination path of the supported workspace or sign-in page is saved as {{real_demo_destination}}",
       "observed": "/sign-in?next=%2Fapp",
       "expected": "",
       "step": 32
     },
     {
-      "key": "real_demo_destination_2",
+      "observationId": "real_demo_destination_2",
       "condition": "the destination path of the supported workspace or sign-in page is saved as {{real_demo_destination}}",
       "observed": "/sign-in?next=%2Fapp",
       "expected": "",

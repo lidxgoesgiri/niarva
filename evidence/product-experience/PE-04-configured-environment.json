@@ -1,0 +1,140 @@
+{
+  "testId": "PE-04",
+  "status": "BLOCKED",
+  "assessment": "Kane stopped at media-emulation capability detection without observing the actual active preference, and did not complete fallback/final-action checks. Pause summaries refer to control attributes rather than proving actual ambient animation state. Isolated Chrome startup configuration is not accepted as proof.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-15",
+    "UI-AC-20"
+  ],
+  "source": {
+    "commit": "ab690f303e62e786d9cad33c924ffdb8c223b051",
+    "branch": "feature/product-experience",
+    "buildId": "-0Q19m_sHu5FEM9F0CQrt",
+    "files": {
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ab1a64929ecefa4b0f124a400b0ddd6a0f1002f0bbb8f829c42eaa058e4cd7e4",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+      "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+      "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+      "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "bb93e395939afe57014e1fa8c88a0ddb7671a87abd82ced8d43b22c1f5faadc3"
+  },
+  "objectiveSha256": "e0a3f024960740560924eb144a2fecf202631fbf384214c85fcea155353d3476",
+  "executionObjectiveSha256": "47488ffa3016e187f23481ecbabe2ed7002e2d8550bad4c140e63b684382a89d",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "86a01377934a4600a8f33870f8a8f678a673822310b82559b8fe17a650017c7b",
+  "startedAtUtc": "2026-11-18T01:44:54.176Z",
+  "completedAtUtc": "2026-11-18T01:47:52.539Z",
+  "processExitCode": 1,
+  "completionEvents": 1,
+  "durationSeconds": 138,
+  "creditsConsumed": 40.8897955,
+  "sealedPrivatePackSha256": "c013e0686b8612d1047a8cb2db0c4bd3d1154c8e72d7720a18c81c8ea131e84d",
+  "testManager": {
+    "id": "01M7P587TH9DS25BWF40987D9T",
+    "title": "NIARVA landing: reduced motion and animation resilience verification",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "ambient_portal_stopped",
+      "condition": "the ambient portal stops",
+      "subject": "the ambient portal motion",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 3
+    },
+    {
+      "observationId": "concept_marquee_stopped",
+      "condition": "the concept marquee stops",
+      "subject": "the concept marquee motion",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 3
+    },
+    {
+      "observationId": "text_visible",
+      "condition": "text stays visible",
+      "subject": "text",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 3
+    },
+    {
+      "observationId": "sandbox_rule_controls_work",
+      "condition": "sandbox rule controls still work",
+      "subject": "sandbox rule controls working",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 3
+    },
+    {
+      "observationId": "sandbox_gpa_controls_work",
+      "condition": "sandbox GPA controls still work",
+      "subject": "sandbox GPA controls working",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 3
+    },
+    {
+      "observationId": "explicit_pause_state_cleared",
+      "condition": "the explicit pause state is cleared",
+      "subject": "the explicit pause state",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 6
+    },
+    {
+      "observationId": "motion_controls",
+      "condition": "the actual observed Pause animations and Resume animations behavior, including ambient portal, concept marquee, text visibility, sandbox rule/GPA controls, and explicit pause state, is saved as {{motion_controls}}",
+      "observed": "{\"ambient_portal_stopped\":false,\"concept_marquee_stopped\":false,\"text_visible\":true,\"sandbox_rule_controls_work\":true,\"sandbox_gpa_controls_work\":true,\"explicit_pause_state\":false,\"motion_control_label\":\"Pause animations\",\"observed_behavior\":\"Pause animations is available while no explicit pause state is active; ambient portal and concept marquee are not stopped, text remains visible, and sandbox rule and GPA controls work.\"}",
+      "expected": "",
+      "step": 6
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-04",
+    "buildId": "-0Q19m_sHu5FEM9F0CQrt",
+    "packSha256": "c013e0686b8612d1047a8cb2db0c4bd3d1154c8e72d7720a18c81c8ea131e84d",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 20,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 20
+      }
+    ],
+    "firstPartyRequests": 20,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 20
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  },
+  "browserEnvironment": {
+    "runner": "Kane CLI via supported --cdp-endpoint",
+    "startupPreference": "--force-prefers-reduced-motion",
+    "activePreferenceObserved": false
+  }
+}
