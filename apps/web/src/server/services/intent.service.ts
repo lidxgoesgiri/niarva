@@ -17,6 +17,7 @@ import { ApiError, notFound } from "../http/errors";
 import { uuidv7 } from "../ids";
 import { EXTRACT_PROMPT_VERSION, extractClaims } from "../ai/extract-claims";
 import { audit } from "./audit";
+import { canReadShowcase } from "./demo-access";
 
 export const createFormInput = z.discriminatedUnion("source", [
   z.object({ source: z.literal("template"), template: z.literal("scholarship"), title: z.string().trim().min(1).max(120).optional() }),
@@ -36,6 +37,20 @@ function slugify(title: string): string {
 }
 
 /** Loads a form of the actor's workspace, or reports it as missing. */
+/**
+ * A form the actor may read: their own, or a demo showcase form when the actor is a judge
+ * (`DEMO_MODE`). Writes never use this; they go through `loadOwnedForm`.
+ */
+export async function loadReadableForm(db: DbOrTx, actor: Actor, formId: string) {
+  const [owned] = await db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId)));
+  if (owned) return { form: owned, access: "owner" as const };
+  if (canReadShowcase(actor, formId)) {
+    const [showcase] = await db.select().from(forms).where(eq(forms.id, formId));
+    if (showcase) return { form: showcase, access: "judge" as const };
+  }
+  throw notFound("Form");
+}
+
 export async function loadOwnedForm(db: DbOrTx, actor: Actor, formId: string, lock = false) {
   const query = db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId)));
   const [form] = lock ? await query.for("update") : await query;

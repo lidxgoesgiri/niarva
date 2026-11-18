@@ -19,7 +19,7 @@ import { getDb } from "../db/client";
 import { formVersions, probeRuns, probes, publications, repairProposals, submissions, verificationRuns } from "../db/schema";
 import { configuredModels } from "../ai/extract-claims";
 import { getEnv } from "../config/env";
-import { latestClaimSet, loadOwnedForm } from "./intent.service";
+import { latestClaimSet, loadReadableForm } from "./intent.service";
 import { gateFor } from "./publish.service";
 import { currentVerificationKey, workerStatus } from "./verification.service";
 import { latestVersion } from "./version.service";
@@ -28,7 +28,7 @@ import { latestVersion } from "./version.service";
 export async function getFormState(actor: Actor, formId: string) {
   {
     const db = await getDb();
-    const form = await loadOwnedForm(db, actor, formId);
+    const { form, access } = await loadReadableForm(db, actor, formId);
     const claimSet = await latestClaimSet(db, formId);
     const content = claimSet ? claimSetContentSchema.safeParse(claimSet.content) : null;
     const catalog = content?.success ? new Map(catalogFields(content.data).map((field) => [field.key, field])) : new Map();
@@ -217,6 +217,8 @@ export async function getFormState(actor: Actor, formId: string) {
       gate,
       publication: publication ? { slug: publication.slug, publishedAt: publication.publishedAt.toISOString(), versionId: publication.formVersionId, responseCount: publication.responseCount } : null,
       responses,
+      /** `judge`: a read-only demo showcase form; every change is refused by the backend. */
+      access,
       workers: await workerStatus(),
       ai: { configured: Boolean(env.OPENROUTER_API_KEY && configuredModels().length > 0) },
     };

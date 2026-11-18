@@ -78,6 +78,13 @@ Browser proof is bound to the environment: proofs made on a local server do not 
 
 Give judges a synthetic demo account through the official private channel, never the owner's credentials. Evidence packs and raw Kane streams stay on the worker machine; the app shows digests, Kane session ids, and sanitized observations.
 
+Scoped judge access:
+
+1. Create the account: `pnpm seed:judge https://<your-domain> --showcase <form id>[,<form id>]`. It creates `judge@niarva.test` with a generated password, stores the password only in the gitignored `.testmuai/variables/assurance.json` (`scoped_judge_password`), and prints the three settings below.
+2. In Vercel → Settings → Environment Variables (Production), set `DEMO_MODE=true`, `DEMO_JUDGE_EMAILS=judge@niarva.test`, and `DEMO_SHOWCASE_FORM_IDS` to the showcase form ids, for example the form of the recorded production loop. Redeploy.
+3. Signed in, the judge sees **Demo examples (read-only)** above their own forms. A showcase form opens with every claim, version, run, observation, and the gate, marked **Demo example · read-only**. Every change is refused by the backend (`404`, as for any foreign form), and response answers stay visible to the owner only. The judge's own workspace works like any creator's, within the Kane credit budget.
+4. Hand the email and password to judges in the submission form only.
+
 ## 7. Limits
 
 - With the database connected to Production only, preview deployments have no `DATABASE_URL`, so their build stops at the migration step. Connect a separate database (or a Neon branch) to the Preview environment to get working previews; never the production one.

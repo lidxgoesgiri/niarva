@@ -32,6 +32,9 @@ export function Workspace({ initial }: { initial: FormState }) {
   const [responsesPage, setResponsesPage] = useState(1);
   const [responsesAttempt, setResponsesAttempt] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  // A judge reading a demo showcase form: everything is visible, every change is refused here
+  // and, independently, by the backend.
+  const readOnly = state.access === "judge";
   const [traceFocus, setTraceFocus] = useState<TraceFocus>(null);
 
   // Opens a claim's Intent Trace in the verification workspace (a tab below xl, a column on xl).
@@ -59,7 +62,7 @@ export function Workspace({ initial }: { initial: FormState }) {
   // the view is loading, and a failed request is shown as an error, never as an empty list.
   const responsesKey = `${initial.form.id}|${responsesPage}|${responsesAttempt}|${state.responses}`;
   useEffect(() => {
-    if (stage !== "responses") return;
+    if (stage !== "responses" || readOnly) return;
     let current = true;
     api<Responses>(`/api/v1/forms/${initial.form.id}/responses?page=${responsesPage}`)
       .then((data) => {
@@ -72,11 +75,15 @@ export function Workspace({ initial }: { initial: FormState }) {
     return () => {
       current = false;
     };
-  }, [stage, initial.form.id, responsesKey, responsesPage]);
+  }, [stage, readOnly, initial.form.id, responsesKey, responsesPage]);
   const responsesView: ResponsesView = responses?.key === responsesKey ? responses.view : { status: "loading" };
 
   const onAction = useCallback(
     async (path: string, body?: unknown, method = "POST") => {
+      if (readOnly) {
+        setMessage({ tone: "info", text: "This demo example is read-only. Create your own form from the template on the forms page to try every step." });
+        return false;
+      }
       setBusy(true);
       setMessage(null);
       try {
@@ -93,7 +100,7 @@ export function Workspace({ initial }: { initial: FormState }) {
         setBusy(false);
       }
     },
-    [refresh],
+    [readOnly, refresh],
   );
 
   const panel = (id: Stage) => {
@@ -105,6 +112,12 @@ export function Workspace({ initial }: { initial: FormState }) {
       case "verify":
         return <VerifyPanel state={state} busy={busy} onAction={onAction} traceFocus={traceFocus} />;
       case "responses":
+        if (readOnly)
+          return (
+            <p data-testid="responses-owner-only" className="rounded-xl border border-dashed border-line-strong p-6 text-center text-sm text-ink-muted">
+              Responses are visible to the form owner only. This form has recorded {state.responses} {state.responses === 1 ? "response" : "responses"}.
+            </p>
+          );
         return <ResponsesPanel view={responsesView} onPage={setResponsesPage} onRetry={() => setResponsesAttempt((attempt) => attempt + 1)} />;
     }
   };
@@ -129,6 +142,16 @@ export function Workspace({ initial }: { initial: FormState }) {
           {state.gate.eligible ? <StatusBadge status="VERIFIED" label="Ready to publish" /> : <StatusBadge status="BLOCKED" label="Not publishable" />}
         </div>
       </header>
+
+      {readOnly ? (
+        <div role="note" data-testid="demo-read-only" className="rounded-xl border border-sapphire/40 bg-sapphire/10 px-4 py-3 text-sm">
+          <p className="font-medium">Demo example · read-only</p>
+          <p className="mt-1 text-ink-muted">
+            A synthetic scholarship form with its recorded proof. Inspect every claim, version, run, and observation; changes are refused. To try every step yourself,{" "}
+            <a href="/app" className="text-lavender underline underline-offset-4">create a form from the template</a>.
+          </p>
+        </div>
+      ) : null}
 
       <div aria-live="polite" className="min-h-0">
         {message ? (
