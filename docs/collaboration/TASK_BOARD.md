@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-17 22:45 WIB.
+Writer: Claude. Last updated: 2026-11-18 02:05 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -28,7 +28,7 @@ Deadlines:
 
 | ID | Task | Pri | Owner | Status | Depends on |
 |---|---|---|---|---|---|
-| C-01 | PROD-LOOP-01: diagnostic FAIL → approved repair → fresh full suite → publish → respondent, with a real worker and Kane | P0 | Claude | attempt 1: UNVERIFIED (7/8 PASS, P-05 UNKNOWN) → DEV-LOOP-02 fix `4359d55`; attempt 2 running | — |
+| C-01 | PROD-LOOP-01: diagnostic FAIL → approved repair → fresh full suite → publish → respondent, with a real worker and Kane | P0 | Claude | attempt 1 UNVERIFIED (P-05 UNKNOWN → DEV-LOOP-02, `4359d55`); attempt 2 interrupted (P-03 "No start URL" → `0e0a977`, `b67d140`); **attempt 3 running** | — |
 | X-01 | Landing page: boundary demonstration, motion, accessibility (PR #6) | P2 | Codex | PR open, under review by Claude | — |
 
 ## To do
@@ -43,7 +43,7 @@ Deadlines:
 | C-07 | Assurance coverage report (`kane-cli cover`): proven vs owed, in `evidence/assurance/` | P0 | Claude | C-03–C-06 |
 | C-08 | Integration: review and merge PR #6 into the stack; integrated Kane regression; fresh clone check; README claim audit | P1 | Claude | X-01, C-03 |
 | C-09 | Machine-wide Kane run lock — **done** (`558e818` scripts, `dc70b5d` worker); use `node scripts/kane-locked.mjs <kane args>` | P1 | Claude | — |
-| C-10 | Owner responses view and evidence views for judges (t-3, t-49–t-53, t-55, t-56, t-59, t-60, t-62–t-64): verify, then fix gaps | P1 | Claude | C-02 |
+| C-10 | FR-18 evidence: lineage, expected vs observed, objective text **implemented** (`4498cbf`), Kane check pending. Owner responses and judge views (t-3, t-49–t-53, t-55, t-56, t-59, t-60, t-62–t-64): verify, then fix gaps | P0 | Claude | C-01 |
 | X-02 | Judge demo guide page `/demo`. The local branch `feature/interactive-landing` has an earlier version to reuse; it is not pushed and will not be merged as is. Name the golden claim `C-GPA`, not `C-03`. | P2 | Codex | — |
 | X-03 | Creator workspace visual polish (intent, form, verification, responses). Keep every hook and text in `docs/integration/API_CONTRACT.md` §4. | P2 | Codex | announce files first |
 | X-04 | Responsive and accessibility pass: workspace, preview, public form at 360/390/800/1280 px; keyboard; reduced motion. Kane runs at 800 px and wider, so narrower widths are reviewed manually and labeled as such. | P2 | Codex | — |

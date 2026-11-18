@@ -15,7 +15,7 @@ Writer: Claude. Codex requests changes in `CODEX_HANDOFF.md`.
 | `apps/worker/**` | verification worker |
 | `apps/web/tests/**` | native integration tests |
 | `scripts/**`, `m0-lab/**` | runners, seeding, Kane tooling |
-| `.testmuai/tests/**` | Kane Assurance tests and Kane's recorded step plans (never edit a test to make it pass) |
+| `.testmuai/tests/*_test.md` | Kane Assurance tests (never edit a test to make it pass). Kane's recordings (`output-*/`) are local only and ignored by git. |
 | `evidence/m0/**`, `evidence/dev-loop/**`, `evidence/product-loop/**` | Kane evidence of the core track |
 | `docs/integration/**` | API contract, shared components, test hooks, environments |
 | `docs/collaboration/**` except `CODEX_HANDOFF.md` | coordination |
@@ -31,7 +31,8 @@ Writer: Claude. Codex requests changes in `CODEX_HANDOFF.md`.
 | `apps/web/src/styles/**` | global styles and motion tokens |
 | `apps/web/src/components/ui/**` | primitive UI components |
 | `evidence/product-experience/**` | Kane evidence of the UI track |
-| `.testmuai/tests/niarva-pe-*_test.md`, `.testmuai/tests/output-niarva-pe-*/` | Kane tests of the UI track (prefix `niarva-pe-`); run them through `node scripts/kane-locked.mjs` |
+| `.testmuai/tests/niarva-pe-*_test.md` | Kane tests of the UI track (prefix `niarva-pe-`); run them through `node scripts/kane-locked.mjs`. Their recordings stay local. |
+| `evidence/dev-loop/product-experience/**` | sanitized repair chronology of the UI track |
 | `docs/collaboration/CODEX_HANDOFF.md` | Codex's channel |
 
 ## Shared under rules
