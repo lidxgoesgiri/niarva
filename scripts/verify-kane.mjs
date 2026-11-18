@@ -19,6 +19,13 @@ import { basename, dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { resolveKaneEntry } from "./lib/kane-entry.mjs";
 import { acquireKaneLock } from "./lib/kane-lock.mjs";
+import {
+  OFFICIAL_TMS_PROJECT,
+  assertProfileProject,
+  assertRecordingProject,
+  readRecordingBinding,
+  testCaseIdsFromEvents,
+} from "./lib/kane-project.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const testsDir = join(root, ".testmuai", "tests");
@@ -49,7 +56,7 @@ function sha256File(path) {
   return createHash("sha256").update(readFileSync(path)).digest("hex");
 }
 
-function runOne(kane, testPath, label, headed, retryOf = null) {
+function runOne(kane, testPath, label, headed, retryOf = null, profile = null) {
   return new Promise((resolveRun) => {
     const stem = basename(testPath).replace(/_test\.md$/, "");
     const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d+Z$/, "Z");
@@ -85,6 +92,7 @@ function runOne(kane, testPath, label, headed, retryOf = null) {
 
     const startedAt = Date.now();
     // Record the revision under test when the run starts, not when it ends.
+    const recordingBefore = readRecordingBinding(testPath);
     const sourceAtStart = {
       commit: git(["rev-parse", "HEAD"]),
       branch: git(["rev-parse", "--abbrev-ref", "HEAD"]),
@@ -171,6 +179,15 @@ function runOne(kane, testPath, label, headed, retryOf = null) {
         streamVersion: events.find((event) => event.v !== undefined)?.v ?? null,
         nonJsonLines: nonJson,
         evidencePack: pack,
+        // Where Kane was told to publish this run, and where it says the run went.
+        testManager: {
+          officialProjectId: OFFICIAL_TMS_PROJECT.id,
+          profileProjectId: profile?.projectId ?? null,
+          profileFolderId: profile?.folderId ?? null,
+          recordingBefore,
+          recordingAfter: readRecordingBinding(testPath),
+          testCasesInStream: testCaseIdsFromEvents(events),
+        },
         source: sourceAtStart,
         startedAtUtc: new Date(startedAt).toISOString(),
         runDir: runDir.replace(root, ".").replace(/\\/g, "/"),
@@ -202,20 +219,24 @@ const SIGN_IN_NOT_STARTED = /org_id|token refresh failed|re-authenticate|kane-cl
 const RETRY_PAUSE_MS = 20_000;
 
 const kane = resolveKaneEntry();
+// Every run goes to the official Test Manager project. Check the profile and each test's local
+// recording before anything runs, so a result can never land in another project by default.
+const profile = assertProfileProject(kane);
+const testPaths = selectors.map(resolveTest);
+for (const testPath of testPaths) assertRecordingProject(testPath);
 const results = [];
 // One Kane run at a time: M0 showed infrastructure failures under parallel execution.
-for (const selector of selectors) {
-  const testPath = resolveTest(selector);
+for (const [position, testPath] of testPaths.entries()) {
   // Machine-wide lock: never overlap with another Kane run (another agent, worktree, or the worker).
   const release = await acquireKaneLock(`verify-kane: ${basename(testPath)}`);
   let summary;
   try {
-    summary = await runOne(kane, testPath, label, headed);
+    summary = await runOne(kane, testPath, label, headed, null, profile);
     if (summary.outcome === "UNKNOWN" && summary.stepsStarted === 0 && SIGN_IN_NOT_STARTED.test(summary.notStartedReason ?? "")) {
       console.log(JSON.stringify(summary));
       console.error(`run did not start (${summary.notStartedReason}); retrying once in ${RETRY_PAUSE_MS / 1000}s`);
       await new Promise((resolvePause) => setTimeout(resolvePause, RETRY_PAUSE_MS));
-      summary = await runOne(kane, testPath, label, headed, summary.runDir);
+      summary = await runOne(kane, testPath, label, headed, summary.runDir, profile);
     }
   } finally {
     release();
@@ -224,6 +245,6 @@ for (const selector of selectors) {
   console.log(JSON.stringify(summary));
   // Yield the machine-wide lock between tests so a Kane run waiting in another worktree (which
   // polls every 5 seconds) can start instead of waiting for this whole batch.
-  if (selectors.indexOf(selector) < selectors.length - 1) await new Promise((resolvePause) => setTimeout(resolvePause, 12_000));
+  if (position < testPaths.length - 1) await new Promise((resolvePause) => setTimeout(resolvePause, 12_000));
 }
 process.exit(results.every((result) => result.outcome === "PASS") ? 0 : 1);

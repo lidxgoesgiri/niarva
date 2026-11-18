@@ -95,7 +95,8 @@ See [`.env.example`](.env.example). Secrets (`BETTER_AUTH_SECRET`, `PREVIEW_TOKE
 - [`evidence/m0/`](evidence/m0): Kane CLI runtime validation, 28 recorded runs.
 - [`evidence/dev-loop/`](evidence/dev-loop): development closed loop. [`DEV-LOOP-01.md`](evidence/dev-loop/DEV-LOOP-01.md) records a real Kane CLI failure, the source repair, and the same test passing again. [`regression.md`](evidence/dev-loop/regression.md) lists every regression run after it, including failures, runs that never started, and which steps Kane replayed.
 - `evidence/product-loop/`: product closed loop (diagnostic failure, approved repair, fresh verification, publication), added when it is produced.
-- From 17 November 2026 (evening, WIB), Kane CLI sessions upload to the Test Manager project "NIARVA intent verification". Earlier sessions, including the M0 lab, are in the account's default project.
+- [`docs/testing/`](docs/testing): how testing is organized, the Test Manager consolidation, test case mapping, every Kane execution, defect traceability, and an evidence index that leads from each claim to its execution.
+- All new Kane CLI sessions go to one Test Manager project, **NIARVA intent verification** (`01M7N0CKZ90R3JR906713EHYW0`); the runners refuse any other project. Sessions from 17 November 2026, including the M0 lab, stay in the account's default project "KaneAI Generated" as the historical record. Two runs made after the profile was switched still landed there because their tests had recordings bound to it; see [`docs/testing/MIGRATION_REPORT.md`](docs/testing/MIGRATION_REPORT.md).
 - [`docs/integration/API_CONTRACT.md`](docs/integration/API_CONTRACT.md): the HTTP API, the form-state contract, shared components, and the hooks Kane tests rely on.
 
 ## Security notes and limitations
