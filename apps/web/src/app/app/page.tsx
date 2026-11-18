@@ -1,21 +1,13 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { EmptyState } from "@/components/composites/states";
-import { StatusBadge, type StatusKind } from "@/components/composites/status-badge";
+import { FormList } from "@/features/workspace/form-list";
 import { NewForm } from "@/features/workspace/new-form";
 import { configuredModels } from "@/server/ai/extract-claims";
 import { getEnv } from "@/server/config/env";
 import { getActor } from "@/server/context/session";
-import { listForms, listShowcaseForms, type FormListItem } from "@/server/services/form.service";
+import { listForms, listShowcaseForms } from "@/server/services/form.service";
 
 export const dynamic = "force-dynamic";
-
-const statusOf: Record<string, StatusKind> = {
-  draft: "DRAFT",
-  published: "PUBLISHED",
-  closed: "BLOCKED",
-  archived: "BLOCKED",
-};
 
 export default async function WorkspacePage() {
   const actor = await getActor();
@@ -49,26 +41,8 @@ export default async function WorkspacePage() {
           description="Describe what your form must do. NIARVA turns it into reviewable claims, builds the form, and verifies it before you publish."
         />
       ) : (
-        <FormList forms={forms} label="Forms" />
+        <FormList forms={forms} label="Forms" canDelete />
       )}
     </div>
-  );
-}
-
-function FormList({ forms, label }: { forms: FormListItem[]; label: string }) {
-  return (
-    <ul className="grid gap-3" aria-label={label}>
-      {forms.map((form) => (
-        <li key={form.id}>
-          <Link href={`/app/forms/${form.id}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line bg-elevated px-5 py-4 transition-colors hover:border-line-active">
-            <span className="min-w-0">
-              <span className="block truncate font-medium">{form.title}</span>
-              <span className="block font-mono text-xs text-ink-muted">/f/{form.slug}</span>
-            </span>
-            <StatusBadge status={statusOf[form.status] ?? "DRAFT"} />
-          </Link>
-        </li>
-      ))}
-    </ul>
   );
 }
