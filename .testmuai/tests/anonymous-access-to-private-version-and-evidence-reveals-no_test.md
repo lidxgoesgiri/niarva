@@ -13,8 +13,8 @@ At {{start_url}}, establish a signed-out NIARVA browser session for an anonymous
 
 ## Step 2 @verifies ac-1, ac-7
 
-From the signed-out NIARVA browser session, request the owner's known private form at {{private_version_url}}; then assert access to the private version is denied and its known content {{private_version_marker}} is absent from the page and response.
+Without signing in, open {{private_version_url}}, then verify the page you land on asks you to sign in or says access is denied, and does not show {{private_version_marker}}.
 
 ## Step 3 @verifies ac-2, ac-8
 
-From the same signed-out NIARVA browser session, request the owner's private evidence at {{private_evidence_url}}; then assert access to the evidence is denied and its known content {{private_evidence_marker}} is absent from the page and response.
+Still without signing in, open {{private_evidence_url}}, then verify the page shows an error instead of the form's evidence and does not contain {{private_evidence_marker}}.
