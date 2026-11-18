@@ -40,6 +40,14 @@ const envSchema = z.object({
 
   /** Mandatory Kane probes allowed per full verification before the request is rejected. */
   KANE_MAX_RUNS_PER_VERIFICATION: z.coerce.number().int().min(1).max(50).default(10),
+  /**
+   * Kane browser probes one workspace may queue in a rolling 24 hours. Every probe spends Kane
+   * credits from the operator's account, so a public deployment must cap it. 0 disables new
+   * browser verification.
+   */
+  KANE_PROBE_BUDGET_PER_WORKSPACE_24H: z.coerce.number().int().min(0).max(100_000).default(24),
+  /** Kane browser probes the whole deployment may queue in a rolling 24 hours. */
+  KANE_PROBE_BUDGET_GLOBAL_24H: z.coerce.number().int().min(0).max(100_000).default(48),
   /** Enables the seeded demo account and the labeled golden scenario. */
   DEMO_MODE: z
     .enum(["true", "false"])
