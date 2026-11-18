@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-18 08:40 WIB.
+Writer: Claude. Last updated: 2026-11-18 09:00 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -36,8 +36,8 @@ Deadlines:
 
 | ID | Task | Pri | Owner | Depends on |
 |---|---|---|---|---|
-| C-02 | Seed the fixtures that the remaining Assurance tests need: published form, response records, scoped judge account, unstable / race / zero-run / diagnostic-only forms, provider-outage switch | P0 | Claude | — |
-| C-03 | Kane: publish and respondent flows (t-4, t-7, t-8, t-9, t-10, t-11, t-12, t-18, t-19, t-20, t-22, t-31) | P0 | Claude | C-02 |
+| C-02 | Fixtures for the remaining Assurance tests: **done** for published form, private page/evidence pointers, config endpoint, response form, UNKNOWN run, unrequested / missing / matching rule forms, zero-run form (`d4f2cc4`, `5324dbe`). **Owed:** unstable form (t-16, needs FAILED + two fresh VERIFIED full runs, ~500 credits), diagnostic-only pass (t-58, cannot occur for a real defect by design), scoped judge account (t-55, t-62) | P0 | Claude | — |
+| C-03 | Kane: publish and respondent flows — **running**: t-4 PASS; t-7, t-8, t-10 FAIL because Kane did not capture or send the raw request the test needs (product behavior correct; retest once); t-11, t-18, t-20 queued. Not yet: t-9, t-12, t-19, t-22, t-31 (need more proven fixtures) | P0 | Claude | — |
 | C-04 | Kane: security and access (t-1, t-2, t-23, t-32, t-33, t-43, t-48, t-54) | P1 | Claude | C-02 |
 | C-05 | Kane: verification honesty (t-13, t-14, t-15, t-16, t-17, t-38–t-41, t-46, t-57, t-58) | P1 | Claude | C-01, C-02 |
 | C-06 | Kane: AI intake and provider outage (t-25–t-30, t-61) | P1 | Claude | C-02 |
