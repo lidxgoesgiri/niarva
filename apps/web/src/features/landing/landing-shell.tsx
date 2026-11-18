@@ -37,6 +37,16 @@ const subscribeVisibility = (notify: () => void) => {
 const getVisible = () => !document.hidden;
 const serverReducedMotion = () => false;
 const serverVisible = () => true;
+const navigationLinks = [
+  ["#how-it-works", "How It Works"],
+  ["#verification", "Verification"],
+  ["#evidence", "Evidence"],
+] as const;
+const menuLinks = [
+  ...navigationLinks,
+  ["#golden-case", "Try Demo"],
+  ["/app", "Open Workspace"],
+] as const;
 
 export function useLandingMotion() {
   return useContext(MotionContext);
@@ -95,34 +105,34 @@ function SiteNavigation() {
   const dialog = useRef<HTMLDialogElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
   const previousOverflow = useRef<string | null>(null);
+  const destinationId = useRef<string | null>(null);
   function close() {
     dialog.current?.close();
   }
   function restore() {
     if (previousOverflow.current !== null) {
-      document.body.style.overflow = previousOverflow.current;
+      document.body.style.setProperty("overflow", previousOverflow.current);
       previousOverflow.current = null;
     }
-    trigger.current?.focus();
+    const destination = destinationId.current
+      ? document.getElementById(destinationId.current)
+      : null;
+    destinationId.current = null;
+    (destination ?? trigger.current)?.focus({ preventScroll: true });
   }
   useEffect(
     () => () => {
       if (previousOverflow.current !== null)
-        document.body.style.overflow = previousOverflow.current;
+        document.body.style.setProperty("overflow", previousOverflow.current);
     },
     [],
   );
-  const links = [
-    ["#how-it-works", "How It Works"],
-    ["#verification", "Verification"],
-    ["#evidence", "Evidence"],
-  ];
   return (
     <header className={styles.header}>
       <div className={styles.navInner}>
         <BrandMark />
         <nav aria-label="Primary" className={styles.desktopNav}>
-          {links.map(([href, label]) => (
+          {navigationLinks.map(([href, label]) => (
             <a key={href} href={href}>
               {label}
             </a>
@@ -142,10 +152,11 @@ function SiteNavigation() {
             aria-haspopup="dialog"
             aria-controls="landing-menu"
             onClick={() => {
-              if (dialog.current?.open) return;
+              const menu = dialog.current;
+              if (!menu || menu.open) return;
+              menu.showModal();
               previousOverflow.current = document.body.style.overflow;
-              document.body.style.overflow = "hidden";
-              dialog.current?.showModal();
+              document.body.style.setProperty("overflow", "hidden");
             }}
           >
             <Menu size={20} aria-hidden="true" />
@@ -153,22 +164,34 @@ function SiteNavigation() {
           </button>
         </div>
       </div>
-      <dialog id="landing-menu" ref={dialog} className={styles.mobileMenu} onClose={restore}>
+      <dialog
+        id="landing-menu"
+        ref={dialog}
+        className={styles.mobileMenu}
+        aria-labelledby="landing-menu-title"
+        onClose={restore}
+      >
         <div className={styles.menuHeading}>
-          <span>Explore NIARVA</span>
+          <span id="landing-menu-title">Explore NIARVA</span>
           <button type="button" onClick={close} aria-label="Close menu">
             <X aria-hidden="true" size={20} />
           </button>
         </div>
         <nav aria-label="Mobile">
-          {[...links, ["#golden-case", "Try Demo"], ["/app", "Open Workspace"]].map(
-            ([href, label]) => (
-              <a key={href} href={href} onClick={close}>
-                {label}
-                <ArrowUpRight aria-hidden="true" size={18} />
-              </a>
-            ),
-          )}
+          {menuLinks.map(([href, label]) => (
+            <a
+              key={href}
+              href={href}
+              onClick={(event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                destinationId.current = href.startsWith("#") ? href.slice(1) : null;
+                close();
+              }}
+            >
+              {label}
+              <ArrowUpRight aria-hidden="true" size={18} />
+            </a>
+          ))}
         </nav>
       </dialog>
     </header>
