@@ -64,6 +64,8 @@ const app = [
   `WORKER_SHARED_TOKEN=${workerToken}`,
   "DATABASE_POOL_MAX=3",
   "KANE_MAX_RUNS_PER_VERIFICATION=10",
+  "KANE_PROBE_BUDGET_PER_WORKSPACE_24H=24",
+  "KANE_PROBE_BUDGET_GLOBAL_24H=48",
   "DEMO_MODE=false",
   ...(models ? [`OPENROUTER_MODEL=${models}`] : ["# OPENROUTER_MODEL=<comma-separated model ids>"]),
   "# Build: use the exact pnpm version from package.json (pnpm 12) through Corepack.",
