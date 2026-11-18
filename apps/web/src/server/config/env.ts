@@ -48,6 +48,12 @@ const envSchema = z.object({
   KANE_PROBE_BUDGET_PER_WORKSPACE_24H: z.coerce.number().int().min(0).max(100_000).default(24),
   /** Kane browser probes the whole deployment may queue in a rolling 24 hours. */
   KANE_PROBE_BUDGET_GLOBAL_24H: z.coerce.number().int().min(0).max(100_000).default(48),
+  /**
+   * Test-only fault injection for the owner's responses endpoint, used by the Kane tests of the
+   * responses view's error and loading states. Comma-separated `error:<formId>` and
+   * `delay:<formId>` entries. Ignored on the production environment (`vercel-production`).
+   */
+  NIARVA_TEST_RESPONSE_FAULTS: z.string().max(2000).optional(),
   /** Enables the seeded demo account and the labeled golden scenario. */
   DEMO_MODE: z
     .enum(["true", "false"])
