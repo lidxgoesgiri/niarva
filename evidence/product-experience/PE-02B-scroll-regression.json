@@ -1,0 +1,133 @@
+{
+  "testId": "PE-02B",
+  "status": "PASS",
+  "assessment": "The action tape confirms successful clicks on all four distinct stage buttons. Typed stage/panel agreement and focus preservation match screenshot evidence. The explicit version-change click reveals Sample STALE and Publishing blocked. Actual gate explanation is stored; no publish action is enabled. The pack records zero console errors and 21 first-party HTTP 200 responses.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-13"
+  ],
+  "source": {
+    "commit": "693871a903dd0a6f49fcf30efc904db3fd1bbb24",
+    "branch": "feature/product-experience",
+    "buildId": "2R8sHDGmJJL_PyBrE6eJp",
+    "files": {
+      "apps/web/src/features/landing/scroll-choreography.ts": "07138b4902d652b3f4e579e3d42572377d955b52be17197eb92cca301fa12353",
+      "apps/web/src/features/landing/scroll-trace.tsx": "96c0d63ffb893a4883840dd709b86d8f2b81151b31abc07ed03f007fa36d4575",
+      "apps/web/src/features/landing/scroll.module.css": "a493089307973ca6859e1de6ecc4b62f65680f773419c298e89318729f2b0b31",
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "32d149730102c460e0ea0db28b083e479810accd709dfdaa5852ea0de149214c",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "082a3eecaf490825ec95f2c819b8e51e84c1a7550cc8ef1f07aea826588ed4e8",
+      "apps/web/src/features/landing/landing.module.css": "6f4e1050dbbde00840ee5580dad330ece8cc257e05e1205909db180205a4df46",
+      "apps/web/src/features/landing/portal-scene.ts": "8d855d5f8a1681be362dc01c7918634dfd3359d9a1abf30cd78b3d4853cff42e",
+      "apps/web/src/features/landing/story-panels.tsx": "3c181c3a2b9855387a7383007e9f9ec4d95bc6611597e23ab15ec9a683081294",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "503a314fbb67a7f0e33bccd53a1fc517ba80af34cbc49c92f90c28b4c4ae1a2e"
+  },
+  "objectiveSha256": "77a7a17e5b6389ce4d2b664b4d3c32e7902e580c30043e756476fc7322f4dfe9",
+  "executionObjectiveSha256": "ffbde3ef4dc77c48fc584671bba9446b3e36b5b99ef5332502b2f9aa07402742",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "536c168a93f23429a9adbd1a5051d8cc7d3ce0b5d8b3b72a8fdde5b2d6941708",
+  "startedAtUtc": "2026-11-18T05:28:24.700Z",
+  "completedAtUtc": "2026-11-18T05:30:39.457Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 110.2,
+  "creditsConsumed": 37.829792499999996,
+  "sealedPrivatePackSha256": "effab1affccc95fc133b4a8f193ec1c7ab77070a8dc3f43f2623d3b8d2e1631b",
+  "testManager": {
+    "verified": false
+  },
+  "observations": [
+    {
+      "observationId": "selected_stage_explanation_correspondence",
+      "condition": "the selected stage and visible explanation correspond",
+      "observed": "true",
+      "expected": "true",
+      "step": 9
+    },
+    {
+      "observationId": "keyboard_focus_unexpectedly_moved",
+      "condition": "keyboard focus is not moved unexpectedly",
+      "subject": "keyboard focus moved unexpectedly",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 9
+    },
+    {
+      "observationId": "sample_stale_after_version_change",
+      "condition": "the sample becomes STALE",
+      "subject": "the sample STALE status",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 14
+    },
+    {
+      "observationId": "publication_blocked_after_version_change",
+      "condition": "publication remains blocked",
+      "subject": "publication enabled",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 14
+    },
+    {
+      "observationId": "final_sample_stale",
+      "condition": "the sample is STALE",
+      "subject": "the sample STALE status",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 14
+    },
+    {
+      "observationId": "final_publication_blocked",
+      "condition": "publication remains blocked",
+      "subject": "publication enabled",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 14
+    },
+    {
+      "observationId": "pipeline_stale",
+      "condition": "the gate explanation is saved as {{pipeline_stale}}",
+      "observed": "The form changed. Earlier proof cannot authorize this new draft.",
+      "expected": "",
+      "step": 14
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-02B",
+    "buildId": "2R8sHDGmJJL_PyBrE6eJp",
+    "packSha256": "effab1affccc95fc133b4a8f193ec1c7ab77070a8dc3f43f2623d3b8d2e1631b",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 21,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "firstPartyRequests": 21,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

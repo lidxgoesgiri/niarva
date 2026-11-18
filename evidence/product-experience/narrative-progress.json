@@ -1,0 +1,350 @@
+{
+  "scope": "Landing simulation only; no real form was verified or published",
+  "aggregateStatus": "BLOCKED",
+  "kaneVersion": "0.10.4",
+  "oraclePolicy": "Original objective text and hashes retained; no generated test was edited to change an expectation",
+  "runs": [
+    {
+      "testId": "PE-02",
+      "requirementIds": [
+        "UI-AC-07",
+        "UI-AC-08",
+        "UI-AC-12",
+        "UI-AC-13",
+        "UI-AC-18"
+      ],
+      "status": "BLOCKED",
+      "assessment": "Agent compared inactive tab panels simultaneously, omitted a named extraction, and did not complete the final return. No product defect established.",
+      "startedAtUtc": "2026-11-17T15:14:37.006Z",
+      "completedAtUtc": "2026-11-17T15:25:38.044Z",
+      "source": {
+        "commit": "e860ecfa73d15520f3d853cb91a4e8468df53e18",
+        "branch": "feature/product-experience",
+        "buildId": "Ta5-QT7JVxYkYXLnscIRm",
+        "files": {
+          "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+          "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+          "apps/web/src/features/landing/landing.module.css": "2f7f472e465b65f75e2d2e84872cde54b62d38d24220c48dacbefefd1cca38ce",
+          "apps/web/src/features/landing/story-panels.tsx": "6423ee1ae1c4fa4dc5c472ed1cc2eab9f88254e5454da5cdbf32c77f63564434",
+          "apps/web/src/features/landing/story.module.css": "8f84dbf6f87edb012f95ed98abd5f88e2df949674d371e593533301584f7572e",
+          "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+          "apps/web/src/app/page.tsx": "91ce5f08299395f3aa166e9e7d73ddb3ba8c816703d1763d6c5fc1bd62e5d035"
+        },
+        "diffSha256": "bfc702dfd95ad5082c85b51ec8f166010504ee44ee0ba05d2745ac4bfa4664bd"
+      },
+      "objectiveSha256": "7bdb4b2f8c6479aa2ebf58b8cc29268a0b8e146019535fda7663a454093bdf00",
+      "processExitCode": 1,
+      "completionEvents": 1,
+      "durationSeconds": 588.7,
+      "creditsConsumed": 145.637185,
+      "sharedBalanceBefore": 9099.8348,
+      "sharedBalanceAfter": 8926.7916,
+      "sessionId": "0f3727cd-1c77-4311-8d07-388c44ec421d",
+      "sealedPrivatePackSha256": "7905e56df55d4255114e3836891e71a9f7163e3600d7dbcfade5b24f0ef615b8",
+      "observations": [
+        {
+          "key": "selected_gpa_3_4_check",
+          "observed": "3.4",
+          "expected": "3.4",
+          "step": 7
+        },
+        {
+          "key": "manual_override",
+          "observed": "{\"selectedGpa\":\"3.4\",\"replayState\":\"running\"}",
+          "expected": "",
+          "step": 7
+        },
+        {
+          "key": "replay_paused_check",
+          "observed": "true",
+          "expected": "true",
+          "step": 11
+        },
+        {
+          "key": "repaired_3_5_sample_shown",
+          "observed": "true",
+          "expected": "true",
+          "step": 14
+        },
+        {
+          "key": "full_verification_required",
+          "observed": "true",
+          "expected": "true",
+          "step": 14
+        },
+        {
+          "key": "default_draft_3_5_restored",
+          "observed": "true",
+          "expected": "true",
+          "step": 17
+        },
+        {
+          "key": "replay_controls",
+          "observed": "[\"Watch the repair\",\"Reset\"]",
+          "expected": "",
+          "step": 17
+        },
+        {
+          "key": "selected_stage_explanation_correspondence",
+          "observed": "true",
+          "expected": "true",
+          "step": 8
+        },
+        {
+          "key": "keyboard_focus_unexpected_movement",
+          "observed": "false",
+          "expected": "false",
+          "step": 8
+        },
+        {
+          "key": "sample_stale_state",
+          "observed": "true",
+          "expected": "true",
+          "step": 11
+        },
+        {
+          "key": "publication_blocked_state",
+          "observed": "true",
+          "expected": "true",
+          "step": 11
+        },
+        {
+          "key": "pipeline_stale",
+          "observed": "The form changed. Earlier proof cannot authorize this new draft.",
+          "expected": "",
+          "step": 11
+        },
+        {
+          "key": "selected_tab_visible_panel_agreement",
+          "observed": "true",
+          "expected": "true",
+          "step": 6
+        },
+        {
+          "key": "development_loop_source_repair_rerun_description",
+          "observed": "Claude Code or Codex reads actual Kane failure evidence, repairs the source, and reruns the unchanged test objective.",
+          "expected": "repairs the source, and reruns the unchanged test objective",
+          "step": 6
+        },
+        {
+          "key": "product_loop_creator_approval",
+          "observed": "true",
+          "expected": "true",
+          "step": 10
+        },
+        {
+          "key": "loop_tabs",
+          "observed": "Product Loop — The proposal changes a bounded piece of configuration. Your approved requirements stay intact.",
+          "expected": "",
+          "step": 10
+        },
+        {
+          "key": "proof_lineage_content_and_sample_label",
+          "observed": "true",
+          "expected": "true",
+          "step": 7
+        },
+        {
+          "key": "invented_real_identifiers",
+          "observed": "false",
+          "expected": "false",
+          "step": 7
+        },
+        {
+          "key": "payload_certificate_exclusion",
+          "observed": "false",
+          "expected": "false",
+          "step": 7
+        },
+        {
+          "key": "observation_content_and_sample_label",
+          "observed": "false",
+          "expected": "true",
+          "step": 7
+        },
+        {
+          "key": "run_ndjson_content_and_sample_label",
+          "observed": "false",
+          "expected": "true",
+          "step": 7
+        },
+        {
+          "key": "payload_check_content_and_sample_label",
+          "observed": "false",
+          "expected": "true",
+          "step": 7
+        }
+      ]
+    },
+    {
+      "testId": "PE-02",
+      "requirementIds": [
+        "UI-AC-07",
+        "UI-AC-08",
+        "UI-AC-12",
+        "UI-AC-13",
+        "UI-AC-18"
+      ],
+      "status": "BLOCKED",
+      "assessment": "Driver watchdog stopped the incomplete run. No terminal event or sealed pack; never a pass.",
+      "startedAtUtc": "2026-11-17T15:29:44.887Z",
+      "completedAtUtc": "2026-11-17T15:44:47.869Z",
+      "source": {
+        "commit": "31ad0ee4954aee5babe20ce718679e3849c9845a",
+        "branch": "feature/product-experience",
+        "buildId": "lrWI1DqbLGpqM8TqyUJQC",
+        "files": {
+          "apps/web/src/features/landing/story-panels.tsx": "6423ee1ae1c4fa4dc5c472ed1cc2eab9f88254e5454da5cdbf32c77f63564434",
+          "apps/web/src/features/landing/story.module.css": "4facf996b8923b1bf76434b40b4fb3a29a2843e61bdd4a0160281920cf0e251f",
+          "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+          "apps/web/src/app/page.tsx": "91ce5f08299395f3aa166e9e7d73ddb3ba8c816703d1763d6c5fc1bd62e5d035",
+          "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+          "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+          "apps/web/src/features/landing/landing.module.css": "477f8ff50a424a5eeda5efbff898584112628d520b241552b175e3605ef34504"
+        },
+        "diffSha256": "8e37680d097cfcdca8aaafb7a3d775d3822c99bfbe18593474cfbc09b3fa2911"
+      },
+      "objectiveSha256": "7bdb4b2f8c6479aa2ebf58b8cc29268a0b8e146019535fda7663a454093bdf00",
+      "processExitCode": 1,
+      "completionEvents": 0,
+      "durationSeconds": null,
+      "creditsConsumed": null,
+      "sharedBalanceBefore": 8909.5684,
+      "sharedBalanceAfter": 8544.3179,
+      "sessionId": null,
+      "sealedPrivatePackSha256": null,
+      "observations": []
+    },
+    {
+      "testId": "PE-02D",
+      "requirementIds": [
+        "UI-AC-05",
+        "UI-AC-18"
+      ],
+      "status": "BLOCKED",
+      "assessment": "Seven typed checks match their expectations, but the named payload_check extraction is a literal placeholder. The complete objective remains unproven.",
+      "startedAtUtc": "2026-11-17T15:53:34.203Z",
+      "completedAtUtc": "2026-11-17T16:01:09.153Z",
+      "source": {
+        "commit": "31ad0ee4954aee5babe20ce718679e3849c9845a",
+        "branch": "feature/product-experience",
+        "buildId": "j40Kd5rcJzc0sxJ1FNiEL",
+        "files": {
+          "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+          "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+          "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+          "apps/web/src/app/page.tsx": "91ce5f08299395f3aa166e9e7d73ddb3ba8c816703d1763d6c5fc1bd62e5d035",
+          "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+          "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+          "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705"
+        },
+        "diffSha256": "8ad94cf9debc95b6488c46c1a184570d08a8af82dcc72d445f8349f1058e4cb7"
+      },
+      "objectiveSha256": "debc062d77387d25feb13b5f67871ad6de04370237918a0cb28f1d869f439186",
+      "processExitCode": 0,
+      "completionEvents": 1,
+      "durationSeconds": 315.9,
+      "creditsConsumed": 69.5561225,
+      "sharedBalanceBefore": 8424.2071,
+      "sharedBalanceAfter": 8351.5073,
+      "sessionId": "8f97da33-cf8e-4096-a1c6-e7d15b73d1a2",
+      "sealedPrivatePackSha256": "eeb23335ec5ed6ddec324c71807bdfe2d89689717ce6c5e93e1f9fb9b7d4749e",
+      "observations": [
+        {
+          "key": "payload_check",
+          "observed": "payload explanation",
+          "expected": "",
+          "step": 8
+        },
+        {
+          "key": "proof_lineage_matching_content_and_sample_label",
+          "observed": "true",
+          "expected": "true",
+          "step": 8
+        },
+        {
+          "key": "payload_example_certificate_excluded",
+          "observed": "false",
+          "expected": "false",
+          "step": 10
+        },
+        {
+          "key": "payload_check_matching_content_and_sample_label",
+          "observed": "true",
+          "expected": "true",
+          "step": 10
+        },
+        {
+          "key": "run_ndjson_matching_content_and_sample_label",
+          "observed": "true",
+          "expected": "true",
+          "step": 12
+        },
+        {
+          "key": "observation_keyboard_access",
+          "observed": "true",
+          "expected": "true",
+          "step": 14
+        },
+        {
+          "key": "observation_matching_content_and_sample_label",
+          "observed": "true",
+          "expected": "true",
+          "step": 14
+        },
+        {
+          "key": "observation_return_without_overlap",
+          "observed": "true",
+          "expected": "true",
+          "step": 14
+        }
+      ],
+      "testManager": {
+        "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "caseId": "01M7N3DVRBZAMFD62QMTNPEWHB",
+        "title": "NIARVA landing: evidence inspector provenance and payload exclusion",
+        "titleVerified": true,
+        "bundleSync": "Original sync failed at presign. Exact official bundle was audited locally and sync succeeded (19687 compressed bytes). Historical result was not rewritten."
+      }
+    },
+    {
+      "testId": "PE-03",
+      "requirementIds": [
+        "UI-AC-08",
+        "UI-AC-09",
+        "UI-AC-16",
+        "UI-AC-17",
+        "UI-AC-19"
+      ],
+      "status": "BLOCKED",
+      "assessment": "Stopped only the UI-owned process after discovering a concurrent worker held the shared lock. No terminal event or sealed pack. Unchanged objective queued under the shared lock.",
+      "startedAtUtc": "2026-11-17T16:02:56.783Z",
+      "completedAtUtc": "2026-11-17T16:05:05.642Z",
+      "source": {
+        "commit": "31ad0ee4954aee5babe20ce718679e3849c9845a",
+        "branch": "feature/product-experience",
+        "buildId": "j40Kd5rcJzc0sxJ1FNiEL",
+        "files": {
+          "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+          "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+          "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+          "apps/web/src/app/page.tsx": "91ce5f08299395f3aa166e9e7d73ddb3ba8c816703d1763d6c5fc1bd62e5d035",
+          "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+          "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+          "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705"
+        },
+        "diffSha256": "8ad94cf9debc95b6488c46c1a184570d08a8af82dcc72d445f8349f1058e4cb7"
+      },
+      "objectiveSha256": "0e13c7708bf1a82ddaa8bdcbf51f9222f5b0090057bf151941f9a635d1f977a7",
+      "processExitCode": 1,
+      "completionEvents": 0,
+      "durationSeconds": null,
+      "creditsConsumed": null,
+      "sharedBalanceBefore": 8351.5073,
+      "sharedBalanceAfter": 8313.6005,
+      "sessionId": null,
+      "sealedPrivatePackSha256": null,
+      "observations": []
+    }
+  ]
+}

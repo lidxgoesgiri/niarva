@@ -1,0 +1,166 @@
+{
+  "testId": "PE-08",
+  "status": "BLOCKED",
+  "assessment": "Final-build screenshots directly show the same Semantic Gap phrase blur gaining and reversing at rail 25% to 29% to 25%, fully readable at 39%. They capture the Evidence Bento heading entrance at 81%, readable cards and active Payload Check at 87%, and static text with Resume animations after pause. Both dynamic tabs and closing action are observed. Kane stored mainly settled heading styles and one terminal word-progress reading, so motion for every individual target is not proven. Zero console errors and 22 local HTTP 200 responses.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-08",
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-13",
+    "UI-AC-18"
+  ],
+  "source": {
+    "commit": "67ee71786ee026a3853c1b2673a16a0f944075e7",
+    "branch": "feature/product-experience",
+    "buildId": "JKPjK4rSMUo1bOaRgK6H1",
+    "files": {
+      "apps/web/src/features/landing/landing-reveals.tsx": "e58ed47f5a2d720867b764f41d75f1ae393825015530a43636a593ae2c35b2cd",
+      "apps/web/src/features/landing/scroll-words.tsx": "d5aaf4a40eaf54a7dd43fb6c5130f9eb2fe25aa836cb4aed30c2b1c4281e68b8",
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "8550fe78a5e2f98ef703bc6a312d0290da805b013ed9f5006282ce4b954dc40a",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "9250aa082026194f4997bdca9d34e6687e57006d82effbee5414e741f8fa5d6d",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "882abaa31c1c05ccad0e75c3748517966fb727011cfceb15b232fc6c14794b55",
+      "apps/web/src/features/landing/landing.module.css": "c69871acd67e111eda042d511a7fb92f1e2c3a07e4f48a80e0f69ae7901c043c",
+      "apps/web/src/features/landing/portal-scene.ts": "8d855d5f8a1681be362dc01c7918634dfd3359d9a1abf30cd78b3d4853cff42e",
+      "apps/web/src/features/landing/scroll-choreography.ts": "07138b4902d652b3f4e579e3d42572377d955b52be17197eb92cca301fa12353",
+      "apps/web/src/features/landing/scroll-trace.tsx": "96c0d63ffb893a4883840dd709b86d8f2b81151b31abc07ed03f007fa36d4575",
+      "apps/web/src/features/landing/scroll.module.css": "c89189377cf87129ab382bae1f4de0001f32ad037d94b527e4846270344e4818",
+      "apps/web/src/features/landing/story-panels.tsx": "186b59eccc970b222e3916e7d0d65a1ddbb9de972249ee7b8fc28eda3d63381d",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "72376bc82066f4b77cb8a319fbda45a49547a22039997cfe0c8e2ff240d8f074"
+    },
+    "diffSha256": "4aed718e52ee9ac0a09c905408bb5e3aa41ba6877bbf3832d471bbed772a3764"
+  },
+  "objectiveSha256": "b0afb3795a07465e84cea99e96b8fbd68ea43ff0c35b8f52266137753d89b343",
+  "executionObjectiveSha256": "d16fe9263a5703af494444c985a4460150c682525eb972f1a24d4867fca931c4",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "1ea67d1e651afe8e34476ce57af61b2f9d40eb8c935287450a8a01930998dcbe",
+  "startedAtUtc": "2026-11-18T07:04:36.891Z",
+  "completedAtUtc": "2026-11-18T07:10:32.279Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 325.2,
+  "creditsConsumed": 119.674698,
+  "sealedPrivatePackSha256": "e3aa4dd06080393661aaf580e9bc3be612ce69c6bdd6d5f0a77343c42d80800d",
+  "testManager": {
+    "id": "01M7PQHKGYEVKYMWH48103HF1R",
+    "title": "NIARVA landing: section reveals, semantic scrub, and dynamic panels",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "section_reveals",
+      "condition": "the actual observed first and settled appearance of the headings and cards for each section is stored as {{section_reveals}}",
+      "observed": "{\"firstObserved\":{\"heroHeading\":{\"text\":\"From Intention to Proof.\",\"opacity\":\"0.77\",\"transform\":\"matrix(1, 0, 0, 1, 0, -48)\",\"animationPlayState\":\"paused\"},\"proofSectionVisibleInScreenshot\":{\"heading\":\"Inspect the evidence behind the decision.\",\"cards\":[\"One submission. One receipt.\",\"One pass does not erase instability.\"]}},\"settledAppearance\":[{\"section\":\"One small operator. A different outcome.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"},\"cardHeading\":\"Scholarship application\"},{\"section\":\"The semantic gap.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"},\"cards\":[\"“A GPA of 3.5 or higher”\",\"gpa > 3.5\",\"GPA = 3.5\"]},{\"section\":\"Every rule should trace back to its intent.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"},\"cardHeading\":\"Gate publishing\"},{\"section\":\"From failure to repair, then back to proof.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"},\"cardHeading\":\"Fix the implementation. Keep the test honest.\"},{\"section\":\"Inspect the evidence behind the decision.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"},\"cards\":[\"A hidden answer stays out.\",\"One submission. One receipt.\",\"One pass does not erase instability.\"]},{\"section\":\"Verify behavior before your respondents ever see the form.\",\"heading\":{\"opacity\":\"1\",\"transform\":\"none\",\"animation\":\"none\"}}]}",
+      "expected": "",
+      "step": 20
+    },
+    {
+      "observationId": "semantic_gap_illumination_reversed",
+      "condition": "the Semantic Gap illumination reverses after scrolling back",
+      "subject": "the Semantic Gap illumination reversed",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 22
+    },
+    {
+      "observationId": "semantic_scrub",
+      "condition": "the actual visible words in the Semantic Gap at an earlier and later scroll position and the actual observed reversal state are stored as {{semantic_scrub}}",
+      "observed": "{\"earlierVisibleWords\":\"A form can be syntactically valid and still miss a required field at the exact boundary.\",\"laterVisibleWords\":\"A form can be syntactically valid and still miss a required field at the exact boundary.\",\"observedReversalState\":\"restored after scrolling back\",\"wordProgress\":\"1.0000\"}",
+      "expected": "",
+      "step": 22
+    },
+    {
+      "observationId": "lower_evidence_cards_reachable",
+      "condition": "the lower evidence cards are still reachable",
+      "subject": "the lower evidence cards reachable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 25
+    },
+    {
+      "observationId": "primary_action_reachable",
+      "condition": "the primary action is still reachable",
+      "subject": "the primary action reachable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 25
+    },
+    {
+      "observationId": "dynamic_panels",
+      "condition": "the actual active heading and one actual sentence in each panel are stored as {{dynamic_panels}}",
+      "observed": "[{\"heading\":\"Fix the implementation. Keep the test honest.\",\"sentence\":\"Claude Code or Codex reads actual Kane failure evidence, repairs the source, and reruns the unchanged test objective.\"},{\"heading\":\"A hidden answer stays out.\",\"sentence\":\"GPA 3.6: the certificate is shown and a synthetic value is entered. Change GPA to 3.4: the field is removed and its value is excluded.\"}]",
+      "expected": "",
+      "step": 25
+    },
+    {
+      "observationId": "all_text_readable",
+      "condition": "all text remains readable",
+      "subject": "all text readable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 30
+    },
+    {
+      "observationId": "relevant_cards_readable",
+      "condition": "relevant cards remain readable",
+      "subject": "relevant cards readable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 30
+    },
+    {
+      "observationId": "controls_usable",
+      "condition": "the controls remain usable",
+      "subject": "the controls usable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 30
+    },
+    {
+      "observationId": "paused_readability",
+      "condition": "the actual observed paused readability of text and relevant cards and actual observed usability of controls are stored as {{paused_readability}}",
+      "observed": "Text and relevant cards are readable; controls are usable.",
+      "expected": "",
+      "step": 30
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-08",
+    "buildId": "JKPjK4rSMUo1bOaRgK6H1",
+    "packSha256": "e3aa4dd06080393661aaf580e9bc3be612ce69c6bdd6d5f0a77343c42d80800d",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 22,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 22
+      }
+    ],
+    "firstPartyRequests": 22,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 22
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

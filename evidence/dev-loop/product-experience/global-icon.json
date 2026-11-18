@@ -1,0 +1,65 @@
+{
+  "finding": "Favicon404 after leaving the landing page for sign-in",
+  "sourceRepair": "The existing brand icon is also declared in root metadata, so routes share the icon.",
+  "before": {
+    "testId": "PE-01",
+    "source": {
+      "commit": "b3f2f3e8b046a504cdd3536c603b8f90372d1aea",
+      "branch": "feature/product-experience",
+      "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+      "files": {
+        "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+        "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+        "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+        "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+        "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+        "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+        "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+        "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+      },
+      "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "startedAtUtc": "2026-11-17T18:28:23.800Z",
+    "sealedPrivatePackSha256": "ae9b027fa149554153e6cca06901ea67ad585cafe37adb76eb02800e2f26d320",
+    "objectiveSha256": "4539e39db7641cc3a7f2e945a77f4b9034f3027d3821f4ff48cadd72a777588c",
+    "consoleErrors": 1,
+    "favicon404Errors": 1
+  },
+  "after": {
+    "testId": "PE-01",
+    "source": {
+      "commit": "ab690f303e62e786d9cad33c924ffdb8c223b051",
+      "branch": "feature/product-experience",
+      "buildId": "-0Q19m_sHu5FEM9F0CQrt",
+      "files": {
+        "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+        "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+        "apps/web/src/features/landing/boundary-sandbox.tsx": "ab1a64929ecefa4b0f124a400b0ddd6a0f1002f0bbb8f829c42eaa058e4cd7e4",
+        "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+        "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+        "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+        "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+        "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+        "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+      },
+      "diffSha256": "bb93e395939afe57014e1fa8c88a0ddb7671a87abd82ced8d43b22c1f5faadc3"
+    },
+    "startedAtUtc": "2026-11-17T19:22:46.752Z",
+    "sealedPrivatePackSha256": "9d1bdc098eb967f33e114379b05f41b94f7ae3037c66881efc2028e570a8c354",
+    "objectiveSha256": "4539e39db7641cc3a7f2e945a77f4b9034f3027d3821f4ff48cadd72a777588c",
+    "testManager": {
+      "id": "01M7NFCJ4QXVPXDAWT8M9GNWK0",
+      "title": "NIARVA landing: scholarship boundary and publication gate verification",
+      "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+      "verified": true
+    },
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "firstPartyRequests": 32,
+    "firstPartyHttp200": 32
+  },
+  "oracleUnchanged": true,
+  "limitations": [
+    "This proves the recorded local navigation only; production smoke remains NOT RUN."
+  ]
+}

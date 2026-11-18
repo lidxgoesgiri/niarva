@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "~0.5.16",
+    "@gsap/react": "^2.1.2",
     "@niarva/contracts": "workspace:*",
     "@niarva/core": "workspace:*",
     "@radix-ui/react-dialog": "~1.3.1",
@@ -22,6 +23,7 @@
     "better-auth": "~1.7.25",
     "clsx": "~2.1.1",
     "drizzle-orm": "~0.45.4",
+    "gsap": "^3.15.1",
     "lucide-react": "~1.73.0",
     "motion": "~14.14.0",
     "next": "~16.4.6",

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import type { ReactNode } from "react";
+import { landingIcon } from "@/features/landing/landing-icon";
 import "@/styles/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
   description:
     "Build conditional forms from plain language. Catch hidden logic errors with real-browser verification before you publish.",
   applicationName: "NIARVA",
+  icons: { icon: { url: landingIcon, type: "image/svg+xml" } },
 };
 
 export const viewport: Viewport = {

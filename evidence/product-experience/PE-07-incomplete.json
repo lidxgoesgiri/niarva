@@ -1,0 +1,129 @@
+{
+  "testId": "PE-07",
+  "status": "BLOCKED",
+  "assessment": "Kane selected Gate publishing but left version A unchanged. The screenshot and ordered steps show the Simulate a version change control was available and never activated. The named scroll observation contains one position rather than a measured sequence. The screenshot also exposed a visually segmented SVG highlight; the active path now uses normalized dashes in the same coordinate space.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-08",
+    "UI-AC-09",
+    "UI-AC-11",
+    "UI-AC-13",
+    "UI-AC-16"
+  ],
+  "source": {
+    "commit": "693871a903dd0a6f49fcf30efc904db3fd1bbb24",
+    "branch": "feature/product-experience",
+    "buildId": "ZURq4mX4lBr7bentTnleq",
+    "files": {
+      "apps/web/src/features/landing/scroll-choreography.ts": "07138b4902d652b3f4e579e3d42572377d955b52be17197eb92cca301fa12353",
+      "apps/web/src/features/landing/scroll-trace.tsx": "96c0d63ffb893a4883840dd709b86d8f2b81151b31abc07ed03f007fa36d4575",
+      "apps/web/src/features/landing/scroll.module.css": "237bb9b77c8ef4dba0ec507e85c46e7ee3e3ec69a86e17c3ccc1031928e187f2",
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "32d149730102c460e0ea0db28b083e479810accd709dfdaa5852ea0de149214c",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "082a3eecaf490825ec95f2c819b8e51e84c1a7550cc8ef1f07aea826588ed4e8",
+      "apps/web/src/features/landing/landing.module.css": "6f4e1050dbbde00840ee5580dad330ece8cc257e05e1205909db180205a4df46",
+      "apps/web/src/features/landing/portal-scene.ts": "8d855d5f8a1681be362dc01c7918634dfd3359d9a1abf30cd78b3d4853cff42e",
+      "apps/web/src/features/landing/story-panels.tsx": "56da2aa693d0709927400795a52bff0daa8d0f34160e66105ff0302399508379",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "ec841713e592db4b70e093389b805202a13798d231b0bd9ad01d82075041127e"
+  },
+  "objectiveSha256": "d1e0e845799a0bf8e45dd7b08e0381b4adb9d6f511a70d5f8a771776a3410cc6",
+  "executionObjectiveSha256": "fce550f5e9f1377bb589ded997b9554ace8ff83e5766f31f45a4d3d36e05af6a",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "12dbf7f0aff15a92524ec12f94e973a2523478f73bfa69fe5c770aa201358aa5",
+  "startedAtUtc": "2026-11-18T05:19:40.856Z",
+  "completedAtUtc": "2026-11-18T05:22:50.684Z",
+  "processExitCode": 1,
+  "completionEvents": 1,
+  "durationSeconds": 136.9,
+  "creditsConsumed": 48.909409999999994,
+  "sealedPrivatePackSha256": "141dfcdd0e6b6e71ed15102316ae4d0b9848e0fc3a45f4e7fb3f7988150ba76d",
+  "testManager": {
+    "id": "01M7PHHSR1RYTKPMBETVCNKKQM",
+    "title": "NIARVA landing: reversible scroll, pipeline beam, and motion pause",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "selected_stage_heading_agreement",
+      "condition": "the selected stage and its displayed heading always agree",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "progress_beam_scroll_response",
+      "condition": "the beam advances and reverses with scroll",
+      "subject": "the beam advancing and reversing with scroll",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "scroll_sequence",
+      "condition": "actual stage labels and measured beam or percentage values are stored as {{scroll_sequence}}",
+      "observed": "{\"stages\":[{\"label\":\"Approve intent\",\"selected\":true},{\"label\":\"Build deterministic rules\",\"selected\":false},{\"label\":\"Verify in a real browser\",\"selected\":false},{\"label\":\"Gate publishing\",\"selected\":false}],\"progress\":0.0156}",
+      "expected": "",
+      "step": 6
+    },
+    {
+      "observationId": "scroll_sequence_2",
+      "condition": "the actual stage labels and measured beam or percentage values from the fixed scroll trace at the earlier and later scroll positions are saved as {{scroll_sequence}}",
+      "observed": "{\"stages\":[{\"label\":\"Approve intent\",\"selected\":true},{\"label\":\"Build deterministic rules\",\"selected\":false},{\"label\":\"Verify in a real browser\",\"selected\":false},{\"label\":\"Gate publishing\",\"selected\":false}],\"progress\":0.0156}",
+      "expected": "",
+      "step": 6
+    },
+    {
+      "observationId": "publishing_blocked",
+      "condition": "publishing is blocked",
+      "subject": "publishing enabled",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 10
+    },
+    {
+      "observationId": "sample_stale_demonstrated",
+      "condition": "the panel demonstrates Sample STALE",
+      "subject": "Sample STALE",
+      "mustBe": "present",
+      "observed": "false",
+      "expected": "true",
+      "step": 10
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-07",
+    "buildId": "ZURq4mX4lBr7bentTnleq",
+    "packSha256": "141dfcdd0e6b6e71ed15102316ae4d0b9848e0fc3a45f4e7fb3f7988150ba76d",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 21,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "firstPartyRequests": 21,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

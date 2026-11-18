@@ -1,0 +1,20 @@
+diff --git a/apps/web/src/features/landing/boundary-sandbox.tsx b/apps/web/src/features/landing/boundary-sandbox.tsx
+index 02ad298..1112282 100644
+--- a/apps/web/src/features/landing/boundary-sandbox.tsx
++++ b/apps/web/src/features/landing/boundary-sandbox.tsx
+@@ -112,6 +112,7 @@ export function BoundarySandbox() {
+                   name="sample-rule"
+                   value={value}
+                   checked={rule === value}
++                  onClick={() => setReplay(null)}
+                   onChange={() => choose(value, gpa)}
+                 />
+                 {label}
+@@ -141,6 +142,7 @@ export function BoundarySandbox() {
+                     name="sample-gpa"
+                     value={value}
+                     checked={gpa === value}
++                    onClick={() => setReplay(null)}
+                     onChange={() => choose(rule, value)}
+                   />
+                   <span>{value}</span>

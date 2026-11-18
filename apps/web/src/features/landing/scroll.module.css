@@ -1,0 +1,243 @@
+.wordMask {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+:global([data-scroll-card]:focus-within),
+:global([data-scroll-card]:focus-within [data-scroll-word]) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.scrollTrace {
+  display: none;
+  position: fixed;
+  top: 50%;
+  right: max(16px, calc((100vw - 1432px) / 2));
+  z-index: 5;
+  width: 92px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--color-ink-muted);
+  font: 10px/1.7 var(--font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.scrollTrace > strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.scrollTrace ol {
+  position: relative;
+  margin-top: 11px;
+  padding-left: 11px;
+  border-left: 1px solid var(--color-line-strong);
+}
+
+.scrollTrace ol::before {
+  position: absolute;
+  inset: 0 auto 0 -1px;
+  width: 1px;
+  content: "";
+  background: var(--color-lavender);
+  box-shadow: 0 0 8px var(--color-lavender);
+  transform: scaleY(var(--page-progress, 0));
+  transform-origin: top;
+}
+
+.scrollTrace li {
+  display: flex;
+  gap: 6px;
+  padding-block: 5px;
+}
+
+.scrollTrace[data-active-stop="0"] [data-stop="0"],
+.scrollTrace[data-active-stop="1"] [data-stop="1"],
+.scrollTrace[data-active-stop="2"] [data-stop="2"],
+.scrollTrace[data-active-stop="3"] [data-stop="3"],
+.scrollTrace[data-active-stop="4"] [data-stop="4"] {
+  color: var(--color-ink);
+}
+
+.scrollTrace li span {
+  color: var(--color-lavender);
+}
+
+.manifesto[data-velocity-skew] {
+  max-width: 24ch;
+  font: 500 clamp(1.3rem, 2.7vw, 2.2rem) / 1.35 var(--font-heading);
+  letter-spacing: -0.03em;
+}
+
+.semanticCards li {
+  overflow-wrap: anywhere;
+}
+
+.pipelineRail {
+  position: relative;
+  min-width: 0;
+}
+
+.pipelineBeam {
+  display: none;
+  pointer-events: none;
+}
+
+.loopDeck {
+  display: none;
+}
+
+@media (min-width: 1100px) and (min-height: 760px) and (prefers-reduced-motion: no-preference) {
+  :global([data-scroll-active="true"]) .heroCopy h1 {
+    transform: translateY(calc(var(--hero-scroll, 0) * -48px));
+    opacity: calc(1 - var(--hero-scroll, 0) * 0.23);
+  }
+
+  :global([data-scroll-active="true"]) .sandboxEntry:not(:focus-within) {
+    transform: perspective(1400px) rotateX(calc((1 - var(--sandbox-progress, 1)) * 7deg))
+      scale(calc(0.93 + var(--sandbox-progress, 1) * 0.07));
+    transform-origin: 50% 90%;
+  }
+
+  :global([data-scroll-active="true"]) .manifesto {
+    transform: skewY(var(--scroll-skew, 0deg));
+    transition: transform 150ms ease-out;
+  }
+
+  :global([data-scroll-active="true"]) .semanticCards li[data-tone="mismatch"] {
+    translate: calc((1 - var(--word-progress, 1)) * 14px) 0;
+  }
+
+  .pipelineTrack .pipelineFrame {
+    position: sticky;
+    top: 114px;
+  }
+
+  .pipelineTrack .scrollStages {
+    position: static;
+    padding-inline-start: 25px;
+  }
+
+  .pipelineTrack .scrollStages > li {
+    display: grid;
+    align-items: center;
+    min-height: clamp(164px, 24svh, 244px);
+  }
+
+  .pipelineTrack .scrollStages > li::after {
+    display: none;
+  }
+
+  .pipelineTrack .scrollStages button {
+    border: 1px solid var(--landing-glass-line);
+    border-radius: 9px;
+    padding: 24px 18px;
+    background: var(--landing-glass);
+    box-shadow: inset 0 1px 0 #ffffff14;
+  }
+
+  .pipelineTrack .scrollStages button[aria-pressed="true"] {
+    border-color: #b894fa9e;
+    box-shadow:
+      inset 0 1px 0 #ffffff20,
+      0 0 30px -18px var(--color-lavender);
+  }
+
+  .pipelineTrack .pipelineBeam {
+    display: block;
+    position: absolute;
+    top: 10%;
+    left: 0;
+    width: 9px;
+    height: 80%;
+    overflow: visible;
+    fill: none;
+    stroke: var(--color-line-strong);
+    stroke-width: 2;
+  }
+
+  .pipelineBeam [data-scroll-beam] {
+    stroke: var(--color-lavender);
+    stroke-dasharray: 1 1;
+    stroke-linecap: round;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 4px var(--color-sapphire));
+  }
+
+  :global([data-scroll-active="true"]) .pipelineBeam [data-scroll-beam] {
+    stroke-dashoffset: calc(1 - var(--pipeline-progress, 0));
+  }
+
+  .loopDeck {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 14px;
+    align-items: end;
+    margin-top: 30px;
+  }
+
+  .loopDeck > div {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 26px;
+    border: 1px solid var(--landing-glass-line);
+    border-radius: 10px;
+    background: var(--landing-glass);
+    box-shadow: inset 0 1px 0 #ffffff29;
+    font-family: var(--font-heading);
+  }
+
+  .loopDeck > div:first-child {
+    color: var(--color-lavender);
+  }
+
+  .loopDeck > div:last-child {
+    border-color: #4f6cf679;
+    color: var(--color-ink);
+  }
+
+  :global([data-scroll-active="true"]) .loopDeck > div:first-child {
+    translate: 0 calc(var(--loop-progress, 0) * 10px);
+    scale: calc(1 - var(--loop-progress, 0) * 0.05);
+    filter: brightness(calc(1 - var(--loop-progress, 0) * 0.09));
+  }
+
+  :global([data-scroll-active="true"]) .loopDeck > div:last-child {
+    translate: calc(var(--loop-progress, 0) * -22px) calc((1 - var(--loop-progress, 0)) * 29px);
+  }
+
+  .loopDeck code {
+    grid-column: 2;
+    color: var(--color-ink-muted);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+  }
+
+  :global([data-scroll-active="true"]) .evidencePrimary:not(:focus-within) {
+    translate: 0 calc((var(--evidence-progress, 0.5) - 0.5) * -36px);
+  }
+
+  :global([data-scroll-active="true"]) .evidenceSecondary {
+    transform: translateY(calc((var(--evidence-progress, 0.5) - 0.5) * 40px));
+  }
+}
+
+@media (min-width: 1440px) and (prefers-reduced-motion: no-preference) {
+  :global([data-scroll-active="true"]) .scrollTrace {
+    display: block;
+  }
+}

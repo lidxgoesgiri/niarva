@@ -1,0 +1,122 @@
+{
+  "testId": "PE-05",
+  "status": "BLOCKED",
+  "assessment": "The launcher left a previous Next.js server bound to IPv6 localhost. It served stale assets from the prior build (HTTP 500 and missing hydration). Stopped only the old UI server and verified both local hostnames resolve to the tested build and its JavaScript asset returns HTTP 200. Same objective retest follows.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-08",
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-16",
+    "UI-AC-20"
+  ],
+  "source": {
+    "commit": "b2f89d5e6aba4acc80c72bd94d90f401cfbb5368",
+    "branch": "feature/product-experience",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "files": {
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/portal-scene.ts": "b0e667d4989b3007f1ee8db0be43bbd574bd5a8e09b14f6a7412ec0cc6285f80",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "77e60056c81ba8f6f1ecf0ff091dfcdce59f6e8086d74b82c8ebc6595f20dc28",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "61e4d5e47d5fab60831cbc995315a6a768588d08d241d25abde5c6cb4c676e85",
+      "apps/web/src/features/landing/landing.module.css": "c514aaec8928d77415e190229402acaccad785867fbad45e0ed154f5d96b84ca",
+      "apps/web/src/features/landing/story-panels.tsx": "fe5d75e5200c2caa40bd3a50367709063ca532fbc3cfc31a75e740c7febc5749",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "31f4130220b7f7f5390cba1126181dd52ca3c447f6b00c82d2ff4edad87be6a9"
+  },
+  "objectiveSha256": "07f5f70904c6fc168eb0fc5302312d3bf37b15310abaaaddc353034184eee7b3",
+  "executionObjectiveSha256": "745748fb0f1844ed6a1d5df09f71fe655bdc7e5747f3fe90967680150ddd3ac8",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "8f6650ff12c25af02a33839a067a630f9cc04240b0a039f7cf00c222c844d208",
+  "startedAtUtc": "2026-11-18T04:42:44.081Z",
+  "completedAtUtc": "2026-11-18T04:45:01.357Z",
+  "processExitCode": 1,
+  "completionEvents": 1,
+  "durationSeconds": 73.7,
+  "creditsConsumed": 29.33926,
+  "sealedPrivatePackSha256": "3e620975591759153e7d075125b30ebcd94a4f8167f0b5c49d11474b13c185d7",
+  "testManager": {
+    "id": "01M7PFDTKGTJWYQSDV4RDR1F50",
+    "title": "NIARVA landing: cinematic hero, motion fallback, and semantic gap",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "intention_to_proof_heading_visible_usable",
+      "condition": "the complete heading “From Intention to Proof.” is visible and usable.",
+      "subject": "the complete heading “From Intention to Proof.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "build_verified_form_action_visible_usable",
+      "condition": "the primary “Build Verified Form” action is visible and usable.",
+      "subject": "the primary “Build Verified Form” action",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "inspect_golden_case_link_visible_usable",
+      "condition": "the “Inspect Golden Case” link is visible and usable.",
+      "subject": "the “Inspect Golden Case” link",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-05",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "packSha256": "3e620975591759153e7d075125b30ebcd94a4f8167f0b5c49d11474b13c185d7",
+    "consoleLogPresent": true,
+    "consoleErrors": 8,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 18,
+    "httpStatuses": [
+      {
+        "status": "0",
+        "count": 4
+      },
+      {
+        "status": "200",
+        "count": 12
+      },
+      {
+        "status": "500",
+        "count": 2
+      }
+    ],
+    "firstPartyRequests": 18,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "0",
+        "count": 4
+      },
+      {
+        "status": "200",
+        "count": 12
+      },
+      {
+        "status": "500",
+        "count": 2
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

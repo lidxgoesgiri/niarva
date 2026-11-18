@@ -1,0 +1,93 @@
+{
+  "findingId": "FAV-01",
+  "scope": "Landing icon request only; no product-verification verdict is inferred",
+  "sourceChange": "Page-level icon metadata uses an inline SVG matching the existing NIARVA glyph",
+  "before": {
+    "testId": "PE-02D",
+    "startedAtUtc": "2026-11-17T15:53:34.203Z",
+    "completedAtUtc": "2026-11-17T16:01:09.153Z",
+    "source": {
+      "commit": "31ad0ee4954aee5babe20ce718679e3849c9845a",
+      "branch": "feature/product-experience",
+      "buildId": "j40Kd5rcJzc0sxJ1FNiEL",
+      "files": {
+        "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+        "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+        "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e",
+        "apps/web/src/app/page.tsx": "91ce5f08299395f3aa166e9e7d73ddb3ba8c816703d1763d6c5fc1bd62e5d035",
+        "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+        "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+        "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705"
+      },
+      "diffSha256": "8ad94cf9debc95b6488c46c1a184570d08a8af82dcc72d445f8349f1058e4cb7"
+    },
+    "objectiveSha256": "debc062d77387d25feb13b5f67871ad6de04370237918a0cb28f1d869f439186",
+    "processExitCode": 0,
+    "completionEvents": 1,
+    "reportedStatus": "passed",
+    "overallAssessment": "BLOCKED: named payload extraction contains a literal placeholder",
+    "sealedPrivatePackSha256": "eeb23335ec5ed6ddec324c71807bdfe2d89689717ce6c5e93e1f9fb9b7d4749e",
+    "observedLogs": {
+      "testId": "PE-02D",
+      "buildId": "j40Kd5rcJzc0sxJ1FNiEL",
+      "packSha256": "eeb23335ec5ed6ddec324c71807bdfe2d89689717ce6c5e93e1f9fb9b7d4749e",
+      "consoleLogPresent": true,
+      "consoleErrors": 1,
+      "favicon404Errors": 1,
+      "networkLogPresent": true,
+      "recordedRequests": 20,
+      "httpStatuses": [
+        {
+          "status": "200",
+          "count": 20
+        }
+      ],
+      "faviconRequests": 0
+    }
+  },
+  "after": {
+    "testId": "PE-02D",
+    "startedAtUtc": "2026-11-17T17:42:46.563Z",
+    "completedAtUtc": "2026-11-17T17:46:56.759Z",
+    "source": {
+      "commit": "be30baa8128cce7e3009ce49e908d05bfbe491c5",
+      "branch": "feature/product-experience",
+      "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+      "files": {
+        "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+        "apps/web/src/app/page.tsx": "6f83b39e573570e88fb39c3c080403f02cf3973d18b52f828216e3fdf6730065",
+        "apps/web/src/features/landing/boundary-sandbox.tsx": "672c2a7f306653a16a2c4bd9cebf01bfdc30412184f06b166ea9a2223e879be1",
+        "apps/web/src/features/landing/landing-shell.tsx": "5495196aa8d1fb61841131de2b16af4e293f37879390c0976201bdc16111c96e",
+        "apps/web/src/features/landing/landing.module.css": "fb8a4f6f5a995cddb3e1dbb4463cfeb08d8160c199356fc8209c37be539d7705",
+        "apps/web/src/features/landing/story-panels.tsx": "8d109d22f3865cad0f502439a1f033286344f6ad31010e5ec9ca82daee4e55e9",
+        "apps/web/src/features/landing/story.module.css": "693c72764549df29703acdab87fad4c4369e43445d7539323acf9809ba6eaa92",
+        "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+      },
+      "diffSha256": "5970e5ef0bf43aed9daf5b8b484328cc5ef9e3d57be31f2ca5f486985360395b"
+    },
+    "objectiveSha256": "debc062d77387d25feb13b5f67871ad6de04370237918a0cb28f1d869f439186",
+    "processExitCode": 0,
+    "completionEvents": 1,
+    "reportedStatus": "passed",
+    "overallAssessment": "BLOCKED: named payload extraction contains a literal placeholder",
+    "sealedPrivatePackSha256": "a5d00459e790a96c5e30ddf521ccd2904cff59b4589eff77a4eee709269a8e62",
+    "observedLogs": {
+      "testId": "PE-02D",
+      "buildId": "JLVIq5-Ze-0Gs92hwYHbh",
+      "packSha256": "a5d00459e790a96c5e30ddf521ccd2904cff59b4589eff77a4eee709269a8e62",
+      "consoleLogPresent": true,
+      "consoleErrors": 0,
+      "favicon404Errors": 0,
+      "networkLogPresent": true,
+      "recordedRequests": 20,
+      "httpStatuses": [
+        {
+          "status": "200",
+          "count": 20
+        }
+      ],
+      "faviconRequests": 0
+    }
+  },
+  "assessment": "The same-objective retest records zero console errors and no favicon.ico request. The overall inspector objective is still incomplete because its named extraction is a placeholder. This is a log assessment within existing runs, not an additional executed test."
+}

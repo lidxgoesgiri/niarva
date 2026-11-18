@@ -1,0 +1,182 @@
+{
+  "scope": "Native validation only. No browser, responsive, keyboard, or motion acceptance is inferred.",
+  "sourceCommit": "ab690f303e62e786d9cad33c924ffdb8c223b051",
+  "buildId": "-0Q19m_sHu5FEM9F0CQrt",
+  "checks": [
+    {
+      "name": "Workspace lint",
+      "command": "pnpm lint",
+      "status": "PASS"
+    },
+    {
+      "name": "Workspace TypeScript",
+      "command": "pnpm -r typecheck",
+      "status": "PASS"
+    },
+    {
+      "name": "Native unit and API integration tests",
+      "command": "pnpm test",
+      "status": "PASS",
+      "executedTests": 88,
+      "executedTestFiles": 11,
+      "breakdown": {
+        "core": 58,
+        "webApiIntegration": 30
+      },
+      "noTestWorkspaces": [
+        "contracts",
+        "worker"
+      ]
+    },
+    {
+      "name": "Production build",
+      "command": "pnpm build",
+      "status": "PASS"
+    }
+  ],
+  "contrast": {
+    "status": "PASS",
+    "method": "WCAG relative luminance; declared text and component thresholds",
+    "pairs": [
+      {
+        "name": "Primary text on canvas",
+        "foreground": "#e9edf5",
+        "background": "#0b1024",
+        "ratio": 16.068,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Secondary text on canvas",
+        "foreground": "#9ba6c4",
+        "background": "#0b1024",
+        "ratio": 7.762,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Secondary text on raised surface",
+        "foreground": "#9ba6c4",
+        "background": "#1a2450",
+        "ratio": 6.122,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Lavender focus on raised surface",
+        "foreground": "#b894fa",
+        "background": "#1a2450",
+        "ratio": 6.129,
+        "requirement": "ui-component",
+        "threshold": 3,
+        "status": "PASS"
+      },
+      {
+        "name": "Primary CTA text",
+        "foreground": "#ffffff",
+        "background": "#344dd0",
+        "ratio": 6.734,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Primary CTA hover text",
+        "foreground": "#ffffff",
+        "background": "#3f5ae0",
+        "ratio": 5.6,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Sample form primary text",
+        "foreground": "#17203b",
+        "background": "#e9edf5",
+        "ratio": 13.702,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Sample form secondary text",
+        "foreground": "#4c5872",
+        "background": "#e9edf5",
+        "ratio": 6.075,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Sample input boundary",
+        "foreground": "#7a869e",
+        "background": "#f8f9fc",
+        "ratio": 3.48,
+        "requirement": "ui-component",
+        "threshold": 3,
+        "status": "PASS"
+      },
+      {
+        "name": "Required field explanatory text",
+        "foreground": "#136348",
+        "background": "#e9edf5",
+        "ratio": 6.159,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Sample pass status",
+        "foreground": "#34d399",
+        "background": "#0b1024",
+        "ratio": 9.807,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Sample failure status",
+        "foreground": "#f87171",
+        "background": "#0b1024",
+        "ratio": 6.816,
+        "requirement": "normal-text",
+        "threshold": 4.5,
+        "status": "PASS"
+      },
+      {
+        "name": "Unselected GPA control boundary",
+        "foreground": "#667399",
+        "background": "#0b1024",
+        "ratio": 4.02,
+        "requirement": "ui-component",
+        "threshold": 3,
+        "status": "PASS"
+      },
+      {
+        "name": "Control boundary on elevated surface",
+        "foreground": "#667399",
+        "background": "#131b3a",
+        "ratio": 3.595,
+        "requirement": "ui-component",
+        "threshold": 3,
+        "status": "PASS"
+      }
+    ]
+  },
+  "assets": {
+    "method": "Static production HTML script references; local gzip estimate, not field Core Web Vitals or a browser network measurement",
+    "initialScriptCount": 11,
+    "estimatedGzipBytes": 212486,
+    "budgetBytes": 256000,
+    "status": "PASS"
+  },
+  "sourceBinding": "Integration commit plus the root icon metadata diff captured in PE-01-integrated.json; this record describes the existing tested build, not a rebuild after documentation changes.",
+  "limitations": [
+    "Static asset size is not a browser performance measurement.",
+    "Contrast measurement does not prove every rendered state or complete accessibility.",
+    "Deployment smoke is NOT RUN. Native integration tests do not replace browser acceptance."
+  ]
+}
