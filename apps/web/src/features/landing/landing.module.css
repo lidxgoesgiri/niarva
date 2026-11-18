@@ -5,7 +5,7 @@
   --landing-paper-line: #7a869e;
   --landing-control-line: #667399;
   --landing-duration: 240ms;
-  --landing-glass: rgba(14, 20, 46, 0.68);
+  --landing-glass: rgba(14, 21, 50, 0.72);
   --landing-glass-line: rgba(233, 237, 245, 0.12);
   position: relative;
   isolation: isolate;
@@ -16,6 +16,23 @@
   position: fixed;
   inset: 0;
   pointer-events: none;
+}
+.landing[data-scroll-active="true"] .atmosphere {
+  background:
+    radial-gradient(
+      ellipse at 87% 14%,
+      rgb(var(--trace-color, 143 111 246) / 0.2),
+      transparent 51%
+    ),
+    radial-gradient(ellipse at 15% 74%, #141f50 0%, transparent 50%), #0b1024;
+}
+.landing[data-scroll-active="true"] .atmosphere::before {
+  background-position: center calc(var(--page-progress, 0) * 64px);
+  mask-image: radial-gradient(
+    ellipse at calc(69% - var(--page-progress, 0) * 25%) 68%,
+    #000,
+    transparent 70%
+  );
 }
 .atmosphere {
   z-index: -2;

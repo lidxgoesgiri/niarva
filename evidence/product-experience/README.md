@@ -1,5 +1,7 @@
 # Landing verification evidence
 
+The [scroll choreography report](./scroll-choreography.md) records the reversible pipeline and shows how the technical references informed the design.
+
 The [cinematic landing verification](./cinematic-landing.md) covers the redesigned hero, motion pause and the Semantic Gap sequence. The table also retains earlier evidence on its recorded builds.
 
 The landing explains the scholarship boundary error through an interactive, permanently labelled simulation. It never authorizes real publication or displays sample observations as real verification proof. This folder contains sanitized derivatives; original Kane packs, profiles and detailed logs stay private.

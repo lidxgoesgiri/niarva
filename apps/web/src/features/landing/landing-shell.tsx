@@ -12,6 +12,8 @@ import {
 import { ArrowUpRight, Menu, Pause, Play, X } from "lucide-react";
 import { BrandMark } from "@/components/composites/brand-mark";
 import { ButtonLink } from "@/components/ui/button";
+import { bindLandingScroll } from "./scroll-choreography";
+import { ScrollTrace } from "./scroll-trace";
 import styles from "./landing.module.css";
 
 const MotionContext = createContext(true);
@@ -40,6 +42,9 @@ export function LandingShell({ children }: { children: ReactNode }) {
   const root = useRef<HTMLDivElement>(null);
   const moving = !paused && !reduced && visible;
   useEffect(() => {
+    if (moving && !getReducedMotion() && root.current) return bindLandingScroll(root.current);
+  }, [moving]);
+  useEffect(() => {
     const surface = root.current;
     if (!surface) return;
     const observer = new IntersectionObserver(
@@ -56,6 +61,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
     <MotionContext value={moving}>
       <div ref={root} className={styles.landing} data-motion={moving ? "running" : "paused"}>
         <div className={styles.atmosphere} aria-hidden="true" />
+        <ScrollTrace />
         <SiteNavigation />
         {children}
         <button

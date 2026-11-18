@@ -2,6 +2,12 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — native scroll choreography on the UI branch
+
+- The landing synchronizes the hero camera, word illumination, pipeline beam, progress rail and smaller panel movements to native scroll. The visibility-bounded WebGL core stays in the hero. Persistent CSS lighting carries the palette through the sections. Desktop scroll can advance the sticky pipeline panel. Direct selections and focus within the active panel retain control.
+- New owner-reviewed PE-07 ran twice. Its corrected-build screenshots prove the desktop rail and selected panel reversed at 47% → 58% → 47%, and the beam is continuous after the SVG source repair. The combined oracle remains BLOCKED because Kane saved a single structured reading. Neither incomplete run is reported as PASS. The native preflight passes and manual stage and pause coverage is in progress. The 360 px viewport is still unproven because the installed Kane desktop width setting starts at 800 px.
+- The work is limited to the landing and its evidence. No dependency, shared component, root layout, API, or database files changed. [Scroll evidence and references](../../evidence/product-experience/scroll-choreography.md).
+
 ## 2026-11-18 — cinematic landing refresh
 
 - Updated the landing and added the public `/demo` guide on the UI branch. The guide links to the recorded eight-probe scholarship run and the authenticated workspace. The interactive sandbox remains a labelled simulation with a fail-closed gate.

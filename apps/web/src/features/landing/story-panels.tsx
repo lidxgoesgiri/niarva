@@ -1,7 +1,7 @@
 "use client";
 
 import * as Tabs from "@radix-ui/react-tabs";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   Braces,
@@ -16,7 +16,9 @@ import {
   Terminal,
 } from "lucide-react";
 import { useLandingMotion } from "./landing-shell";
+import { scrollStageEvent } from "./scroll-choreography";
 import landingStyles from "./landing.module.css";
+import scrollStyles from "./scroll.module.css";
 import storyStyles from "./story.module.css";
 
 const styles = { ...landingStyles, ...storyStyles };
@@ -53,36 +55,76 @@ export function ProofPipeline() {
   const [playing, setPlaying] = useState(false);
   const moving = useLandingMotion();
   const current = stages[stage] ?? stages[0];
+  const track = useRef<HTMLDivElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  const manual = useRef(false);
+  useEffect(() => {
+    const element = track.current;
+    if (!element) return;
+    function updateStage(event: Event) {
+      const next = (event as CustomEvent<number>).detail;
+      if (next === -1) {
+        manual.current = false;
+        return;
+      }
+      if (!manual.current && !panel.current?.contains(document.activeElement)) {
+        setStage(next);
+        setPlaying(false);
+      }
+    }
+    element.addEventListener(scrollStageEvent, updateStage);
+    return () => element.removeEventListener(scrollStageEvent, updateStage);
+  }, []);
   useEffect(() => {
     if (!playing || !moving || lineCount >= terminalLines.length) return;
     const timer = window.setTimeout(() => setLineCount((count) => count + 1), 160);
     return () => window.clearTimeout(timer);
   }, [playing, moving, lineCount]);
   return (
-    <div className={styles.pipelineLayout}>
-      <ol className={styles.stageList}>
-        {stages.map(({ title, caption }, index) => (
-          <li key={title}>
-            <button
-              type="button"
-              aria-pressed={stage === index}
-              aria-controls="pipeline-content"
-              onClick={() => {
-                setStage(index);
-                setPlaying(false);
-              }}
-            >
-              <span className={styles.stageIndex}>0{index + 1}</span>
-              <span>
-                <strong>{title}</strong>
-                <small>{caption}</small>
-              </span>
-              <ArrowRight size={16} aria-hidden="true" />
-            </button>
-          </li>
-        ))}
-      </ol>
-      <div id="pipeline-content" className={styles.pipelineContent}>
+    <div
+      className={`${styles.pipelineLayout} ${scrollStyles.pipelineTrack}`}
+      data-scroll-pipeline
+      ref={track}
+    >
+      <div className={scrollStyles.pipelineRail}>
+        <svg
+          className={scrollStyles.pipelineBeam}
+          viewBox="0 0 8 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <path d="M4 0V100" vectorEffect="non-scaling-stroke" />
+          <path d="M4 0V100" pathLength="1" data-scroll-beam />
+        </svg>
+        <ol className={`${styles.stageList} ${scrollStyles.scrollStages}`}>
+          {stages.map(({ title, caption }, index) => (
+            <li key={title}>
+              <button
+                type="button"
+                aria-pressed={stage === index}
+                aria-controls="pipeline-content"
+                onClick={() => {
+                  manual.current = true;
+                  setStage(index);
+                  setPlaying(false);
+                }}
+              >
+                <span className={styles.stageIndex}>0{index + 1}</span>
+                <span>
+                  <strong>{title}</strong>
+                  <small>{caption}</small>
+                </span>
+                <ArrowRight size={16} aria-hidden="true" />
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <div
+        id="pipeline-content"
+        ref={panel}
+        className={`${styles.pipelineContent} ${scrollStyles.pipelineFrame}`}
+      >
         <div className={styles.panelTop}>
           <span>EXAMPLE / 0{stage + 1}</span>
           <current.icon size={18} aria-hidden="true" />
@@ -284,7 +326,10 @@ export function ClosedLoops() {
 export function EvidenceInspector() {
   return (
     <div className={styles.evidenceLayout}>
-      <Tabs.Root defaultValue="observation" className={styles.inspector}>
+      <Tabs.Root
+        defaultValue="observation"
+        className={`${styles.inspector} ${scrollStyles.evidencePrimary}`}
+      >
         <div className={styles.inspectorHeading}>
           <span className={styles.sampleDot} />
           Representative evidence structure (sanitized)
@@ -367,7 +412,7 @@ export function EvidenceInspector() {
           Sample structure only · inspect actual version-bound evidence in the creator workspace.
         </p>
       </Tabs.Root>
-      <div className={styles.evidenceAside}>
+      <div className={`${styles.evidenceAside} ${scrollStyles.evidenceSecondary}`}>
         <article>
           <RotateCcw size={22} aria-hidden="true" />
           <h3>

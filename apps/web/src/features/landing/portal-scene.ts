@@ -40,7 +40,7 @@ void main() {
     normal = cos(ring) * across + sin(ring) * up;
     float radius = .145 + .045 * sin(t * 6.0 - time * 1.45) + .022 * cos(3.0 * ring + t * 9.0);
     point = center + normal * radius;
-    point.z += .10 * sin(t * 4.0 - time * .8);
+    point.z += (.10 + .15 * uScrollProgress) * sin(t * 4.0 - time * .8);
     vWeight = .5 + .5 * cos(t * 5.0 + ring * 2.0 - time * 1.25);
   }
   float pitch = .48 + uMouse.y * .13 + uScrollProgress * .42;
@@ -53,10 +53,10 @@ void main() {
   normal.xy *= turn(-.33 + time * .071 + uScrollProgress * .7);
   vPosition = point;
   vNormal = normal;
-  float depth = 5.8 - point.z;
+  float depth = 6.2 - uScrollProgress * 1.26 - point.z;
   float scale = min(3.3, 3.5 / uAspect);
   vec2 xy = point.xy * vec2(scale, scale * uAspect);
-  xy += uMouse * .31 + vec2(0.0, uScrollProgress * -.32);
+  xy += uMouse * .31 + vec2(uScrollProgress * .34, uScrollProgress * -.72);
   gl_Position = vec4(xy, depth * .75 - 3.7, depth);
   gl_PointSize = 1.0 + 2.4 * vWeight * clamp(6.0 / depth, .6, 1.4);
 }
@@ -105,7 +105,7 @@ function geometry() {
     }
   }
   const meshCount = vertices.length / 3;
-  for (let index = 1; index <= 420; index++) {
+  for (let index = 1; index <= 612; index++) {
     const angle = index * 2.399963;
     const radius = 1.42 + (index % 53) / 23;
     vertices.push(
@@ -193,7 +193,7 @@ export function createPortalScene(
   let mouseY = 0;
   let currentX = 0;
   let currentY = 0;
-  let scroll = 0;
+  const hero = canvas.closest<HTMLElement>("[data-scroll-stop]");
   let width = 0;
   let height = 0;
 
@@ -208,12 +208,7 @@ export function createPortalScene(
     mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     mouseY = 1 - (event.clientY / window.innerHeight) * 2;
   };
-  const onScroll = () => {
-    scroll = Math.min(1, Math.max(0, window.scrollY / window.innerHeight));
-  };
   window.addEventListener("pointermove", onPointer, { passive: true });
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
 
   const draw = (now: number) => {
     if (!active || lost) return;
@@ -235,6 +230,7 @@ export function createPortalScene(
     }
     currentX += (mouseX - currentX) * 0.085;
     currentY += (mouseY - currentY) * 0.085;
+    const scroll = Number(hero?.style.getPropertyValue("--hero-scroll") ?? 0);
     gl.uniform1f(uniforms.aspect, width / height);
     gl.uniform1f(uniforms.time, time);
     gl.uniform1f(uniforms.scroll, scroll);
@@ -277,7 +273,6 @@ export function createPortalScene(
       cancelAnimationFrame(frame);
       onResize.disconnect();
       window.removeEventListener("pointermove", onPointer);
-      window.removeEventListener("scroll", onScroll);
       canvas.removeEventListener("webglcontextlost", handleLostContext);
       gl?.deleteBuffer(buffer);
       gl?.deleteProgram(program);
