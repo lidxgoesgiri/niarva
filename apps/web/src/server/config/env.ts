@@ -54,6 +54,13 @@ const envSchema = z.object({
    * `delay:<formId>` entries. Ignored on the production environment (`vercel-production`).
    */
   NIARVA_TEST_RESPONSE_FAULTS: z.string().max(2000).optional(),
+  /**
+   * Judge accounts (comma-separated emails). With `DEMO_MODE=true` they may read, never change,
+   * the forms in `DEMO_SHOWCASE_FORM_IDS`; their own workspace works like any creator's.
+   */
+  DEMO_JUDGE_EMAILS: z.string().max(2000).optional(),
+  /** Forms judges may read (comma-separated form ids), for example the recorded golden case. */
+  DEMO_SHOWCASE_FORM_IDS: z.string().max(2000).optional(),
   /** Enables the seeded demo account and the labeled golden scenario. */
   DEMO_MODE: z
     .enum(["true", "false"])
