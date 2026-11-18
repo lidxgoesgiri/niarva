@@ -16,7 +16,7 @@ import {
 import { and, count, desc, eq, sql } from "drizzle-orm";
 import type { Actor } from "../context/session";
 import { getDb } from "../db/client";
-import { formVersions, probeRuns, probes, publications, repairProposals, submissions, verificationRuns } from "../db/schema";
+import { claimSets, formVersions, probeRuns, probes, publications, repairProposals, submissions, verificationRuns } from "../db/schema";
 import { configuredModels } from "../ai/extract-claims";
 import { getEnv } from "../config/env";
 import { latestClaimSet, loadReadableForm } from "./intent.service";
@@ -25,6 +25,68 @@ import { currentVerificationKey, workerStatus } from "./verification.service";
 import { latestVersion } from "./version.service";
 
 /** Everything the creator workspace shows for one form, computed from authoritative data. */
+
+type DbHandle = Awaited<ReturnType<typeof getDb>>;
+type RunRow = typeof verificationRuns.$inferSelect;
+
+/** One run with its probes and latest attempts, as the run card and the sanitized report show it (FR-18). */
+async function buildRun(db: DbHandle, run: RunRow, currentKey: string | null | undefined) {
+  const probeRows = await db.select().from(probes).where(eq(probes.verificationRunId, run.id)).orderBy(probes.probeKey);
+  const attempts = await db.select().from(probeRuns).where(eq(probeRuns.verificationRunId, run.id)).orderBy(desc(probeRuns.attempt));
+  return {
+    id: run.id,
+    mode: run.mode,
+    state: run.state,
+    detail: run.detail,
+    counts: run.counts as { required: number; pass: number; fail: number; unknown: number },
+    fresh: run.mode === "full" ? run.verificationKey === currentKey : null,
+    rendererBuildId: run.rendererBuildId,
+    environmentId: run.environmentId,
+    // Proof identity and timeline for the run report (FR-18).
+    verificationKey: run.verificationKey,
+    probePolicyVersion: run.probePolicyVersion,
+    scenarioSetHash: run.scenarioSetHash,
+    runtimeConfigHash: run.runtimeConfigHash,
+    requestedAt: run.requestedAt.toISOString(),
+    startedAt: run.startedAt?.toISOString() ?? null,
+    completedAt: run.completedAt?.toISOString() ?? null,
+    canceledAt: run.canceledAt?.toISOString() ?? null,
+    creditsTotal: run.creditsTotal,
+    probes: probeRows.map((probe) => {
+      const latest = attempts.find((attempt) => attempt.probeId === probe.id);
+      return {
+        probeKey: probe.probeKey,
+        kind: probe.kind,
+        executor: probe.executor,
+        claimKeys: probe.claimKeys,
+        goldenIds: probe.goldenIds,
+        objectiveHash: probe.objectiveHash,
+        objective: probe.objectiveTemplate,
+        stages: probe.stages,
+        latest: latest
+          ? {
+              status: latest.status,
+              attempt: latest.attempt,
+              verdict: latest.verdict,
+              reasonCode: latest.reasonCode,
+              failedStage: latest.failedStage,
+              observation: latest.observation,
+              agentVerdict: latest.agentVerdict,
+              agentVerdictMismatch: latest.agentVerdictMismatch,
+              kaneRunId: latest.kaneRunId,
+              kaneCliVersion: latest.kaneCliVersion,
+              creditsConsumed: latest.creditsConsumed,
+              evidence: latest.evidence,
+              serverEvidence: latest.serverEvidenceResult,
+              startedAt: latest.startedAt?.toISOString() ?? null,
+              finishedAt: latest.finishedAt?.toISOString() ?? null,
+            }
+          : null,
+      };
+    }),
+  };
+}
+
 export async function getFormState(actor: Actor, formId: string) {
   {
     const db = await getDb();
@@ -66,60 +128,28 @@ export async function getFormState(actor: Actor, formId: string) {
       ? await db.select().from(verificationRuns).where(eq(verificationRuns.formVersionId, version.id)).orderBy(desc(verificationRuns.requestedAt)).limit(6)
       : [];
     const runs = [];
-    for (const run of runRows) {
-      const probeRows = await db.select().from(probes).where(eq(probes.verificationRunId, run.id)).orderBy(probes.probeKey);
-      const attempts = await db.select().from(probeRuns).where(eq(probeRuns.verificationRunId, run.id)).orderBy(desc(probeRuns.attempt));
-      runs.push({
-        id: run.id,
-        mode: run.mode,
-        state: run.state,
-        detail: run.detail,
-        counts: run.counts as { required: number; pass: number; fail: number; unknown: number },
-        fresh: run.mode === "full" ? run.verificationKey === identity?.key : null,
-        rendererBuildId: run.rendererBuildId,
-        environmentId: run.environmentId,
-        // Proof identity and timeline for the run report (FR-18).
-        verificationKey: run.verificationKey,
-        probePolicyVersion: run.probePolicyVersion,
-        scenarioSetHash: run.scenarioSetHash,
-        runtimeConfigHash: run.runtimeConfigHash,
-        requestedAt: run.requestedAt.toISOString(),
-        startedAt: run.startedAt?.toISOString() ?? null,
-        completedAt: run.completedAt?.toISOString() ?? null,
-        canceledAt: run.canceledAt?.toISOString() ?? null,
-        creditsTotal: run.creditsTotal,
-        probes: probeRows.map((probe) => {
-          const latest = attempts.find((attempt) => attempt.probeId === probe.id);
-          return {
-            probeKey: probe.probeKey,
-            kind: probe.kind,
-            executor: probe.executor,
-            claimKeys: probe.claimKeys,
-            goldenIds: probe.goldenIds,
-            objectiveHash: probe.objectiveHash,
-            objective: probe.objectiveTemplate,
-            stages: probe.stages,
-            latest: latest
-              ? {
-                  status: latest.status,
-                  attempt: latest.attempt,
-                  verdict: latest.verdict,
-                  reasonCode: latest.reasonCode,
-                  failedStage: latest.failedStage,
-                  observation: latest.observation,
-                  agentVerdict: latest.agentVerdict,
-                  agentVerdictMismatch: latest.agentVerdictMismatch,
-                  kaneRunId: latest.kaneRunId,
-                  kaneCliVersion: latest.kaneCliVersion,
-                  creditsConsumed: latest.creditsConsumed,
-                  evidence: latest.evidence,
-                  serverEvidence: latest.serverEvidenceResult,
-                  startedAt: latest.startedAt?.toISOString() ?? null,
-                  finishedAt: latest.finishedAt?.toISOString() ?? null,
-                }
-              : null,
-          };
-        }),
+    for (const run of runRows) runs.push(await buildRun(db, run, identity?.key));
+
+    // Proof history (FR-18): earlier versions keep their own runs and repairs, so the chain from a
+    // seeded or failing version through an approved repair to the current proof stays traceable.
+    const history = [];
+    for (const entry of lineage) {
+      if (!version || entry.id === version.id) continue;
+      const earlierRuns = await db.select().from(verificationRuns).where(eq(verificationRuns.formVersionId, entry.id)).orderBy(desc(verificationRuns.requestedAt)).limit(3);
+      const earlierRepairs = await db.select().from(repairProposals).where(eq(repairProposals.formVersionId, entry.id)).orderBy(desc(repairProposals.createdAt)).limit(5);
+      if (earlierRuns.length === 0 && earlierRepairs.length === 0) continue;
+      const [entryClaims] = await db.select({ claimsHash: claimSets.claimsHash }).from(formVersions).innerJoin(claimSets, eq(claimSets.id, formVersions.claimSetId)).where(eq(formVersions.id, entry.id));
+      const builtRuns = [];
+      for (const run of earlierRuns) builtRuns.push(await buildRun(db, run, identity?.key));
+      history.push({
+        versionId: entry.id,
+        versionNo: entry.versionNo,
+        createdVia: entry.createdVia,
+        definitionHash: entry.definitionHash,
+        pageIdentity: pageIdentity(entry.definitionHash),
+        claimsHash: entryClaims?.claimsHash ?? null,
+        runs: builtRuns,
+        repairs: earlierRepairs.map(repairView),
       });
     }
 
@@ -202,17 +232,8 @@ export async function getFormState(actor: Actor, formId: string) {
           }
         : null,
       intentTraceNote: version && claimSet && version.claimSetId !== claimSet.id ? "A newer claims revision exists. Create a version for it to trace it." : null,
-      repairs: repairs.map((repair) => ({
-        id: repair.id,
-        strategy: repair.strategy,
-        status: repair.status,
-        explanation: repair.explanation,
-        predictedEffects: repair.predictedEffects as string[],
-        patch: repair.patch,
-        findingKeys: repair.findingKeys,
-        claimKeys: repair.claimKeys,
-        resultingVersionId: repair.resultingVersionId,
-      })),
+      repairs: repairs.map(repairView),
+      history,
       runs,
       gate,
       publication: publication ? { slug: publication.slug, publishedAt: publication.publishedAt.toISOString(), versionId: publication.formVersionId, responseCount: publication.responseCount } : null,
@@ -223,6 +244,20 @@ export async function getFormState(actor: Actor, formId: string) {
       ai: { configured: Boolean(env.OPENROUTER_API_KEY && configuredModels().length > 0) },
     };
   }
+}
+
+function repairView(repair: typeof repairProposals.$inferSelect) {
+  return {
+    id: repair.id,
+    strategy: repair.strategy,
+    status: repair.status,
+    explanation: repair.explanation,
+    predictedEffects: repair.predictedEffects as string[],
+    patch: repair.patch,
+    findingKeys: repair.findingKeys,
+    claimKeys: repair.claimKeys,
+    resultingVersionId: repair.resultingVersionId,
+  };
 }
 
 export type FormState = Awaited<ReturnType<typeof getFormState>>;
