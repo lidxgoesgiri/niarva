@@ -100,6 +100,8 @@ Shared components (in `apps/web/src/features/workspace/`):
 
 Keep these attributes and visible texts; Kane tests read them.
 
+- Run report (FR-18): `data-testid="run-report"` with `data-executed` (number of probes executed in the run); runs in the form state also carry `verificationKey`, `probePolicyVersion`, `scenarioSetHash`, `runtimeConfigHash`, `startedAt`, `canceledAt`.
+- Access: `data-testid="form-access-denied"` on `/app/forms/{id}` for a missing or foreign form (HTTP 404, same page for both).
 - Evidence (FR-18): `data-testid="version-lineage"`, `data-testid="probe-evidence"`, `data-testid="probe-expected-observed"` (rows carry `data-match` = `true` / `false` / `unobserved`), `data-testid="probe-objective"`; texts "Show evidence", "Objective sent to Kane CLI".
 - Workspace: `data-testid="version-identity"` (version, approved-claims hash, definition hash, engine at the top of the verification column), `data-claim`, `data-testid="claims-hash"`, `data-testid="counterexample"`, `data-testid="repair-proposal"`, `data-testid="verification-run"` + `data-run-state`, `data-probe` + `data-verdict`, `data-testid="publish-gate"`.
 - Intent Trace: `data-testid="intent-trace"`, heading text "Intent Trace", `data-trace-claim` + `data-static` + `data-browser`, `data-testid="trace-source" | "trace-expectation" | "trace-boundary" | "trace-discrepancy" | "trace-consequence" | "trace-browser-note" | "trace-coverage" | "trace-unrequested"`.

@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-18 08:40 WIB.
+Writer: Claude. Last updated: 2026-11-18 09:15 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -36,10 +36,10 @@ Deadlines:
 
 | ID | Task | Pri | Owner | Depends on |
 |---|---|---|---|---|
-| C-02 | Seed the fixtures that the remaining Assurance tests need: published form, response records, scoped judge account, unstable / race / zero-run / diagnostic-only forms, provider-outage switch | P0 | Claude | — |
-| C-03 | Kane: publish and respondent flows (t-4, t-7, t-8, t-9, t-10, t-11, t-12, t-18, t-19, t-20, t-22, t-31) | P0 | Claude | C-02 |
-| C-04 | Kane: security and access (t-1, t-2, t-23, t-32, t-33, t-43, t-48, t-54) | P1 | Claude | C-02 |
-| C-05 | Kane: verification honesty (t-13, t-14, t-15, t-16, t-17, t-38–t-41, t-46, t-57, t-58) | P1 | Claude | C-01, C-02 |
+| C-02 | Fixtures for the remaining Assurance tests: **done** for published form, private page/evidence pointers, config endpoint, response form, UNKNOWN run, unrequested / missing / matching rule forms, zero-run form (`d4f2cc4`, `5324dbe`). **Owed:** unstable form (t-16, needs FAILED + two fresh VERIFIED full runs, ~500 credits), diagnostic-only pass (t-58, cannot occur for a real defect by design), scoped judge account (t-55, t-62) | P0 | Claude | — |
+| C-03 | Kane: publish and respondent flows — t-4, t-11, t-18 **PASS**; t-7, t-8, t-10, t-20 FAIL, classified inconclusive (Kane did not capture or send the raw request, or could not discover the API endpoint; product behavior is proven elsewhere). Evidence: `evidence/assurance/C-03-publish-and-respondent.md` (`1cddebd`). Owed: t-9, t-12, t-19, t-22, t-31 (need more full verifications) | P0 | Claude | — |
+| C-04 | Kane: security and access — **running** (t-1, t-2, t-48, t-54, t-32, t-33, t-43); t-23 owed (API endpoint not discoverable, same as t-20) | P1 | Claude | — |
+| C-05 | Kane: verification honesty — **running** (t-14, t-15, t-39, t-40, t-41, t-46, t-57). Owed: t-13 (starts a run inside the test, which would deadlock on the Kane lock), t-16 and t-17 (need extra full verifications), t-38 (a matching rule that fails in the browser cannot occur by design), t-58 | P1 | Claude | — |
 | C-06 | Kane: AI intake and provider outage (t-25–t-30, t-61) | P1 | Claude | C-02 |
 | C-07 | Assurance coverage report (`kane-cli cover`): proven vs owed, in `evidence/assurance/` | P0 | Claude | C-03–C-06 |
 | C-08 | Integration: review and merge PR #6 into the stack; integrated Kane regression; fresh clone check; README claim audit | P1 | Claude | X-01, C-03 |
