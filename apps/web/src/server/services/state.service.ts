@@ -78,8 +78,15 @@ export async function getFormState(actor: Actor, formId: string) {
         fresh: run.mode === "full" ? run.verificationKey === identity?.key : null,
         rendererBuildId: run.rendererBuildId,
         environmentId: run.environmentId,
+        // Proof identity and timeline for the run report (FR-18).
+        verificationKey: run.verificationKey,
+        probePolicyVersion: run.probePolicyVersion,
+        scenarioSetHash: run.scenarioSetHash,
+        runtimeConfigHash: run.runtimeConfigHash,
         requestedAt: run.requestedAt.toISOString(),
+        startedAt: run.startedAt?.toISOString() ?? null,
         completedAt: run.completedAt?.toISOString() ?? null,
+        canceledAt: run.canceledAt?.toISOString() ?? null,
         creditsTotal: run.creditsTotal,
         probes: probeRows.map((probe) => {
           const latest = attempts.find((attempt) => attempt.probeId === probe.id);
