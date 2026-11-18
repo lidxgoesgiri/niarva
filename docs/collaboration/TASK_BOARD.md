@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-18 02:05 WIB.
+Writer: Claude. Last updated: 2026-11-18 08:40 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -22,13 +22,14 @@ Deadlines:
 | AI extraction guard (no auto-acknowledged manual checks) | FR-02, FR-19 | DEV-LOOP-01 (t-36 FAIL → fix `cfc28b8` → PASS) |
 | Intent Trace ledger and version identity header | FR-05 | t-37 PASS on `e860ecf`, t-36 PASS on `71564be` (`evidence/dev-loop/regression.md`) |
 | Kane runtime validation | Kane rules | `evidence/m0/` |
-| Verification worker | FR-07, FR-08 | PR #5; PROD-LOOP-01 in progress |
+| Verification worker | FR-07, FR-08 | PR #5 |
+| PROD-LOOP-01: diagnostic FAIL → approved repair → fresh full suite VERIFIED (8/8) → publish 201 → respondent receipt | FR-07–FR-11, FR-13, FR-14 | `evidence/product-loop/PROD-LOOP-01.md` (`d28dee5`); DEV-LOOP-02 closed |
 
 ## In progress
 
 | ID | Task | Pri | Owner | Status | Depends on |
 |---|---|---|---|---|---|
-| C-01 | PROD-LOOP-01: diagnostic FAIL → approved repair → fresh full suite → publish → respondent, with a real worker and Kane | P0 | Claude | attempt 1 UNVERIFIED (P-05 UNKNOWN → DEV-LOOP-02, `4359d55`); attempt 2 interrupted (P-03 "No start URL" → `0e0a977`, `b67d140`); **attempt 3 running** | — |
+| C-11 | Test Manager consolidation: one official project, numbered area folders, source→destination mapping, title clean-up, project guards in the runners, five real retests in the official project, docs/testing/ | P1 | Claude (test consolidation session) | PR from `test/kane-tms-consolidation` (stacked on feature/creator-workflow) | — |
 | X-01 | Landing page: boundary demonstration, motion, accessibility (PR #6) | P2 | Codex | PR open, under review by Claude | — |
 
 ## To do

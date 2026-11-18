@@ -1,0 +1,393 @@
+{
+  "generatedFrom": "evidence/private/dev/*tms-retest*/summary.json (private)",
+  "runs": [
+    {
+      "test": "anonymous-visitor-receives-unauthorized-workspace-state_test.md",
+      "assuranceId": "t-5",
+      "testFileSha256": "8957cc305eb0020179881053d9b296a7f967dd3f58dcfe14706fef5a0377350c",
+      "startedAtUtc": "2026-11-17T19:07:11.829Z",
+      "outcome": "PASS",
+      "exitCode": 0,
+      "overallStatus": "passed",
+      "completionEvents": 1,
+      "watchdogFired": false,
+      "retryOf": null,
+      "notStartedReason": null,
+      "durationSeconds": 58,
+      "wallSeconds": 105.4,
+      "steps": [
+        {
+          "index": 1,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "established a signed-out visitor session on NIARVA"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "requested the NIARVA workspace on localhost"
+        }
+      ],
+      "failedSteps": [],
+      "decisions": {
+        "replayed": 0,
+        "authored": 2,
+        "adaptiveHealTriggered": false
+      },
+      "creditsConsumed": 26.71,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": {
+        "name": "f7202a6f-735d-4a27-a7aa-ad31acb4e699.evidence",
+        "sha256": "12aaa39ad9921c2a6f18815d4d847135265d41763c722a56bc10768eb4593590",
+        "bytes": 469448
+      },
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": {
+          "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+          "folderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+          "testCaseId": "01M7NEG155H11YH0RNZ2EXMAKJ",
+          "lastExecutionId": "f7202a6f-735d-4a27-a7aa-ad31acb4e699"
+        },
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "b17a7677dec3436e08dc7da02fb59d664b964c7e",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T190711Z-tms-retest-anonymous-visitor-receives-unauthorized-workspace-state"
+    },
+    {
+      "test": "creator-without-forms-sees-an-empty-workspace-state_test.md",
+      "assuranceId": "t-6",
+      "testFileSha256": "d5a4a31b09b0303e1b2312a2ea3e4d81e7c579e0a6722c4ba4817522bf0c6dc6",
+      "startedAtUtc": "2026-11-17T19:12:04.611Z",
+      "outcome": "PASS",
+      "exitCode": 0,
+      "overallStatus": "passed",
+      "completionEvents": 1,
+      "watchdogFired": false,
+      "retryOf": null,
+      "notStartedReason": null,
+      "durationSeconds": 79,
+      "wallSeconds": 134.4,
+      "steps": [
+        {
+          "index": 1,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "signed in to NIARVA on NIARVA"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "viewed the empty forms workspace on NIARVA"
+        }
+      ],
+      "failedSteps": [],
+      "decisions": {
+        "replayed": 0,
+        "authored": 2,
+        "adaptiveHealTriggered": false
+      },
+      "creditsConsumed": 30.64,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": {
+        "name": "801c6450-1abc-442f-94f3-27c756843239.evidence",
+        "sha256": "0a82ec579feffced643d098a2b4d9b83447ced0595f5dc89f9107f1bc518f628",
+        "bytes": 1009075
+      },
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": {
+          "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+          "folderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+          "testCaseId": "01M7NES07YV6K4BQQ8Y7083D1D",
+          "lastExecutionId": "801c6450-1abc-442f-94f3-27c756843239"
+        },
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "b17a7677dec3436e08dc7da02fb59d664b964c7e",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T191204Z-tms-retest-creator-without-forms-sees-an-empty-workspace-state"
+    },
+    {
+      "test": "repair-proposal-waits-for-explicit-creator-approval_test.md",
+      "assuranceId": "t-44",
+      "testFileSha256": "e9116090a19ba34648ab09555b460659732ae6b9a73e1c7c8aa11fb13603fd8c",
+      "startedAtUtc": "2026-11-17T19:16:56.388Z",
+      "outcome": "UNKNOWN",
+      "exitCode": 2,
+      "overallStatus": null,
+      "completionEvents": 0,
+      "watchdogFired": false,
+      "retryOf": null,
+      "notStartedReason": "Token refresh failed. Run 'kane-cli login' to re-authenticate.",
+      "durationSeconds": null,
+      "wallSeconds": 11.9,
+      "steps": [],
+      "failedSteps": [],
+      "decisions": null,
+      "creditsConsumed": 0,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": null,
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": null,
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "b17a7677dec3436e08dc7da02fb59d664b964c7e",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T191656Z-tms-retest-repair-proposal-waits-for-explicit-creator-approval"
+    },
+    {
+      "test": "repair-proposal-waits-for-explicit-creator-approval_test.md",
+      "assuranceId": "t-44",
+      "testFileSha256": "e9116090a19ba34648ab09555b460659732ae6b9a73e1c7c8aa11fb13603fd8c",
+      "startedAtUtc": "2026-11-17T19:17:28.273Z",
+      "outcome": "PASS",
+      "exitCode": 0,
+      "overallStatus": "passed",
+      "completionEvents": 1,
+      "watchdogFired": false,
+      "retryOf": "20261117T191656Z-tms-retest-repair-proposal-waits-for-explicit-creator-approval",
+      "notStartedReason": null,
+      "durationSeconds": 115,
+      "wallSeconds": 161.6,
+      "steps": [
+        {
+          "index": 1,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "opened the diagnosed form mismatch in the NIARVA verification workspace"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "created and inspected a pending comparator repair proposal on the form workspace"
+        }
+      ],
+      "failedSteps": [],
+      "decisions": {
+        "replayed": 0,
+        "authored": 2,
+        "adaptiveHealTriggered": false
+      },
+      "creditsConsumed": 40.68,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": {
+        "name": "30c613bb-2ab4-4839-9ddd-16aad25d4e08.evidence",
+        "sha256": "00a800b9ec90c59ed9ecc5c524fa2831c54807ace1e51a16106ba93f408c2131",
+        "bytes": 2485743
+      },
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": {
+          "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+          "folderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+          "testCaseId": "01M7NF2VXG14F0PE2NGST7TC5E",
+          "lastExecutionId": "30c613bb-2ab4-4839-9ddd-16aad25d4e08"
+        },
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "b17a7677dec3436e08dc7da02fb59d664b964c7e",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T191728Z-tms-retest-repair-proposal-waits-for-explicit-creator-approval"
+    },
+    {
+      "test": "approved-scholarship-claims-generate-a-versioned-conditional_test.md",
+      "assuranceId": "t-36",
+      "testFileSha256": "860858c7a5f4e502af83624025105eafc3698630fb3b255e9e3783d68d5c5969",
+      "startedAtUtc": "2026-11-17T19:30:12.919Z",
+      "outcome": "PASS",
+      "exitCode": 0,
+      "overallStatus": "passed",
+      "completionEvents": 1,
+      "watchdogFired": false,
+      "retryOf": null,
+      "notStartedReason": null,
+      "durationSeconds": 347,
+      "wallSeconds": 389.7,
+      "steps": [
+        {
+          "index": 1,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "signed in to NIARVA on NIARVA"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "created and approved a conditional scholarship application on NIARVA"
+        },
+        {
+          "index": 3,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "generated a scholarship application form on the forms app"
+        },
+        {
+          "index": 4,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "reviewed the certificate rule on the generated form"
+        },
+        {
+          "index": 5,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected the saved configuration on the generated form version page"
+        }
+      ],
+      "failedSteps": [],
+      "decisions": {
+        "replayed": 0,
+        "authored": 5,
+        "adaptiveHealTriggered": false
+      },
+      "creditsConsumed": 86.9,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": {
+        "name": "b7593a16-e58f-4bc0-ab2a-9834e2486a6c.evidence",
+        "sha256": "c0a987052fe2318507103480c0fff3d8af4707419766e37cda7f22f649bda816",
+        "bytes": 6046262
+      },
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": {
+          "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+          "folderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+          "testCaseId": "01M7NFT74HM01X7P35RHKNXEY2",
+          "lastExecutionId": "b7593a16-e58f-4bc0-ab2a-9834e2486a6c"
+        },
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "230ed3b8420504425808dd809b69b808c1ab12c9",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T193012Z-tms-retest-approved-scholarship-claims-generate-a-versioned-conditional"
+    },
+    {
+      "test": "source-linked-seeded-comparator-discrepancy-at-gpa-3-5_test.md",
+      "assuranceId": "t-37",
+      "testFileSha256": "f95cea9e3311b39d8cdf23bfa501c1e2c7436f658fa739a0b0d23c2c37e7b20d",
+      "startedAtUtc": "2026-11-17T19:38:34.822Z",
+      "outcome": "PASS",
+      "exitCode": 0,
+      "overallStatus": "passed",
+      "completionEvents": 1,
+      "watchdogFired": false,
+      "retryOf": null,
+      "notStartedReason": null,
+      "durationSeconds": 232,
+      "wallSeconds": 286.9,
+      "steps": [
+        {
+          "index": 1,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "opened the scholarship form creator workspace on NIARVA"
+        },
+        {
+          "index": 2,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "opened the C-GPA Intent Trace on the form review page"
+        },
+        {
+          "index": 3,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected the C-GPA counterexample on the Intent Trace page"
+        },
+        {
+          "index": 4,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected the approved C-GPA source reference on the form page"
+        },
+        {
+          "index": 5,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected the seeded defect trace on the forms page"
+        },
+        {
+          "index": 6,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected the GPA 3.5 discrepancy explanation on the application form"
+        },
+        {
+          "index": 7,
+          "status": "passed",
+          "reasonCode": "success.complete",
+          "oneLiner": "inspected verification details for a form on the verification workspace"
+        }
+      ],
+      "failedSteps": [],
+      "decisions": {
+        "replayed": 0,
+        "authored": 7,
+        "adaptiveHealTriggered": false
+      },
+      "creditsConsumed": 122.38,
+      "kaneCliVersion": "0.10.4",
+      "evidencePack": {
+        "name": "12883865-5fd7-450b-bbcc-b36801f5ff2b.evidence",
+        "sha256": "cf56a3af86bb546d37c09fc7c632bc356ecfa2082e48f9206f56dc7a348708b7",
+        "bytes": 4981256
+      },
+      "testManager": {
+        "officialProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileProjectId": "01M7N0CKZ90R3JR906713EHYW0",
+        "profileFolderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+        "recordingBefore": null,
+        "recordingAfter": {
+          "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+          "folderId": "01M7N3K1M2ZNS7M32821R1PDYG",
+          "testCaseId": "01M7NG9T8ZD75HJTJ4Q01M3TRC",
+          "lastExecutionId": "12883865-5fd7-450b-bbcc-b36801f5ff2b"
+        },
+        "testCasesInStream": []
+      },
+      "source": {
+        "commit": "230ed3b8420504425808dd809b69b808c1ab12c9",
+        "branch": "test/kane-tms-consolidation",
+        "dirty": false
+      },
+      "runDir": "20261117T193834Z-tms-retest-source-linked-seeded-comparator-discrepancy-at-gpa-3-5"
+    }
+  ]
+}

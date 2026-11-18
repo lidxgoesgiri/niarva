@@ -106,7 +106,7 @@ Step 5 was authored afresh. Kane reported: "The form showed one saved version, l
 | t-37 | PASS | `e860ecf` |
 | t-44 | PASS (replay) | `e860ecf` |
 
-From this point, Kane CLI sessions are uploaded to the Test Manager project "NIARVA intent verification", folder "Assurance regression tests". Earlier sessions remain in the account's default project.
+Correction (18 November 2026): an earlier version of this file said that from this point every Kane CLI session uploaded to the Test Manager project "NIARVA intent verification". That was not true for these tests. A test that already has a local recording keeps publishing to the project stored in its recording, so the t-37 run at 14:27:03 (evidence `f0be05ef-7437-4cba-98d8-fd5fcd36ac49`) and the t-36 run at 14:57:08 (evidence `b0922bd0-2c4d-49ab-a5bb-c466b75c0cc5`) were uploaded to the account's default project "KaneAI Generated", like every run above. The runners now refuse such a run, and the tests were run again in the official project; see [`docs/testing/MIGRATION_REPORT.md`](../../docs/testing/MIGRATION_REPORT.md) and [`docs/testing/KANE_EXECUTION_REPORT.md`](../../docs/testing/KANE_EXECUTION_REPORT.md).
 
 ## Notes
 
