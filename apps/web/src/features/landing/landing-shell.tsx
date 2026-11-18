@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import {
   createContext,
   useContext,
@@ -16,6 +17,12 @@ import { bindLandingScroll } from "./scroll-choreography";
 import { ScrollTrace } from "./scroll-trace";
 import styles from "./landing.module.css";
 
+const LandingReveals = dynamic(
+  () => import("./landing-reveals").then((module) => module.LandingReveals).catch(() => () => null),
+  {
+    ssr: false,
+  },
+);
 const MotionContext = createContext(true);
 const subscribeMotion = (notify: () => void) => {
   const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -46,7 +53,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
   }, [moving]);
   useEffect(() => {
     const surface = root.current;
-    if (!surface) return;
+    if (!surface || !("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries)
@@ -64,6 +71,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
         <ScrollTrace />
         <SiteNavigation />
         {children}
+        <LandingReveals surface={root} active={moving} />
         <button
           type="button"
           className={styles.motionControl}

@@ -1,3 +1,22 @@
+.wordMask {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+:global([data-scroll-card]:focus-within),
+:global([data-scroll-card]:focus-within [data-scroll-word]) {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
 .scrollTrace {
   display: none;
   position: fixed;
@@ -97,17 +116,8 @@
     transition: transform 150ms ease-out;
   }
 
-  :global([data-scroll-active="true"]) .manifesto span {
-    --illumination: clamp(0, calc((var(--word-progress, 1) - var(--word-start)) * 8), 1);
-    color: color-mix(
-      in srgb,
-      var(--color-ink-muted),
-      var(--color-ink) calc(100% * var(--illumination))
-    );
-  }
-
   :global([data-scroll-active="true"]) .semanticCards li[data-tone="mismatch"] {
-    transform: translateX(calc((1 - var(--word-progress, 1)) * 14px));
+    translate: calc((1 - var(--word-progress, 1)) * 14px) 0;
   }
 
   .pipelineTrack .pipelineFrame {
@@ -201,16 +211,13 @@
   }
 
   :global([data-scroll-active="true"]) .loopDeck > div:first-child {
-    transform: translateY(calc(var(--loop-progress, 0) * 10px))
-      scale(calc(1 - var(--loop-progress, 0) * 0.05));
-    opacity: calc(1 - var(--loop-progress, 0) * 0.09);
+    translate: 0 calc(var(--loop-progress, 0) * 10px);
+    scale: calc(1 - var(--loop-progress, 0) * 0.05);
+    filter: brightness(calc(1 - var(--loop-progress, 0) * 0.09));
   }
 
   :global([data-scroll-active="true"]) .loopDeck > div:last-child {
-    transform: translate(
-      calc(var(--loop-progress, 0) * -22px),
-      calc((1 - var(--loop-progress, 0)) * 29px)
-    );
+    translate: calc(var(--loop-progress, 0) * -22px) calc((1 - var(--loop-progress, 0)) * 29px);
   }
 
   .loopDeck code {
@@ -221,7 +228,7 @@
   }
 
   :global([data-scroll-active="true"]) .evidencePrimary:not(:focus-within) {
-    transform: translateY(calc((var(--evidence-progress, 0.5) - 0.5) * -36px));
+    translate: 0 calc((var(--evidence-progress, 0.5) - 0.5) * -36px);
   }
 
   :global([data-scroll-active="true"]) .evidenceSecondary {

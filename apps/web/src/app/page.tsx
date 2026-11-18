@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { CSSProperties } from "react";
 import {
   ArrowDown,
   ArrowRight,
@@ -16,6 +15,7 @@ import { BoundarySandbox } from "@/features/landing/boundary-sandbox";
 import { HeroAtmosphere } from "@/features/landing/hero-atmosphere";
 import { LandingShell } from "@/features/landing/landing-shell";
 import { landingIcon } from "@/features/landing/landing-icon";
+import { ScrollWords } from "@/features/landing/scroll-words";
 import { ClosedLoops, EvidenceInspector, ProofPipeline } from "@/features/landing/story-panels";
 import { VerificationConcepts } from "@/features/landing/verification-concepts";
 import styles from "@/features/landing/landing.module.css";
@@ -24,11 +24,6 @@ import scrollStyles from "@/features/landing/scroll.module.css";
 export const metadata: Metadata = {
   icons: { icon: { url: landingIcon, type: "image/svg+xml" } },
 };
-
-const manifesto =
-  "A form can be syntactically valid and still miss a required field at the exact boundary.".split(
-    " ",
-  );
 
 export default function LandingPage() {
   return (
@@ -42,19 +37,22 @@ export default function LandingPage() {
                 <span />
                 Intent-preserving form builder
               </p>
-              <h1 id="hero-title">
+              <h1 id="hero-title" data-scroll-copy>
                 <span className={styles.heroLine}>
-                  <span>From Intention</span>
+                  <ScrollWords>From Intention</ScrollWords>
                 </span>{" "}
                 <span className={styles.heroLine}>
-                  <span>
-                    to <em>Proof.</em>
-                  </span>
+                  <ScrollWords>to</ScrollWords>{" "}
+                  <em>
+                    <ScrollWords>Proof.</ScrollWords>
+                  </em>
                 </span>
               </h1>
-              <p className={styles.heroLead}>
-                Build conditional forms from plain language. Catch hidden logic errors with
-                real-browser verification before you publish.
+              <p className={styles.heroLead} data-scroll-copy>
+                <ScrollWords>
+                  Build conditional forms from plain language. Catch hidden logic errors with
+                  real-browser verification before you publish.
+                </ScrollWords>
               </p>
               <div className={styles.heroActions}>
                 <ButtonLink href="/app" size="lg">
@@ -90,51 +88,72 @@ export default function LandingPage() {
         >
           <div className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Scholarship boundary</p>
-            <h2 id="semantic-title">The semantic gap.</h2>
-            <p className={scrollStyles.manifesto} data-velocity-skew>
-              {manifesto.map((word, index) => (
-                <span
-                  key={index}
-                  style={{ "--word-start": index / manifesto.length } as CSSProperties}
-                >
-                  {word}{" "}
-                </span>
-              ))}
+            <h2 id="semantic-title" data-scroll-copy>
+              <ScrollWords>The semantic gap.</ScrollWords>
+            </h2>
+            <p
+              className={scrollStyles.manifesto}
+              data-velocity-skew
+              data-scroll-copy
+              data-scroll-scrub
+            >
+              <ScrollWords>
+                A form can be syntactically valid and still miss a required field at the exact
+                boundary.
+              </ScrollWords>
             </p>
-            <p>Illustrative trace from the scholarship case.</p>
+            <p data-scroll-copy>
+              <ScrollWords>Illustrative trace from the scholarship case.</ScrollWords>
+            </p>
           </div>
           <ol className={`${styles.semanticComparison} ${scrollStyles.semanticCards}`}>
-            <li>
+            <li data-scroll-card>
               <span className={styles.sectionLabel}>
                 <FileCheck2 size={16} aria-hidden="true" />
                 Approved claim
               </span>
-              <h3>“A GPA of 3.5 or higher”</h3>
-              <p>At 3.5, the achievement certificate must be visible and required.</p>
+              <h3 data-scroll-copy>
+                <ScrollWords>“A GPA of 3.5 or higher”</ScrollWords>
+              </h3>
+              <p data-scroll-copy>
+                <ScrollWords>
+                  At 3.5, the achievement certificate must be visible and required.
+                </ScrollWords>
+              </p>
             </li>
-            <li data-tone="mismatch">
+            <li data-tone="mismatch" data-scroll-card>
               <span className={styles.sectionLabel}>
                 <Braces size={16} aria-hidden="true" />
                 Syntax-only draft
               </span>
-              <h3>
+              <h3 data-scroll-copy>
                 <code>
-                  gpa <mark>&gt;</mark> 3.5
+                  <ScrollWords>gpa</ScrollWords>{" "}
+                  <mark>
+                    <ScrollWords>{">"}</ScrollWords>
+                  </mark>{" "}
+                  <ScrollWords>3.5</ScrollWords>
                 </code>
               </h3>
-              <p>The greater-than operator excludes the exact boundary.</p>
+              <p data-scroll-copy>
+                <ScrollWords>The greater-than operator excludes the exact boundary.</ScrollWords>
+              </p>
             </li>
-            <li data-tone="blocked">
+            <li data-tone="blocked" data-scroll-card>
               <span className={styles.sectionLabel}>
                 <Terminal size={16} aria-hidden="true" />
                 Browser witness
               </span>
-              <h3>
-                <code>GPA = 3.5</code>
+              <h3 data-scroll-copy>
+                <code>
+                  <ScrollWords>GPA = 3.5</ScrollWords>
+                </code>
               </h3>
-              <p>
-                In the sample, the probe finds the certificate missing. NIARVA keeps publication
-                blocked.
+              <p data-scroll-copy>
+                <ScrollWords>
+                  In the sample, the probe finds the certificate missing. NIARVA keeps publication
+                  blocked.
+                </ScrollWords>
               </p>
               <strong>
                 <LockKeyhole size={15} aria-hidden="true" /> Blocked
@@ -150,14 +169,15 @@ export default function LandingPage() {
         >
           <div className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Intent to proof</p>
-            <h2 id="pipeline-title">
-              Every rule should trace
-              <br />
-              back to its intent.
+            <h2 id="pipeline-title" data-scroll-copy>
+              <ScrollWords>Every rule should trace</ScrollWords> <br />
+              <ScrollWords>back to its intent.</ScrollWords>
             </h2>
-            <p>
-              Approve the requirements. Build deterministic rules. Observe the real browser. Gate
-              publication on fresh evidence.
+            <p data-scroll-copy>
+              <ScrollWords>
+                Approve the requirements. Build deterministic rules. Observe the real browser. Gate
+                publication on fresh evidence.
+              </ScrollWords>
             </p>
           </div>
           <ProofPipeline />
@@ -170,23 +190,24 @@ export default function LandingPage() {
         >
           <div className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Two closed loops</p>
-            <h2 id="loops-title">
-              From failure to repair,
-              <br />
-              then back to proof.
+            <h2 id="loops-title" data-scroll-copy>
+              <ScrollWords>From failure to repair,</ScrollWords> <br />
+              <ScrollWords>then back to proof.</ScrollWords>
             </h2>
-            <p>
-              Configuration mistakes and source defects have different repair paths. Both return to
-              the same approved expectation.
+            <p data-scroll-copy>
+              <ScrollWords>
+                Configuration mistakes and source defects have different repair paths. Both return
+                to the same approved expectation.
+              </ScrollWords>
             </p>
           </div>
           <div className={scrollStyles.loopDeck} aria-hidden="true">
-            <div>
+            <div data-scroll-card>
               <GitBranch size={20} />
               <span>Product Loop</span>
               <code>gt → gte → creator review → re-verify</code>
             </div>
-            <div>
+            <div data-scroll-card>
               <Terminal size={20} />
               <span>Development Loop</span>
               <code>run.ndjson → source repair → rerun</code>
@@ -202,14 +223,15 @@ export default function LandingPage() {
         >
           <div className={styles.sectionIntro}>
             <p className={styles.eyebrow}>Evidence and accountability</p>
-            <h2 id="evidence-title">
-              Inspect the evidence
-              <br />
-              behind the decision.
+            <h2 id="evidence-title" data-scroll-copy>
+              <ScrollWords>Inspect the evidence</ScrollWords> <br />
+              <ScrollWords>behind the decision.</ScrollWords>
             </h2>
-            <p>
-              A timeout, unknown result, or stale proof cannot become success. Missing evidence
-              blocks publication.
+            <p data-scroll-copy>
+              <ScrollWords>
+                A timeout, unknown result, or stale proof cannot become success. Missing evidence
+                blocks publication.
+              </ScrollWords>
             </p>
           </div>
           <EvidenceInspector />
@@ -217,10 +239,9 @@ export default function LandingPage() {
         <section className={styles.closing} aria-labelledby="closing-title">
           <div className={styles.container}>
             <p className={styles.eyebrow}>Build with intent. Publish with evidence.</p>
-            <h2 id="closing-title">
-              Verify behavior before your
-              <br />
-              respondents ever see the form.
+            <h2 id="closing-title" data-scroll-copy>
+              <ScrollWords>Verify behavior before your</ScrollWords> <br />
+              <ScrollWords>respondents ever see the form.</ScrollWords>
             </h2>
             <div className={styles.heroActions}>
               <ButtonLink href="/app" size="lg">

@@ -1,3 +1,4 @@
+import { ScrollWords } from "./scroll-words";
 import styles from "./story.module.css";
 
 const concepts = [
@@ -19,8 +20,15 @@ const concepts = [
 
 export function VerificationConcepts() {
   return (
-    <section className={styles.concepts} aria-label="Verification concepts" data-ambient>
-      <p>THE LANGUAGE OF PROOF</p>
+    <section
+      className={styles.concepts}
+      aria-label="Verification concepts"
+      data-ambient
+      data-scroll-card
+    >
+      <p data-scroll-copy>
+        <ScrollWords>THE LANGUAGE OF PROOF</ScrollWords>
+      </p>
       {concepts.map((row, index) => (
         <div key={index} className={styles.conceptViewport}>
           <div className={styles.conceptTrack} data-reverse={index === 1}>

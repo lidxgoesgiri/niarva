@@ -298,28 +298,12 @@
 }
 .heroLine {
   display: block;
-  clip-path: inset(0 -0.1em -0.1em 0);
   padding-bottom: 0.07em;
-}
-.heroLine > span {
-  display: block;
-  animation: hero-reveal 820ms var(--ease-out-expo) both;
-}
-.heroLine:nth-of-type(2) > span {
-  animation-delay: 105ms;
 }
 .heroLine em {
   color: var(--color-lavender);
   font-style: normal;
   text-shadow: 0 0 42px rgba(184, 148, 250, 0.3);
-}
-@keyframes hero-reveal {
-  from {
-    transform: translateY(105%);
-  }
-  to {
-    transform: translateY(0);
-  }
 }
 .heroLead {
   max-width: 470px;

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useLandingMotion } from "./landing-shell";
 import { scrollStageEvent } from "./scroll-choreography";
+import { ScrollWords } from "./scroll-words";
 import landingStyles from "./landing.module.css";
 import scrollStyles from "./scroll.module.css";
 import storyStyles from "./story.module.css";
@@ -103,6 +104,7 @@ export function ProofPipeline() {
                 type="button"
                 aria-pressed={stage === index}
                 aria-controls="pipeline-content"
+                data-scroll-card
                 onClick={() => {
                   manual.current = true;
                   setStage(index);
@@ -111,7 +113,9 @@ export function ProofPipeline() {
               >
                 <span className={styles.stageIndex}>0{index + 1}</span>
                 <span>
-                  <strong>{title}</strong>
+                  <strong data-scroll-copy>
+                    <ScrollWords>{title}</ScrollWords>
+                  </strong>
                   <small>{caption}</small>
                 </span>
                 <ArrowRight size={16} aria-hidden="true" />
@@ -124,16 +128,23 @@ export function ProofPipeline() {
         id="pipeline-content"
         ref={panel}
         className={`${styles.pipelineContent} ${scrollStyles.pipelineFrame}`}
+        data-scroll-card
       >
         <div className={styles.panelTop}>
           <span>EXAMPLE / 0{stage + 1}</span>
           <current.icon size={18} aria-hidden="true" />
         </div>
         <div className={styles.stageContent} key={stage}>
-          <h3>{current.title}</h3>
+          <h3 data-scroll-copy>
+            <ScrollWords>{current.title}</ScrollWords>
+          </h3>
           {stage === 0 && (
             <>
-              <p>Review the interpretation before it becomes your specification.</p>
+              <p data-scroll-copy>
+                <ScrollWords>
+                  Review the interpretation before it becomes your specification.
+                </ScrollWords>
+              </p>
               <blockquote>“A GPA of 3.5 or higher”</blockquote>
               <div className={styles.intentTranslation}>
                 <ArrowRight aria-hidden="true" size={18} />
@@ -149,7 +160,11 @@ export function ProofPipeline() {
           )}
           {stage === 1 && (
             <>
-              <p>The same approved claim maps to visibility and requiredness.</p>
+              <p data-scroll-copy>
+                <ScrollWords>
+                  The same approved claim maps to visibility and requiredness.
+                </ScrollWords>
+              </p>
               <div className={styles.ruleMapping}>
                 <span>C-GPA · Approved claim</span>
                 <span className={styles.mappingBeam} aria-hidden="true" />
@@ -167,8 +182,10 @@ export function ProofPipeline() {
           )}
           {stage === 2 && (
             <>
-              <p>
-                Kane provides observations. NIARVA compares them with the approved requirements.
+              <p data-scroll-copy>
+                <ScrollWords>
+                  Kane provides observations. NIARVA compares them with the approved requirements.
+                </ScrollWords>
               </p>
               <div className={styles.sampleTerminal}>
                 <div>
@@ -196,7 +213,11 @@ export function ProofPipeline() {
           )}
           {stage === 3 && (
             <>
-              <p>Evidence belongs to an immutable snapshot. A new version needs its own proof.</p>
+              <p data-scroll-copy>
+                <ScrollWords>
+                  Evidence belongs to an immutable snapshot. A new version needs its own proof.
+                </ScrollWords>
+              </p>
               <div className={styles.lineageDemo}>
                 <span>Sample version A</span>
                 <ArrowRight size={18} aria-hidden="true" />
@@ -244,16 +265,17 @@ export function ClosedLoops() {
         <Tabs.Trigger value="development">Development Loop</Tabs.Trigger>
       </Tabs.List>
       <Tabs.Content value="product" className={styles.loopPanel}>
-        <div className={styles.loopSummary}>
+        <div className={styles.loopSummary} data-scroll-card>
           <span className={styles.sectionLabel}>CONFIGURATION / Human-approved repair</span>
-          <h3>
-            Repair the rule.
-            <br />
-            Preserve the intention.
+          <h3 data-scroll-copy>
+            <ScrollWords>Repair the rule.</ScrollWords> <br />
+            <ScrollWords>Preserve the intention.</ScrollWords>
           </h3>
-          <p>
-            The proposal changes a bounded piece of configuration. Your approved requirements stay
-            intact.
+          <p data-scroll-copy>
+            <ScrollWords>
+              The proposal changes a bounded piece of configuration. Your approved requirements stay
+              intact.
+            </ScrollWords>
           </p>
           <div className={styles.operatorDiff}>
             <del>gpa &gt; 3.5</del>
@@ -264,7 +286,7 @@ export function ClosedLoops() {
             Illustrative configuration diff · never source-code execution.
           </p>
         </div>
-        <ol className={styles.loopSteps}>
+        <ol className={styles.loopSteps} data-scroll-card>
           {[
             "Kane failure is diagnosed",
             "A bounded patch is proposed",
@@ -281,16 +303,17 @@ export function ClosedLoops() {
         </ol>
       </Tabs.Content>
       <Tabs.Content value="development" className={styles.loopPanel}>
-        <div className={styles.loopSummary}>
+        <div className={styles.loopSummary} data-scroll-card>
           <span className={styles.sectionLabel}>SOURCE / Developer feedback</span>
-          <h3>
-            Fix the implementation.
-            <br />
-            Keep the test honest.
+          <h3 data-scroll-copy>
+            <ScrollWords>Fix the implementation.</ScrollWords> <br />
+            <ScrollWords>Keep the test honest.</ScrollWords>
           </h3>
-          <p>
-            Claude Code or Codex reads actual Kane failure evidence, repairs the source, and reruns
-            the unchanged test objective.
+          <p data-scroll-copy>
+            <ScrollWords>
+              Claude Code or Codex reads actual Kane failure evidence, repairs the source, and
+              reruns the unchanged test objective.
+            </ScrollWords>
           </p>
           <div className={styles.developerTrace}>
             <Terminal size={22} aria-hidden="true" />
@@ -303,7 +326,7 @@ export function ClosedLoops() {
             Workflow illustration · actual run evidence is maintained separately.
           </p>
         </div>
-        <ol className={styles.loopSteps}>
+        <ol className={styles.loopSteps} data-scroll-card>
           {[
             "A real browser test finds a source defect",
             "The coding agent reads failure evidence",
@@ -329,6 +352,7 @@ export function EvidenceInspector() {
       <Tabs.Root
         defaultValue="observation"
         className={`${styles.inspector} ${scrollStyles.evidencePrimary}`}
+        data-scroll-card
       >
         <div className={styles.inspectorHeading}>
           <span className={styles.sampleDot} />
@@ -345,7 +369,9 @@ export function EvidenceInspector() {
         </Tabs.List>
         <Tabs.Content value="observation" className={styles.inspectorContent}>
           <p className={styles.sectionLabel}>C-GPA / Boundary witness</p>
-          <h3>At exactly GPA 3.5</h3>
+          <h3 data-scroll-copy>
+            <ScrollWords>At exactly GPA 3.5</ScrollWords>
+          </h3>
           <dl className={styles.observationList}>
             <div>
               <dt>Approved intent</dt>
@@ -369,7 +395,9 @@ export function EvidenceInspector() {
           </dl>
         </Tabs.Content>
         <Tabs.Content value="ndjson" className={styles.inspectorContent}>
-          <p>Illustrative observation record, not an actual Kane stream.</p>
+          <p data-scroll-copy>
+            <ScrollWords>Illustrative observation record, not an actual Kane stream.</ScrollWords>
+          </p>
           <pre className={styles.recordExample}>
             {
               '{"example":true,"gpa":"3.5"}\n{"expected":"visible and required"}\n{"sample_observed":"hidden"}\n{"sample_result":"mismatch"}'
@@ -381,10 +409,14 @@ export function EvidenceInspector() {
         </Tabs.Content>
         <Tabs.Content value="payload" className={styles.inspectorContent}>
           <p className={styles.sectionLabel}>Shown → hidden → excluded</p>
-          <h3>A hidden answer stays out.</h3>
-          <p>
-            GPA 3.6: the certificate is shown and a synthetic value is entered. Change GPA to 3.4:
-            the field is removed and its value is excluded.
+          <h3 data-scroll-copy>
+            <ScrollWords>A hidden answer stays out.</ScrollWords>
+          </h3>
+          <p data-scroll-copy>
+            <ScrollWords>
+              GPA 3.6: the certificate is shown and a synthetic value is entered. Change GPA to 3.4:
+              the field is removed and its value is excluded.
+            </ScrollWords>
           </p>
           <pre className={styles.recordExample}>
             {'// Illustrative submitted answers\n{\n  "name": "Alex Morgan",\n  "gpa": "3.4"\n}'}
@@ -396,7 +428,9 @@ export function EvidenceInspector() {
         </Tabs.Content>
         <Tabs.Content value="lineage" className={styles.inspectorContent}>
           <p className={styles.sectionLabel}>Same intent / new version / new proof</p>
-          <h3>Proof cannot travel to a new draft.</h3>
+          <h3 data-scroll-copy>
+            <ScrollWords>Proof cannot travel to a new draft.</ScrollWords>
+          </h3>
           <ol className={styles.lineageList}>
             <li>Approved claims remain unchanged.</li>
             <li>Repair creates a new immutable form version.</li>
@@ -413,29 +447,31 @@ export function EvidenceInspector() {
         </p>
       </Tabs.Root>
       <div className={`${styles.evidenceAside} ${scrollStyles.evidenceSecondary}`}>
-        <article>
+        <article data-scroll-card>
           <RotateCcw size={22} aria-hidden="true" />
-          <h3>
-            One submission.
-            <br />
-            One receipt.
+          <h3 data-scroll-copy>
+            <ScrollWords>One submission.</ScrollWords> <br />
+            <ScrollWords>One receipt.</ScrollWords>
           </h3>
-          <p>
-            An identical retry uses the original receipt. Repeating a request must not create a
-            second response.
+          <p data-scroll-copy>
+            <ScrollWords>
+              An identical retry uses the original receipt. Repeating a request must not create a
+              second response.
+            </ScrollWords>
           </p>
           <span>Idempotency · product contract</span>
         </article>
-        <article>
+        <article data-scroll-card>
           <LockKeyhole size={22} aria-hidden="true" />
-          <h3>
-            One pass does not
-            <br />
-            erase instability.
+          <h3 data-scroll-copy>
+            <ScrollWords>One pass does not</ScrollWords> <br />
+            <ScrollWords>erase instability.</ScrollWords>
           </h3>
-          <p>
-            After a failed full browser run, two consecutive fresh full verified runs are required
-            for the same proof scope.
+          <p data-scroll-copy>
+            <ScrollWords>
+              After a failed full browser run, two consecutive fresh full verified runs are required
+              for the same proof scope.
+            </ScrollWords>
           </p>
           <span>Instability guard · product contract</span>
         </article>

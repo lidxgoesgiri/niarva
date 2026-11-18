@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { ButtonLink } from "@/components/ui/button";
 import { useLandingMotion } from "./landing-shell";
+import { ScrollWords } from "./scroll-words";
 import styles from "./landing.module.css";
 
 type Rule = "draft" | "repaired";
@@ -80,6 +81,7 @@ export function BoundarySandbox() {
       id="golden-case"
       aria-labelledby="sandbox-title"
       className={styles.sandbox}
+      data-scroll-card
       onPointerMove={(event) => {
         if (!moving || event.pointerType !== "mouse") return;
         const bounds = event.currentTarget.getBoundingClientRect();
@@ -100,13 +102,16 @@ export function BoundarySandbox() {
       <div className={styles.sandboxGrid}>
         <div className={styles.intentSide}>
           <div className={styles.sectionLabel}>Approved intent</div>
-          <h2 id="sandbox-title">
-            One small operator.
-            <br />A different outcome.
+          <h2 id="sandbox-title" data-scroll-copy>
+            <ScrollWords>One small operator.</ScrollWords> <br />
+            <ScrollWords>A different outcome.</ScrollWords>
           </h2>
-          <blockquote>
-            “Applicants with a GPA of <strong>3.5 or higher</strong> must provide an achievement
-            certificate.”
+          <blockquote data-scroll-copy>
+            <ScrollWords>“Applicants with a GPA of</ScrollWords>{" "}
+            <strong>
+              <ScrollWords>3.5 or higher</ScrollWords>
+            </strong>{" "}
+            <ScrollWords>must provide an achievement certificate.”</ScrollWords>
           </blockquote>
           <fieldset className={styles.ruleChoices}>
             <legend className={styles.srOnly}>Sample rule</legend>
@@ -192,14 +197,16 @@ export function BoundarySandbox() {
               ● ● ●
             </span>
           </div>
-          <div className={styles.sampleSheet}>
+          <div className={styles.sampleSheet} data-scroll-card>
             <div className={styles.sheetHeading}>
               <span className={styles.sheetGlyph} aria-hidden="true">
                 N
               </span>
               <span>OPPORTUNITY STARTS HERE</span>
             </div>
-            <h3>Scholarship application</h3>
+            <h3 data-scroll-copy>
+              <ScrollWords>Scholarship application</ScrollWords>
+            </h3>
             <p>Synthetic sample · no answers are submitted.</p>
             <label htmlFor="sample-name">Name</label>
             <input id="sample-name" value="Alex Morgan" readOnly />
