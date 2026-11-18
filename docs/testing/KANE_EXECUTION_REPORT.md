@@ -174,7 +174,7 @@ The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, an
 
 Status of each of the 64 Assurance-designed tests from its **latest run recorded in this repository** (§1.2, §2, §3.2, and the Assurance records under [`evidence/assurance/`](../../evidence/assurance/)). An inconclusive run counts as FAIL; a test with no recorded run is NOT RUN. Totals: **13 PASS, 13 FAIL, 38 NOT RUN**.
 
-A final production smoke batch on `8136ce3` (label `vercel-final`) was still running when this table was written. Its first records include a **FAIL of t-36** at 09:04 UTC, where Kane replayed an earlier recording and its final assertion failed (Kane classified it as an automation issue; diagnosis pending). The deployment track records that batch in [`evidence/deploy/`](../../evidence/deploy/), and its results supersede the rows below where they are newer.
+The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09:16 UTC, `https://niarva.vercel.app`) is the latest run of t-5, t-6, t-36, t-37, and t-44, and all five ended **PASS**. Along the way, t-44 first did not start (Kane sign-in, UNKNOWN). t-36 first **FAILED** at 09:04 UTC while replaying an earlier recording: the assertion was stale, while Kane's screenshot showed the correct rule. After the recording was moved aside, the same test file passed at 09:14 UTC with every step authored again. Several of these PASS results are replays of recordings (t-5, t-37, and t-44's second run). Full record: `evidence/deploy/VERCEL-PROD-01.md` §8 (deployment track).
 
 | Test | Title | Latest status |
 |---|---|---|
