@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>M0 Lab — Scholarship Application</title>
+    <style>
+      /* Deliberately static: no transitions or animations so the DOM is deterministic. */
+      body { font-family: system-ui, sans-serif; margin: 0; background: #f6f7fb; color: #111827; }
+      main { max-width: 560px; margin: 0 auto; padding: 24px 16px 8px; }
+      h1 { font-size: 1.35rem; margin: 0 0 4px; }
+      .note { font-size: 0.85rem; color: #4b5563; margin: 0 0 20px; }
+      .field { margin-bottom: 16px; }
+      label { display: block; font-weight: 600; margin-bottom: 6px; }
+      input { width: 100%; box-sizing: border-box; padding: 10px; font-size: 1rem; border: 1px solid #6b7280; border-radius: 6px; }
+      .err { color: #b91c1c; font-size: 0.9rem; margin: 6px 0 0; min-height: 0; }
+      button { padding: 12px 18px; font-size: 1rem; border: 0; border-radius: 6px; background: #1d4ed8; color: #fff; cursor: pointer; }
+      #result { margin-top: 20px; padding: 14px; border: 1px solid #15803d; border-radius: 6px; background: #f0fdf4; }
+      #result[hidden] { display: none; }
+      footer { max-width: 560px; margin: 0 auto; padding: 16px; font-size: 0.85rem; color: #4b5563; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Scholarship Application</h1>
+      <p class="note">M0 lab fixture for Kane CLI contract validation. Synthetic data only. This is not product code.</p>
+      <p class="note" id="viewport-info"></p>
+
+      <form id="lab-form" novalidate>
+        <div class="field" data-key="name">
+          <label for="name">Full name (required)</label>
+          <input id="name" name="name" type="text" autocomplete="off" />
+          <p class="err" id="err-name" role="alert"></p>
+        </div>
+
+        <div class="field" data-key="gpa">
+          <label for="gpa">GPA (required)</label>
+          <input id="gpa" name="gpa" type="text" inputmode="decimal" autocomplete="off" />
+          <p class="err" id="err-gpa" role="alert"></p>
+        </div>
+
+        <div id="slot-recommendation"></div>
+        <div id="slot-certificate"></div>
+        <div id="slot-notes"></div>
+
+        <button type="submit">Submit application</button>
+      </form>
+
+      <section id="result" hidden aria-live="polite"></section>
+    </main>
+
+    <footer>Version 3 · 3f2a91c0</footer>
+
+    <script>
+      (function () {
+        "use strict";
+
+        var params = new URLSearchParams(window.location.search);
+        var bug = params.get("bug") || "";
+        var multi = params.get("multi") === "1";
+        var extraFields = params.get("fields") === "15" ? 12 : 0;
+        // The "t" parameter is intentionally ignored: it only exists for the secret-masking check.
+
+        var state = { certificate: "", recommendation: "" };
+
+        var form = document.getElementById("lab-form");
+        var gpaInput = document.getElementById("gpa");
+        var nameInput = document.getElementById("name");
+        var result = document.getElementById("result");
+
+        // Parses a GPA into hundredths as an integer. Never uses floating point.
+        // Returns { ok: true, scaled } or { ok: false, reason }.
+        function parseGpa(raw) {
+          var text = String(raw).trim();
+          if (text === "") return { ok: false, reason: "empty" };
+          if (!/^-?\d+([.,]\d+)?$/.test(text)) return { ok: false, reason: "format" };
+          var negative = text.charAt(0) === "-";
+          if (negative) text = text.slice(1);
+          var parts = text.split(/[.,]/);
+          var whole = parts[0];
+          var frac = parts.length > 1 ? parts[1] : "";
+          if (bug === "comma" && text.indexOf(",") !== -1) {
+            // Seeded lab defect: the decimal comma is dropped, so "3,5" is read as "3".
+            frac = "";
+          }
+          if (frac.length > 2) return { ok: false, reason: "precision" };
+          while (frac.length < 2) frac += "0";
+          var scaled = parseInt(whole, 10) * 100 + parseInt(frac, 10);
+          if (negative) scaled = -scaled;
+          return { ok: true, scaled: scaled };
+        }
+
+        function certificateVisible() {
+          var gpa = parseGpa(gpaInput.value);
+          if (!gpa.ok) return false;
+          // Seeded lab defect "gt": the boundary value 3.50 is excluded.
+          return bug === "gt" ? gpa.scaled > 350 : gpa.scaled >= 350;
+        }
+
+        function recommendationVisible() {
+          if (!multi) return false;
+          var gpa = parseGpa(gpaInput.value);
+          return gpa.ok && gpa.scaled >= 300;
+        }
+
+        function renderSlot(slotId, key, labelText, visible, onHide) {
+          var slot = document.getElementById(slotId);
+          var existing = document.getElementById(key);
+          if (visible && !existing) {
+            var wrap = document.createElement("div");
+            wrap.className = "field";
+            wrap.setAttribute("data-key", key);
+            var label = document.createElement("label");
+            label.setAttribute("for", key);
+            label.textContent = labelText;
+            var input = document.createElement("input");
+            input.id = key;
+            input.name = key;
+            input.type = "text";
+            input.autocomplete = "off";
+            input.value = state[key];
+            input.addEventListener("input", function () { state[key] = input.value; });
+            var err = document.createElement("p");
+            err.className = "err";
+            err.id = "err-" + key;
+            err.setAttribute("role", "alert");
+            wrap.appendChild(label);
+            wrap.appendChild(input);
+            wrap.appendChild(err);
+            slot.appendChild(wrap);
+          } else if (!visible && existing) {
+            // Hidden means removed from the DOM, not merely styled invisible.
+            slot.textContent = "";
+            onHide();
+          }
+        }
+
+        function renderConditionals() {
+          renderSlot(
+            "slot-recommendation", "recommendation", "Advisor recommendation number",
+            recommendationVisible(),
+            function () {
+              // Seeded lab defect "leakB": the recommendation value survives being hidden.
+              if (bug !== "leakB") state.recommendation = "";
+            }
+          );
+          renderSlot(
+            "slot-certificate", "certificate", "Achievement certificate number (required)",
+            certificateVisible(),
+            function () { state.certificate = ""; }
+          );
+        }
+
+        function renderNotes() {
+          var slot = document.getElementById("slot-notes");
+          for (var i = 1; i <= extraFields; i++) {
+            var wrap = document.createElement("div");
+            wrap.className = "field";
+            var label = document.createElement("label");
+            label.setAttribute("for", "note_" + i);
+            label.textContent = "Note " + i;
+            var input = document.createElement("input");
+            input.id = "note_" + i;
+            input.name = "note_" + i;
+            input.type = "text";
+            wrap.appendChild(label);
+            wrap.appendChild(input);
+            slot.appendChild(wrap);
+          }
+        }
+
+        function setError(key, message) {
+          var el = document.getElementById("err-" + key);
+          if (el) el.textContent = message;
+        }
+
+        function clearErrors() {
+          var nodes = document.querySelectorAll(".err");
+          for (var i = 0; i < nodes.length; i++) nodes[i].textContent = "";
+        }
+
+        function receiptCode() {
+          var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+          var bytes = new Uint8Array(8);
+          window.crypto.getRandomValues(bytes);
+          var out = "";
+          for (var i = 0; i < bytes.length; i++) out += alphabet.charAt(bytes[i] % alphabet.length);
+          return out;
+        }
+
+        gpaInput.addEventListener("input", renderConditionals);
+        gpaInput.addEventListener("change", renderConditionals);
+
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          clearErrors();
+          result.hidden = true;
+          result.textContent = "";
+          renderConditionals();
+
+          var valid = true;
+          var name = nameInput.value.trim();
+          if (name === "") { setError("name", "Full name is required."); valid = false; }
+
+          var gpa = parseGpa(gpaInput.value);
+          if (!gpa.ok) {
+            var reason = gpa.reason === "empty" ? "GPA is required."
+              : gpa.reason === "precision" ? "GPA allows at most 2 decimal places."
+              : "GPA must be a number.";
+            setError("gpa", reason);
+            valid = false;
+          } else if (gpa.scaled < 0 || gpa.scaled > 400) {
+            setError("gpa", "GPA must be between 0 and 4.");
+            valid = false;
+          }
+
+          var certVisible = certificateVisible();
+          var certificate = certVisible ? state.certificate.trim() : "";
+          // Seeded lab defect "reqoff": the field still shows "(required)" but an empty value is accepted.
+          if (certVisible && certificate === "" && bug !== "reqoff") {
+            setError("certificate", "Achievement certificate number is required.");
+            valid = false;
+          }
+
+          if (!valid) return;
+
+          var sent = [];
+          sent.push("name");
+          sent.push("gpa");
+          if (certificate !== "") sent.push("certificate");
+          // With "leakB" the retained hidden recommendation value is submitted.
+          var recommendation = recommendationVisible() || bug === "leakB" ? state.recommendation.trim() : "";
+          if (recommendation !== "") sent.push("recommendation");
+
+          form.hidden = true;
+          result.hidden = false;
+          var thanks = document.createElement("p");
+          thanks.id = "confirmation";
+          thanks.textContent = "Thank you. Your application has been received. Receipt code: " + receiptCode();
+          var data = document.createElement("p");
+          data.id = "sent-keys";
+          data.textContent = "Submitted data: " + sent.join(", ");
+          result.appendChild(thanks);
+          result.appendChild(data);
+        });
+
+        // Lets a run observe the viewport it was actually given (responsive capability check).
+        document.getElementById("viewport-info").textContent =
+          "Viewport width: " + window.innerWidth + " px";
+
+        renderNotes();
+        renderConditionals();
+      })();
+    </script>
+  </body>
+</html>

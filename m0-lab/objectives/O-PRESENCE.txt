@@ -1,0 +1,10 @@
+Open {{preview_url}}
+This is an automated form check. Do not type anything and do not submit the form.
+Store the 8-character code shown at the end of the page footer as 'page_definition_hash'.
+Store whether a field labeled "Full name (required)" is visible on the page as 'obs_name_visible' (true or false).
+Store whether the label of the field "Full name" shows the text "(required)" as 'obs_name_required' (true or false; false if the field is not visible).
+Store whether a field labeled "GPA (required)" is visible on the page as 'obs_gpa_visible' (true or false).
+Store whether the label of the field "GPA" shows the text "(required)" as 'obs_gpa_required' (true or false; false if the field is not visible).
+Store whether a field labeled "Achievement certificate number (required)" is visible on the page as 'obs_certificate_visible' (true or false).
+Store whether the label of the field "Achievement certificate number" shows the text "(required)" as 'obs_certificate_required' (true or false; false if the field is not visible).
+Finally verify that the form shows a field labeled "Full name (required)" and a field labeled "GPA (required)".

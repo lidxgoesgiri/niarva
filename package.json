@@ -21,7 +21,12 @@
     "test:integration": "pnpm --filter @niarva/web test",
     "db:generate": "pnpm --filter @niarva/web db:generate",
     "db:migrate": "pnpm --filter @niarva/web db:migrate",
-    "setup:env": "node scripts/setup-env.mjs"
+    "setup:env": "node scripts/setup-env.mjs",
+    "verify:kane": "node scripts/verify-kane.mjs",
+    "test:e2e": "node scripts/verify-kane.mjs",
+    "seed:kane": "node scripts/seed-kane-fixtures.mjs",
+    "m0:lab": "node m0-lab/serve.mjs 4310",
+    "m0:manifest": "node m0-lab/build-manifest.mjs"
   },
   "devDependencies": {
     "@eslint/js": "~9.39.5",

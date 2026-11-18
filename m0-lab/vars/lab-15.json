@@ -1,0 +1,6 @@
+{
+  "preview_url": {
+    "value": "http://localhost:4310/lab.html?fields=15",
+    "secret": true
+  }
+}
