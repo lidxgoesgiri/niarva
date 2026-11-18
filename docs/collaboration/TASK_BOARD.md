@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-18 15:00 WIB.
+Writer: Claude. Last updated: 2026-11-18 15:55 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -24,6 +24,7 @@ Deadlines:
 | Kane runtime validation | Kane rules | `evidence/m0/` |
 | Verification worker | FR-07, FR-08 | PR #5 |
 | PROD-LOOP-01: diagnostic FAIL → approved repair → fresh full suite VERIFIED (8/8) → publish 201 → respondent receipt | FR-07–FR-11, FR-13, FR-14 | `evidence/product-loop/PROD-LOOP-01.md` (`d28dee5`); DEV-LOOP-02 closed |
+| C-13 Vercel deployment: https://niarva.vercel.app from `main` (`92d80c9`), Neon Postgres (Production only), migrations in the build, worker over HTTPS; production loop VERIFIED (8/8, receipt `VCBFQ6AM`); Kane smoke t-5, t-6, t-44, t-36, t-37 PASS | Kane rules (final deployment) | `evidence/deploy/VERCEL-PROD-01.md` |
 
 ## In progress
 
@@ -43,7 +44,6 @@ Deadlines:
 | C-06 | Kane: AI intake and provider outage (t-25–t-30, t-61) | P1 | Claude | C-02 |
 | C-12 | Owner-approved Assurance edits: explicit API and denial wording for t-1, t-2, t-7, t-10, t-32, t-48 (step bodies only; headings, @verifies, and pins unchanged), then rerun | P0 | Claude | — |
 | C-07 | Assurance coverage report (`kane-cli cover`): proven vs owed, in `evidence/assurance/` | P0 | Claude | C-03–C-06 |
-| C-13 | Deploy on Vercel: PR #8 prepared; needs the owner's Vercel project, Neon database, and OpenRouter key; then re-verify on the deployment with Kane | P0 | Claude + owner | PR #8 |
 | C-08 | Integration: review and merge PR #6 into the stack; integrated Kane regression; fresh clone check; README claim audit | P1 | Claude | X-01, C-03 |
 | C-09 | Machine-wide Kane run lock — **done** (`558e818` scripts, `dc70b5d` worker); use `node scripts/kane-locked.mjs <kane args>` | P1 | Claude | — |
 | C-10 | FR-18 evidence: lineage, expected vs observed, objective text **implemented** (`4498cbf`), Kane check pending. Owner responses and judge views (t-3, t-49–t-53, t-55, t-56, t-59, t-60, t-62–t-64): verify, then fix gaps | P0 | Claude | C-01 |

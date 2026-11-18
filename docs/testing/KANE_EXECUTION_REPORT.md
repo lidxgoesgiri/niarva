@@ -117,13 +117,52 @@ What the retests prove:
 
 Sanitized records: [`evidence/tms-migration/retests.json`](../../evidence/tms-migration/retests.json). Pack digests: [`EVIDENCE_INDEX.md`](EVIDENCE_INDEX.md#3-retests-in-the-official-project).
 
-## 3. Status totals (records in this repository)
+## 3. Production deployment (Vercel, 18 November 2026)
+
+Run against `https://niarva.vercel.app` (deployment `dpl_FxRHnbGk4gQDNyPCaxfPGvHsvoJR`, commit `92d80c9`, environment id `vercel-production`, Neon Postgres), with the worker `local-worker-vercel` on the owner's machine and Kane CLI 0.10.4 headless. Full record, including every pack digest: [`evidence/deploy/VERCEL-PROD-01.md`](../../evidence/deploy/VERCEL-PROD-01.md).
+
+### 3.1 Product probes (verification worker, NIARVA verdicts)
+
+| Attempt | Probe | Kane session | Outcome |
+|---|---|---|---|
+| 1 (driver interrupted by a client-side connect timeout) | D-01 | `06be7448-7929-4a6c-9127-f1263746b894` | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed; Kane said `passed`) |
+| 2 (VERIFIED) | D-01 | `dd4a4355-eb94-4ee9-9558-25d6a79a5e16` | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed; Kane said `passed`) |
+| 2 | P-01 initial_required | `6ff31baa-2560-4644-9cf1-805b5e93e986` | PASS |
+| 2 | P-02 boundary_bundle | `d4df303f-01b1-405d-a0a5-dd2bf152e6a3` | PASS |
+| 2 | P-03 conditional_required_empty | `e2503415-a86e-4816-b7d2-80116921714b` | PASS |
+| 2 | P-04 hidden_exclusion | `b6ed0d97-a268-41f2-990a-8be43ab3b2e0` | PASS |
+| 2 | P-05 valid_submission | `1495aab8-3568-4926-b4ca-d289c28f6cc1` | PASS |
+| 2 | P-06 decimal_comma | `9fda2954-1acf-4749-a504-0ef99c9be6c9` | PASS |
+| 2 | P-07 constraint_check | `6662b639-69bd-4a3c-9ecd-8acc9a05ff16` | PASS |
+
+Attempt 2 ended **VERIFIED, 8/8 required probes PASS** (full verification `01a1edac-80b3-78d4-b4f1-5efba89ff186`, renderer `r1-6b8a9a7ac0dd0397`, policy `MPP-v4`, 261.62 credits). Publishing was refused before browser proof (`409 GATE_BLOCKED`) and accepted after it (`201`); a public respondent submission returned receipt `VCBFQ6AM`. P-08 (HTTP server contract, no Kane) also passed.
+
+### 3.2 Production smoke (`scripts/verify-kane.mjs`, `testmd run`)
+
+| Started (UTC) | Test | Outcome | Exit | Steps (authored / replayed) | Credits | Evidence pack |
+|---|---|---|---|---|---:|---|
+| 08:19:17 | t-5 | **BLOCKED** (Kane opened `localhost:3000`) | 1 | 2 / 0 | 17.56 | `6ceb8d714d61` |
+| 08:21:27 | t-6 | **BLOCKED** (same) | 1 | 2 / 0 | 14.73 | `0e0d77331ab6` |
+| 08:23:18 | t-44 | **BLOCKED** (same) | 1 | 2 / 0 | 17.51 | `d7a54c9d5219` |
+| 08:25:49 | t-36 | **BLOCKED** (same) | 1 | 5 / 0 | 12.64 | `22c4f836a702` |
+| 08:27:42 | t-37 | **BLOCKED** (same) | 1 | 7 / 0 | 18.14 | `22230475e6a8` |
+| 08:30:31 | t-5 | **PASS** | 0 | 2 / 0 | 21.29 | `4e0dac4b40c8` |
+| 08:32:48 | t-6 | **PASS** | 0 | 2 / 0 | 25.41 | `b10afca8ba21` |
+| 08:35:08 | t-44 | **PASS** | 0 | 2 / 0 | 29.60 | `b48bd7cf0635` |
+| 08:38:16 | t-36 | **PASS** | 0 | 5 / 0 | 89.68 | `2a1b05bf84e7` |
+| 08:44:28 | t-37 | **PASS** | 0 | 7 / 0 | 118.30 | `30a6e712bb14` |
+
+The first batch never reached the deployment: a backup of the local variables file in `.testmuai/variables/` set `start_url` back to `http://localhost:3000`, because Kane loads every JSON file in that folder. Those runs are BLOCKED, not FAIL. After the backup was moved out, the same tests ran unchanged (identical file digests) and all five passed against the deployment.
+
+## 4. Status totals (records in this repository)
 
 | Group | PASS | FAIL | BLOCKED | UNKNOWN | NOT RUN |
 |---|---:|---:|---:|---:|---:|
 | Development runs, 17 Nov (§1.2) | 9 | 4 | 0 | 8 | — |
 | Retests in the official project (§2) | 5 | 0 | 0 | 1 | — |
 | Product probes, PROD-LOOP-01 attempts 0–3, Kane sessions (§1.4, NIARVA verdicts) | 15 | 3 | 0 | 5 | 3 |
+| Production smoke on Vercel, 18 Nov (§3.2) | 5 | 0 | 5 | 0 | — |
+| Product probes on Vercel, PROD-LOOP-VERCEL attempts 1–2, Kane sessions (§3.1, NIARVA verdicts) | 7 | 2 | 0 | 0 | — |
 | Designed tests never executed | — | — | — | — | 59 |
 
-The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, and 3: the expected result, not a regression. P-08 (no Kane) is not counted in that row. M0 lab runs are reported in §1.1 because their verdicts are the lab oracle's, not Kane's status. BLOCKED is 0 here; the UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.
+The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, and 3: the expected result, not a regression. P-08 (no Kane) is not counted in that row. M0 lab runs are reported in §1.1 because their verdicts are the lab oracle's, not Kane's status. The two production probe FAILs are D-01 confirming the seeded defect, as expected. The five production BLOCKED runs are the misconfigured first smoke batch (§3.2). The UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.

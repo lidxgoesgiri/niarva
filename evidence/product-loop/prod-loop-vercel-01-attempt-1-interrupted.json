@@ -1,0 +1,69 @@
+{
+  "loop": "PROD-LOOP-VERCEL",
+  "attempt": 1,
+  "outcome": "INTERRUPTED",
+  "base": "https://niarva.vercel.app",
+  "interruption": {
+    "at": "2026-11-18T07:57:56Z",
+    "cause": "client-side network error: ConnectTimeoutError to niarva.vercel.app:443 (UND_ERR_CONNECT_TIMEOUT) while the driver polled the form state; the server and the worker kept running",
+    "classification": "infrastructure (client network)"
+  },
+  "steps": [
+    {
+      "name": "seeded version created",
+      "at": "2026-11-18T07:56:54.308Z",
+      "formId": "01a1eda8-9d49-70c9-87a3-2af98f1b74bd",
+      "versionNo": 1,
+      "definitionHash": "a8ebe142b52bf7dec4f47ea9254d13ffc0e7a517cc938f244b5a8679bbb73ae9",
+      "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7"
+    },
+    {
+      "name": "diagnostic requested",
+      "at": "2026-11-18T07:56:54.626Z",
+      "status": 202,
+      "runId": "01a1eda8-a404-74e6-b25b-87c1a2898c7b"
+    },
+    {
+      "name": "diagnostic finished (read afterwards from the server)",
+      "run": {
+        "id": "01a1eda8-a404-74e6-b25b-87c1a2898c7b",
+        "mode": "diagnostic",
+        "state": "FAILED",
+        "counts": {
+          "fail": 1,
+          "pass": 0,
+          "unknown": 0,
+          "required": 1
+        },
+        "creditsTotal": "25.21",
+        "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+        "requestedAt": "2026-11-18T07:56:54.650Z",
+        "completedAt": "2026-11-18T07:59:17.183Z",
+        "probes": [
+          {
+            "probeKey": "D-01",
+            "kind": "counterexample_confirmation",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "verdict": "FAIL",
+            "reasonCode": "OBSERVATION_MISMATCH",
+            "failedStage": 1,
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": true,
+            "kaneSessionId": "06be7448-7929-4a6c-9127-f1263746b894",
+            "kaneCliVersion": "0.10.4",
+            "credits": "25.207085000000003",
+            "packSha256": "bbf00d1a60ae1f11afa57f59c99656e00bf0c531eb93f4ace97f178994260655",
+            "startedAt": "2026-11-18T07:56:55.559Z",
+            "finishedAt": "2026-11-18T07:59:17.171Z"
+          }
+        ]
+      }
+    }
+  ],
+  "note": "Steps after the diagnostic were not taken in this attempt; attempt 2 ran the whole loop again on a new form."
+}
