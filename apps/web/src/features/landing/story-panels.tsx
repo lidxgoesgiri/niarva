@@ -197,7 +197,7 @@ export function ProofPipeline() {
 export function ClosedLoops() {
   return (
     <Tabs.Root defaultValue="product" className={styles.loops}>
-      <Tabs.List aria-label="Closed loop" className={styles.tabs}>
+      <Tabs.List aria-label="Closed loop" className={`${styles.tabs} ${styles.loopTabs}`}>
         <Tabs.Trigger value="product">Product Loop</Tabs.Trigger>
         <Tabs.Trigger value="development">Development Loop</Tabs.Trigger>
       </Tabs.List>

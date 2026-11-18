@@ -55,6 +55,7 @@ export function LandingShell({ children }: { children: ReactNode }) {
   return (
     <MotionContext value={moving}>
       <div ref={root} className={styles.landing} data-motion={moving ? "running" : "paused"}>
+        <div className={styles.atmosphere} aria-hidden="true" />
         <SiteNavigation />
         {children}
         <button

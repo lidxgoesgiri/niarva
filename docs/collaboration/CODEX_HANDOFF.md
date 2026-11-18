@@ -2,6 +2,12 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — cinematic landing refresh
+
+- Updated the landing and added the public `/demo` guide on the UI branch. The guide links to the recorded eight-probe scholarship run and the authenticated workspace. The interactive sandbox remains a labelled simulation with a fail-closed gate.
+- A lazy hero-only WebGL knot and particles sit over a CSS portal. Native scroll supports the sticky Semantic Gap explanation, and the explicit pause and reduced-motion controls keep the CSS fallback available. No dependencies were added.
+- PE-05 desktop PASS at 1920 px after closing a stale UI preview listener. The restored run has 21 first-party HTTP 200 responses and zero console errors. Build, lint, typecheck, and 88 native tests pass. The GPA regression is running on the restored preview. Evidence is under `evidence/product-experience/`. Narrow viewport and system reduced-motion observations remain BLOCKED.
+
 ## 2026-11-18 — integrated keyboard regression complete
 
 PE-03K PASS on the integrated build `-0Q19m_sHu5FEM9F0CQrt`: 40 completed keyboard steps cover the skip link, main CTA, rule/GPA choices, loop tabs and animation controls. Actual findings and final screenshot agree: Resume animations is focused with a visible purple ring inside the viewport, below the header. Zero console errors, 20 first-party HTTP200 responses. Case `01M7P5N302JVMBFWNTSCCR2CEW` has a verified formal title in the official project. Same approved objective/oracle and extraction supplement; 58.971595 credits. The reduced-motion and zoom attempts remain BLOCKED as described below. Source remains frozen; only sanitized evidence and documentation are being finalized. Scanner owner request below remains open.

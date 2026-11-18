@@ -76,20 +76,30 @@ export function BoundarySandbox() {
     setCertificate("");
   }
   return (
-    <section id="golden-case" aria-labelledby="sandbox-title" className={styles.sandbox}>
+    <section
+      id="golden-case"
+      aria-labelledby="sandbox-title"
+      className={styles.sandbox}
+      onPointerMove={(event) => {
+        if (!moving || event.pointerType !== "mouse") return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        event.currentTarget.style.setProperty("--spot-x", `${event.clientX - bounds.left}px`);
+        event.currentTarget.style.setProperty("--spot-y", `${event.clientY - bounds.top}px`);
+      }}
+    >
       <div className={styles.sandboxBar}>
         <div className={styles.sampleLabel}>
           <span className={styles.sampleDot} />
           Seeded Defect Simulation{" "}
-          <span className={styles.sampleQualifier}>· Scholarship Form (C-GPA)</span>
+          <span className={styles.sampleQualifier}>
+            · Sample Golden Case · Scholarship Form (C-GPA)
+          </span>
         </div>
-        <span className={styles.instrumentLabel}>BOUNDARY WITNESS / 01</span>
+        <span className={styles.instrumentLabel}>Boundary witness</span>
       </div>
       <div className={styles.sandboxGrid}>
         <div className={styles.intentSide}>
-          <div className={styles.sectionLabel}>
-            <span>01</span> Approved intent
-          </div>
+          <div className={styles.sectionLabel}>Approved intent</div>
           <h2 id="sandbox-title">
             One small operator.
             <br />A different outcome.
@@ -177,7 +187,7 @@ export function BoundarySandbox() {
         </div>
         <div className={styles.previewSide}>
           <div className={styles.previewCaption}>
-            <span>02 · Simulated browser behavior</span>
+            <span>Simulated browser behavior</span>
             <span className={styles.previewDots} aria-hidden="true">
               ● ● ●
             </span>
@@ -234,6 +244,7 @@ export function BoundarySandbox() {
               <strong>{visible ? "Visible + required" : "Hidden"}</strong>
             </div>
           </div>
+          <div className={styles.gateBeam} key={`${rule}-${gpa}`} aria-hidden="true" />
           <div className={styles.simulatedGate}>
             <LockKeyhole size={19} aria-hidden="true" />
             <div>

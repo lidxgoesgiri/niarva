@@ -1,0 +1,210 @@
+{
+  "testId": "PE-05",
+  "status": "PASS",
+  "assessment": "PE-05 desktop scope at 1920px. Actual hero WebGL frame and static paused fallback are visible in reviewed step screenshots. CTA remains usable, resume works, and the Verification link reaches all three semantic gap stages with publication blocked in the labelled sample. The pack records 21 first-party HTTP 200 responses and zero console errors. Unsupported narrow widths and active reduced motion are explicitly unproven.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-08",
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-16",
+    "UI-AC-20"
+  ],
+  "source": {
+    "commit": "b2f89d5e6aba4acc80c72bd94d90f401cfbb5368",
+    "branch": "feature/product-experience",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "files": {
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/portal-scene.ts": "b0e667d4989b3007f1ee8db0be43bbd574bd5a8e09b14f6a7412ec0cc6285f80",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "77e60056c81ba8f6f1ecf0ff091dfcdce59f6e8086d74b82c8ebc6595f20dc28",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "61e4d5e47d5fab60831cbc995315a6a768588d08d241d25abde5c6cb4c676e85",
+      "apps/web/src/features/landing/landing.module.css": "c514aaec8928d77415e190229402acaccad785867fbad45e0ed154f5d96b84ca",
+      "apps/web/src/features/landing/story-panels.tsx": "fe5d75e5200c2caa40bd3a50367709063ca532fbc3cfc31a75e740c7febc5749",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "31f4130220b7f7f5390cba1126181dd52ca3c447f6b00c82d2ff4edad87be6a9"
+  },
+  "objectiveSha256": "07f5f70904c6fc168eb0fc5302312d3bf37b15310abaaaddc353034184eee7b3",
+  "executionObjectiveSha256": "745748fb0f1844ed6a1d5df09f71fe655bdc7e5747f3fe90967680150ddd3ac8",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "8f6650ff12c25af02a33839a067a630f9cc04240b0a039f7cf00c222c844d208",
+  "startedAtUtc": "2026-11-18T04:48:16.801Z",
+  "completedAtUtc": "2026-11-18T04:51:51.214Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 185.4,
+  "creditsConsumed": 55.905118,
+  "sealedPrivatePackSha256": "bfafd6d7c125aaefed7d66e4b2dfd8d765093c33f7a33b09d9c410158a320972",
+  "testManager": {
+    "id": "01M7PFQZW2FP6WD4146JFDVV6R",
+    "title": "NIARVA landing: cinematic hero, motion fallback, and semantic gap",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "intention_to_proof_heading_visible",
+      "condition": "the complete heading “From Intention to Proof.” is visible",
+      "subject": "the complete heading “From Intention to Proof.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "build_verified_form_action_usable",
+      "condition": "the primary “Build Verified Form” action is visible and usable",
+      "subject": "the primary “Build Verified Form” action usable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "inspect_golden_case_link_usable",
+      "condition": "the “Inspect Golden Case” link is visible and usable",
+      "subject": "the “Inspect Golden Case” link usable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "hero_webgl_rendering_observed",
+      "condition": "the decorative hero surface has actual WebGL canvas rendering",
+      "subject": "actual WebGL canvas rendering of the decorative hero surface",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "hero_static_fallback_observed",
+      "condition": "the decorative hero surface has a static fallback",
+      "subject": "a static fallback of the decorative hero surface",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "paused_hero_surface_readable",
+      "condition": "the hero surface is readable after activating “Pause animations”",
+      "subject": "a readable hero surface",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "paused_hero_surface_stationary",
+      "condition": "the hero surface is stationary after activating “Pause animations”",
+      "subject": "a stationary hero surface",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "paused_primary_action_reachable",
+      "condition": "the primary action is reachable after activating “Pause animations”",
+      "subject": "the primary action reachable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "semantic_gap_reached",
+      "condition": "“The semantic gap.” is reached after activating the “Verification” navigation link",
+      "subject": "“The semantic gap.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 11
+    },
+    {
+      "observationId": "heading_unobstructed_usable",
+      "condition": "the heading stays usable with no obstruction",
+      "subject": "the heading usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 14
+    },
+    {
+      "observationId": "actions_unobstructed_usable",
+      "condition": "the actions stay usable with no obstruction",
+      "subject": "the actions usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 14
+    },
+    {
+      "observationId": "cinematic_landing",
+      "condition": "concrete observations, including actual viewport width and specific unsupported checks, are stored as {{cinematic_landing}}",
+      "observed": "Viewport width: 1920px. Narrow CSS checks at max-width 480px and 768px are inactive. Reduced-motion preference is inactive. The visible desktop landing content has unobstructed heading and workflow actions.",
+      "expected": "",
+      "step": 14
+    },
+    {
+      "observationId": "narrow_css_viewport_unavailable",
+      "condition": "a narrow CSS viewport is unavailable",
+      "subject": "a narrow CSS viewport",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 14
+    },
+    {
+      "observationId": "reduced_motion_preference_unavailable",
+      "condition": "an active reduced-motion preference is unavailable",
+      "subject": "an active reduced-motion preference",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 14
+    },
+    {
+      "observationId": "cinematic_landing_2",
+      "condition": "the concrete observations, including the actual viewport width and specific unsupported checks, are saved as {{cinematic_landing}}",
+      "observed": "Viewport width: 1920px. Narrow CSS checks at max-width 480px and 768px are inactive. Reduced-motion preference is inactive. The visible desktop landing content has unobstructed heading and workflow actions.",
+      "expected": "",
+      "step": 14
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-05",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "packSha256": "bfafd6d7c125aaefed7d66e4b2dfd8d765093c33f7a33b09d9c410158a320972",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 21,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "firstPartyRequests": 21,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}
