@@ -67,6 +67,7 @@ const app = [
   "KANE_PROBE_BUDGET_PER_WORKSPACE_24H=24",
   "KANE_PROBE_BUDGET_GLOBAL_24H=48",
   "DEMO_MODE=false",
+  "# Judge access (docs/deployment/VERCEL.md §6): DEMO_MODE=true, DEMO_JUDGE_EMAILS, DEMO_SHOWCASE_FORM_IDS",
   ...(models ? [`OPENROUTER_MODEL=${models}`] : ["# OPENROUTER_MODEL=<comma-separated model ids>"]),
   "# Build: use the exact pnpm version from package.json (pnpm 12) through Corepack.",
   "ENABLE_EXPERIMENTAL_COREPACK=1",
