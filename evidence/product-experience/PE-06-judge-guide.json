@@ -1,0 +1,175 @@
+{
+  "testId": "PE-06",
+  "status": "PASS",
+  "assessment": "The closing link opens the judge guide at /demo. Kane records three actual link destinations, the exact guide heading and explanation for one locally verified form version. The workspace link leads to a sign-in form with the expected controls. Final screenshot and redirect URL match. Pack has zero console errors, 66 first-party HTTP 200 responses and one expected 307 redirect.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-17"
+  ],
+  "source": {
+    "commit": "501e3908729cc294b0fd3ca49f53234271c1a83c",
+    "branch": "feature/product-experience",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "files": {
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "77e60056c81ba8f6f1ecf0ff091dfcdce59f6e8086d74b82c8ebc6595f20dc28",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "61e4d5e47d5fab60831cbc995315a6a768588d08d241d25abde5c6cb4c676e85",
+      "apps/web/src/features/landing/landing.module.css": "c514aaec8928d77415e190229402acaccad785867fbad45e0ed154f5d96b84ca",
+      "apps/web/src/features/landing/portal-scene.ts": "b0e667d4989b3007f1ee8db0be43bbd574bd5a8e09b14f6a7412ec0cc6285f80",
+      "apps/web/src/features/landing/story-panels.tsx": "fe5d75e5200c2caa40bd3a50367709063ca532fbc3cfc31a75e740c7febc5749",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "objectiveSha256": "a1f668d68c38f582186c5aefbf55c37545f802148e6554038745beed3b1dd542",
+  "executionObjectiveSha256": "23dae2f3493296547addda2221b41ae1474a3f8e05f3c034eb103ca49fb269b9",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "8f6650ff12c25af02a33839a067a630f9cc04240b0a039f7cf00c222c844d208",
+  "startedAtUtc": "2026-11-18T04:57:21.027Z",
+  "completedAtUtc": "2026-11-18T04:59:46.400Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 97.1,
+  "creditsConsumed": 32.2864425,
+  "sealedPrivatePackSha256": "d1f22e3d0ae0cbecc2bbc0e75814bdb3ae45479943ba693e6e2c31fce4e28ae7",
+  "testManager": {
+    "id": "01M7PG8KBS32VCK7BY9J035H30",
+    "title": "NIARVA judge demo: evidence guide and workspace navigation",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "judge_demo_heading_check",
+      "condition": "The landing page heading is “Trace one rule from intent to proof.”",
+      "observed": "Trace one rule from intent to proof.",
+      "expected": "Trace one rule from intent to proof.",
+      "step": 5
+    },
+    {
+      "observationId": "seeded_golden_case_link_present",
+      "condition": "A distinct link for the seeded Golden Case is present.",
+      "subject": "a distinct link for the seeded Golden Case",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 5
+    },
+    {
+      "observationId": "recorded_kane_cli_evidence_link_present",
+      "condition": "A distinct link for the recorded Kane CLI evidence is present.",
+      "subject": "a distinct link for the recorded Kane CLI evidence",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 5
+    },
+    {
+      "observationId": "creator_workspace_link_present",
+      "condition": "A distinct link for the creator workspace is present.",
+      "subject": "a distinct link for the creator workspace",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 5
+    },
+    {
+      "observationId": "recorded_evidence_description_check",
+      "condition": "The recorded evidence is described as the result for one approved scholarship form version in the local environment.",
+      "subject": "the recorded evidence description",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 5
+    },
+    {
+      "observationId": "judge_guide",
+      "condition": "The actual three link destinations and the route from the Judge Demo landing page are saved as {{judge_guide}}.",
+      "observed": "{\"route\":\"/demo\",\"golden_case\":\"http://localhost:3101/#golden-case\",\"kane_cli_evidence\":\"https://github.com/lidxgoesgiri/niarva/blob/d28dee5/evidence/product-loop/PROD-LOOP-01.md\",\"creator_workspace\":\"http://localhost:3101/app\"}",
+      "expected": "",
+      "step": 5
+    },
+    {
+      "observationId": "private_workspace_sign_in_page_open",
+      "condition": "The private workspace sign-in page is open.",
+      "subject": "the private workspace sign-in page",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 10
+    },
+    {
+      "observationId": "private_workspace_email_field_present",
+      "condition": "An email field is present for the private workspace.",
+      "subject": "an email field for the private workspace",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 10
+    },
+    {
+      "observationId": "private_workspace_password_field_present",
+      "condition": "A password field is present for the private workspace.",
+      "subject": "a password field for the private workspace",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 10
+    },
+    {
+      "observationId": "private_workspace_sign_in_action_present",
+      "condition": "A Sign in action is present for the private workspace.",
+      "subject": "a Sign in action for the private workspace",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 10
+    },
+    {
+      "observationId": "workspace_destination_path",
+      "condition": "The actual destination path for “Go to the workspace” is saved as {{workspace_destination_path}}.",
+      "observed": "/app",
+      "expected": "",
+      "step": 10
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-06",
+    "buildId": "Ht8pfDR5t3PM8Fo9Kbqtr",
+    "packSha256": "d1f22e3d0ae0cbecc2bbc0e75814bdb3ae45479943ba693e6e2c31fce4e28ae7",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 67,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 66
+      },
+      {
+        "status": "307",
+        "count": 1
+      }
+    ],
+    "firstPartyRequests": 67,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 66
+      },
+      {
+        "status": "307",
+        "count": 1
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

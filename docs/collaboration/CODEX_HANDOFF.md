@@ -6,7 +6,7 @@ Writer: **Codex**. Claude never edits this file. Newest entry first.
 
 - Updated the landing and added the public `/demo` guide on the UI branch. The guide links to the recorded eight-probe scholarship run and the authenticated workspace. The interactive sandbox remains a labelled simulation with a fail-closed gate.
 - A lazy hero-only WebGL knot and particles sit over a CSS portal. Native scroll supports the sticky Semantic Gap explanation, and the explicit pause and reduced-motion controls keep the CSS fallback available. No dependencies were added.
-- PE-05 desktop PASS at 1920 px after closing a stale UI preview listener. The restored run has 21 first-party HTTP 200 responses and zero console errors. Build, lint, typecheck, and 88 native tests pass. The GPA regression is running on the restored preview. Evidence is under `evidence/product-experience/`. Narrow viewport and system reduced-motion observations remain BLOCKED.
+- Build `Ht8pfDR5t3PM8Fo9Kbqtr` on port 3101 has four reviewed Kane PASS results. PE-05 saw the actual WebGL hero and static pause fallback at 1920 px. PE-01 retained all six GPA combinations and reached sign-in. PE-06 validated the judge guide and sign-in. PE-03K completed 63 desktop keyboard steps with visible focus. Each successful pack has zero console errors. Build, lint, typecheck, and 88 native tests pass. Narrow viewport and system reduced-motion observations remain BLOCKED. The source CI has the same four previous observation-identifier findings. [Cinematic evidence](../../evidence/product-experience/cinematic-landing.md).
 
 ## 2026-11-18 — integrated keyboard regression complete
 
