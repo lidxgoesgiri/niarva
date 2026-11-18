@@ -1,0 +1,425 @@
+{
+  "loop": "PROD-LOOP-01",
+  "base": "https://niarva.vercel.app",
+  "startedAt": "2026-11-18T07:59:20.877Z",
+  "steps": [
+    {
+      "name": "seeded version created",
+      "at": "2026-11-18T07:59:22.698Z",
+      "formId": "01a1edaa-e0d9-7694-b60b-59ca816433c6",
+      "versionNo": 1,
+      "definitionHash": "a8ebe142b52bf7dec4f47ea9254d13ffc0e7a517cc938f244b5a8679bbb73ae9",
+      "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7",
+      "staticVerdict": "FAILED",
+      "counterexample": {
+        "field": "certificate",
+        "actual": {
+          "visible": false,
+          "required": false
+        },
+        "aspect": "visible",
+        "boundary": {
+          "field": "gpa",
+          "value": "3.5"
+        },
+        "expected": {
+          "visible": true,
+          "required": true
+        },
+        "assignment": {
+          "gpa": "3.50"
+        }
+      }
+    },
+    {
+      "name": "diagnostic requested",
+      "at": "2026-11-18T07:59:23.032Z",
+      "status": 202,
+      "runId": "01a1edaa-e7be-735c-95c1-6f340a0d0d23"
+    },
+    {
+      "name": "diagnostic finished",
+      "at": "2026-11-18T08:01:05.769Z",
+      "run": {
+        "id": "01a1edaa-e7be-735c-95c1-6f340a0d0d23",
+        "mode": "diagnostic",
+        "state": "FAILED",
+        "detail": null,
+        "counts": {
+          "fail": 1,
+          "pass": 0,
+          "unknown": 0,
+          "required": 1
+        },
+        "creditsTotal": "21.76",
+        "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+        "requestedAt": "2026-11-18T07:59:23.052Z",
+        "completedAt": "2026-11-18T08:01:03.520Z",
+        "probes": [
+          {
+            "probeKey": "D-01",
+            "kind": "counterexample_confirmation",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "64ee81797595d0a48ccf74cdaf9ad21f4624c9c8b96dea5325cda5942cceaf80",
+            "verdict": "FAIL",
+            "reasonCode": "OBSERVATION_MISMATCH",
+            "failedStage": 1,
+            "mismatches": [
+              {
+                "key": "obs_certificate_visible",
+                "stage": 1,
+                "expected": "true",
+                "observed": "false"
+              },
+              {
+                "key": "obs_certificate_required",
+                "stage": 1,
+                "expected": "true",
+                "observed": "false"
+              }
+            ],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": true,
+            "kaneSessionId": "dd4a4355-eb94-4ee9-9558-25d6a79a5e16",
+            "kaneCliVersion": "0.10.4",
+            "credits": "21.7556775",
+            "packSha256": "bb70b2f4efe0b8c70bee8885a63cbe0fc5dc0204cd2bb9fb1fbda81bbf85f1bb",
+            "attempt": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "repair proposed",
+      "at": "2026-11-18T08:01:06.177Z",
+      "proposals": [
+        {
+          "strategy": "ALIGN_OPERATOR",
+          "ops": [
+            {
+              "op": "set_operator",
+              "ruleId": "rule_d0c84c42",
+              "path": [],
+              "from": "gt",
+              "to": "gte"
+            }
+          ],
+          "explanation": "Change the comparison in rule_d0c84c42 from \">\" to \"≥\" so GPA 3.5 is handled as the approved claim states."
+        },
+        {
+          "strategy": "REGENERATE_FROM_CLAIM",
+          "ops": [
+            {
+              "op": "remove_rule",
+              "rule": {
+                "id": "rule_d0c84c42",
+                "target": "certificate",
+                "effect": "show",
+                "when": {
+                  "kind": "cmp",
+                  "field": "gpa",
+                  "op": "gt",
+                  "value": "3.5"
+                },
+                "originClaimKeys": [
+                  "C-GPA"
+                ]
+              }
+            },
+            {
+              "op": "add_rule",
+              "rule": {
+                "id": "rule_0a9f644b",
+                "target": "certificate",
+                "effect": "show",
+                "when": {
+                  "kind": "cmp",
+                  "field": "gpa",
+                  "op": "gte",
+                  "value": "3.5"
+                },
+                "originClaimKeys": [
+                  "C-GPA"
+                ]
+              }
+            }
+          ],
+          "explanation": "Rebuild the rules for \"Achievement certificate number\" directly from its approved claims."
+        }
+      ]
+    },
+    {
+      "name": "repair approved",
+      "at": "2026-11-18T08:01:07.007Z",
+      "status": 200,
+      "newVersionNo": 2,
+      "definitionHash": "9796f3daf46a47bcc109968373741d36cc299976f39bdbf610be60200be41c2d",
+      "parentVersionId": "01a1edaa-e4b7-7fc5-a4ed-12aa39187a8f",
+      "claimsHash": "5bec6abfcc499a48bf47bc37890d1e28446fa1e8a42f2ffda5f99d85c36b3af7",
+      "claimsHashUnchanged": true,
+      "staticVerdict": "PASS"
+    },
+    {
+      "name": "publish before proof",
+      "at": "2026-11-18T08:01:07.343Z",
+      "status": 409,
+      "code": "GATE_BLOCKED",
+      "reasons": [
+        "BROWSER_UNVERIFIED"
+      ]
+    },
+    {
+      "name": "full verification requested",
+      "at": "2026-11-18T08:01:07.813Z",
+      "status": 202,
+      "runId": "01a1edac-80b3-78d4-b4f1-5efba89ff186"
+    },
+    {
+      "name": "full verification finished",
+      "at": "2026-11-18T08:18:43.254Z",
+      "run": {
+        "id": "01a1edac-80b3-78d4-b4f1-5efba89ff186",
+        "mode": "full",
+        "state": "VERIFIED",
+        "detail": null,
+        "counts": {
+          "fail": 0,
+          "pass": 8,
+          "unknown": 0,
+          "required": 8
+        },
+        "creditsTotal": "261.62",
+        "rendererBuildId": "r1-6b8a9a7ac0dd0397",
+        "requestedAt": "2026-11-18T08:01:07.746Z",
+        "completedAt": "2026-11-18T08:18:30.141Z",
+        "probes": [
+          {
+            "probeKey": "P-01",
+            "kind": "initial_required",
+            "executor": "kane",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-04"
+            ],
+            "objectiveHash": "c186b76dfad89093affbb2c4688e830e30ba86a2af9316d818e17a5bc19828ff",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "6ff31baa-2560-4644-9cf1-805b5e93e986",
+            "kaneCliVersion": "0.10.4",
+            "credits": "23.663989",
+            "packSha256": "b2a2f957656c0721ccf95d351dd019bfd7c1e62c72588a8cf0c9ef4aafb52b2a",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-02",
+            "kind": "boundary_bundle",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-01",
+              "K-02",
+              "K-03"
+            ],
+            "objectiveHash": "a5c3cbbff76ccf0047e7be55548bb7af492f1e087c096e050592465276b06c60",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "d4df303f-01b1-405d-a0a5-dd2bf152e6a3",
+            "kaneCliVersion": "0.10.4",
+            "credits": "45.03615800000001",
+            "packSha256": "a6455884efb14922c0c28d73a240c5a4c80ea9b8c1cd626e46205cf716f07644",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-03",
+            "kind": "conditional_required_empty",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "710e541577f890e123d1f6275b6f8a32e5a323d88ddd83c2fa8f54dd5553423e",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "e2503415-a86e-4816-b7d2-80116921714b",
+            "kaneCliVersion": "0.10.4",
+            "credits": "50.203416",
+            "packSha256": "7618ffb6501e285d559f45ddd1fc3dc13551bee2a77b36c31e6d81da7f2d00ae",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-04",
+            "kind": "hidden_exclusion",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-05"
+            ],
+            "objectiveHash": "8b788e7641fb996040358a6046cb32c49dc5506ad5005cf821211c832b1626a8",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "b6ed0d97-a268-41f2-990a-8be43ab3b2e0",
+            "kaneCliVersion": "0.10.4",
+            "credits": "47.963894999999994",
+            "packSha256": "200211f4332641455eee511f87e1949fb674123ea9bb583c8c051d9f03c881bd",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-05",
+            "kind": "valid_submission",
+            "executor": "kane",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-04",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-06"
+            ],
+            "objectiveHash": "d2b6a6a9c98256118bd0a85f1fa49cbe69699414436b006d3f98cc415a599338",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "1495aab8-3568-4926-b4ca-d289c28f6cc1",
+            "kaneCliVersion": "0.10.4",
+            "credits": "33.120625",
+            "packSha256": "1851094ca31076102ba6ad3f9b2f4ee9b26b268e1093047d4eef9272a929bb7b",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-06",
+            "kind": "decimal_comma",
+            "executor": "kane",
+            "claimKeys": [
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-02"
+            ],
+            "objectiveHash": "4f6284790cdc521016a440b31223b821f277ea1c6786cab28a847ec32466bc92",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "9fda2954-1acf-4749-a504-0ef99c9be6c9",
+            "kaneCliVersion": "0.10.4",
+            "credits": "24.986597499999995",
+            "packSha256": "5c01e8d0cbc74264bffa4693a9b6e7695b7ca0adf6b6568210872f9e07b71711",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-07",
+            "kind": "constraint_check",
+            "executor": "kane",
+            "claimKeys": [
+              "C-04"
+            ],
+            "goldenIds": [],
+            "objectiveHash": "51107d7163400429115bd12ff6af7d9a79fb65eb1323c8e989b66ab2f9db9396",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": "passed",
+            "agentVerdictMismatch": false,
+            "kaneSessionId": "6662b639-69bd-4a3c-9ecd-8acc9a05ff16",
+            "kaneCliVersion": "0.10.4",
+            "credits": "36.64812",
+            "packSha256": "da203bfe2340b463a05a3a79468166df1ade1723bac6292182cc9cc409728fa6",
+            "attempt": 1
+          },
+          {
+            "probeKey": "P-08",
+            "kind": "server_contract",
+            "executor": "http",
+            "claimKeys": [
+              "C-01",
+              "C-02",
+              "C-04",
+              "C-GPA"
+            ],
+            "goldenIds": [
+              "K-04",
+              "K-05",
+              "K-06"
+            ],
+            "objectiveHash": "d38c9763c44bb7fb09eb3abe83ed4c9bbc3f9561ce8aed5247d105c7baf56011",
+            "verdict": "PASS",
+            "reasonCode": null,
+            "failedStage": null,
+            "mismatches": [],
+            "kaneStatus": null,
+            "agentVerdictMismatch": false,
+            "kaneSessionId": null,
+            "kaneCliVersion": null,
+            "credits": null,
+            "packSha256": null,
+            "attempt": 1
+          }
+        ]
+      },
+      "gate": {
+        "eligible": true,
+        "reasons": [],
+        "instability": {
+          "unstable": false,
+          "consecutiveVerifiedAfterFailure": 0,
+          "required": 2
+        },
+        "versionId": "01a1edac-7c15-7cbc-923c-60a712c23dfd",
+        "latestRunId": "01a1edac-80b3-78d4-b4f1-5efba89ff186",
+        "reasonTexts": []
+      }
+    },
+    {
+      "name": "publish after proof",
+      "at": "2026-11-18T08:18:43.587Z",
+      "status": 201,
+      "slug": "product-loop-scholarship-2026-11-18t07-5-11fb6a"
+    },
+    {
+      "name": "public submission",
+      "at": "2026-11-18T08:18:44.009Z",
+      "status": 201,
+      "receiptCode": "VCBFQ6AM"
+    }
+  ],
+  "finishedAt": "2026-11-18T08:18:44.009Z"
+}

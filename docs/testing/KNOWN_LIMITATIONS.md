@@ -44,3 +44,17 @@ The repository holds 64 Kane Assurance-designed tests. As of 18 November 2026, 0
 
 - The Test Manager web interface was operated through a browser to copy and rename test cases, because Kane CLI has no such commands. That browser was never used to test NIARVA; all NIARVA behavior was observed by Kane CLI.
 - Concurrent work by three agents on one machine is serialized by `~/.niarva/kane-run.lock`. A run that waited for the lock is not affected; a run that overlapped another run before the lock existed is recorded as UNKNOWN if it failed for infrastructure reasons.
+
+## 6. Production deployment (Vercel, 18 November 2026)
+
+Details and evidence: [`evidence/deploy/VERCEL-PROD-01.md`](../../evidence/deploy/VERCEL-PROD-01.md).
+
+| Limitation | Effect | What was done |
+|---|---|---|
+| The worker, Kane CLI, and Chrome cannot run inside Vercel functions | A verification on `https://niarva.vercel.app` progresses only while the owner's worker machine runs `pnpm worker:vercel` | Documented in the README and the deployment guide; a queued run waits and resumes when the worker is back |
+| The Neon database is connected to the Production environment only | Preview deployments have no `DATABASE_URL`, so their build stops at the migration step | Deliberate: a feature-branch build must never migrate production data |
+| Deployment Protection (Standard) | Only `niarva.vercel.app` is public; deployment-specific URLs ask for a Vercel sign-in | Judges and Kane use the production domain |
+| Cold start | The first request after idle took about 12 s (function start and first Neon connection); later requests about 0.4 s | Not tuned |
+| Kane CLI loads **every** JSON file in `.testmuai/variables/` | A second file there overrides values of the first (a backup with `start_url=http://localhost:3000` sent five production smoke runs to localhost) | Those runs are recorded as BLOCKED; keep exactly one variables file in that folder |
+| Synthetic fixtures live in the production database | Accounts `kane-owner`, `kane-nonowner`, `kane-empty-owner` (`@niarva.test`) and their forms are visible to those accounts only | Synthetic data only; no real personal data |
+| A scoped judge account and the demo mode are not configured on the deployment (`DEMO_MODE=false`) | Judge-access tests (t-55, t-62) remain owed | Listed with task C-02 |

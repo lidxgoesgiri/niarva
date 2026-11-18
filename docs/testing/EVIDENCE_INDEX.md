@@ -54,3 +54,7 @@ Revision note: the run summary of the DEV-LOOP-01 failure (`475eaa00…`) record
 | `12883865-5fd7-450b-bbcc-b36801f5ff2b` | t-37 | PASS | `cf56a3af86bb546d37c09fc7c632bc356ecfa2082e48f9206f56dc7a348708b7` | 4,981,256 | TC-114 `01M7NG9T8ZD75HJTJ4Q01M3TRC` |
 
 The sixth retest record (t-44, 19:16:56 UTC) never started (Kane sign-in), so it has no pack. Full records: [`KANE_EXECUTION_REPORT.md`](KANE_EXECUTION_REPORT.md#2-retests-in-the-official-project) and [`evidence/tms-migration/retests.json`](../../evidence/tms-migration/retests.json).
+
+## 4. Production deployment (Vercel, 18 November 2026)
+
+The product loop on `https://niarva.vercel.app` (D-01 FAIL as expected, P-01 … P-07 PASS) and the production smoke runs (t-5, t-6, t-44, t-36, t-37 PASS; a first batch BLOCKED by configuration) are listed with full SHA-256 pack digests, Kane sessions, and execution ids in [`evidence/deploy/VERCEL-PROD-01.md`](../../evidence/deploy/VERCEL-PROD-01.md). Sanitized loop records: [`prod-loop-vercel-01-attempt-1-interrupted.json`](../../evidence/product-loop/prod-loop-vercel-01-attempt-1-interrupted.json), [`prod-loop-vercel-01-attempt-2.json`](../../evidence/product-loop/prod-loop-vercel-01-attempt-2.json).
