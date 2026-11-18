@@ -8,7 +8,7 @@ import {
   compositionProblems,
   type ClaimSetContent,
 } from "@niarva/core";
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, isNull } from "drizzle-orm";
 import { z } from "zod";
 import type { Actor } from "../context/session";
 import { getDb, type DbOrTx } from "../db/client";
@@ -42,17 +42,18 @@ function slugify(title: string): string {
  * (`DEMO_MODE`). Writes never use this; they go through `loadOwnedForm`.
  */
 export async function loadReadableForm(db: DbOrTx, actor: Actor, formId: string) {
-  const [owned] = await db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId)));
+  const [owned] = await db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId), isNull(forms.archivedAt)));
   if (owned) return { form: owned, access: "owner" as const };
   if (canReadShowcase(actor, formId)) {
-    const [showcase] = await db.select().from(forms).where(eq(forms.id, formId));
+    const [showcase] = await db.select().from(forms).where(and(eq(forms.id, formId), isNull(forms.archivedAt)));
     if (showcase) return { form: showcase, access: "judge" as const };
   }
   throw notFound("Form");
 }
 
 export async function loadOwnedForm(db: DbOrTx, actor: Actor, formId: string, lock = false) {
-  const query = db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId)));
+  // A deleted (archived) form is gone for its owner too; its versions, runs, and audit trail stay.
+  const query = db.select().from(forms).where(and(eq(forms.id, formId), eq(forms.workspaceId, actor.workspaceId), isNull(forms.archivedAt)));
   const [form] = lock ? await query.for("update") : await query;
   if (!form) throw notFound("Form");
   return form;

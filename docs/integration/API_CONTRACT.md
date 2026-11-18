@@ -28,6 +28,7 @@ All creator endpoints need a signed-in session and a same-origin `Origin` header
 | POST | `/forms/{formId}/runs/{runId}/cancel` | `{}` | run canceled |
 | POST / DELETE | `/forms/{formId}/publish` | `{ versionId, acknowledgedWarningKeys }` | `201 { slug }` or `409` with gate `reasons` |
 | GET | `/forms/{formId}/responses` | — | `{ total, rows }` |
+| DELETE | `/forms/{formId}` | — (same origin) | `{ deleted: true }`; archives an unpublished draft. `409` for a published form or a queued or running verification; `404` afterwards and for foreign forms |
 | POST | `/preview/{versionId}/submissions?t=<token>` | `{ submissionId, formVersionId, answers }` | preview receipt (scoped token only) |
 | POST | `/public/forms/{slug}/submissions` | `{ submissionId, formVersionId, answers }` | `201 { receiptCode }`; identical retry returns the first receipt |
 | GET | `/health` | — | liveness |
@@ -108,6 +109,7 @@ Keep these attributes and visible texts; Kane tests read them.
 - Visible texts relied on: "Seeded defect for demonstration", "Intent Trace", "Static checks passed", "Publishing blocked", "Ready to publish".
 - Form renderer: `data-field`, `data-rule`, `data-testid="form-footer" | "version-label" | "receipt-code" | "confirmation"`.
 - Judge access: the form state carries `access` (`owner` or `judge`). A judge on a showcase form sees `data-testid="demo-read-only"` (text "Demo example · read-only") and, under Responses, `data-testid="responses-owner-only"`; the forms page lists showcase forms under the heading "Demo examples (read-only)".
+- Forms list: each row is `data-testid="form-row"` with `data-form-status`; draft rows of the owner have a **Delete** button (`aria-label` "Delete draft {title}"), then an inline confirmation with **Cancel** and **Delete draft**.
 - Owner responses view (t-49 to t-53): visible texts "Loading responses…" (`role="status"`), "Responses could not be loaded." with a **Try again** button (`role="alert"`), "No responses yet. They appear here after the form is published.", "Showing {first}–{last} of {total} · Page {page} of {pages}", and the **Previous page** / **Next page** buttons inside `nav[aria-label="Response pages"]`. A failed request must never render the empty state.
 - Test-only fault hook (never active on `vercel-production`): `NIARVA_TEST_RESPONSE_FAULTS=error:<formId>,delay:<formId>` makes the owner's `GET /forms/{formId}/responses` fail with `500 INTERNAL` or answer after 25 s, after the ownership check.
 
