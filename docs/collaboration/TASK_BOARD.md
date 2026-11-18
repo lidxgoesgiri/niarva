@@ -1,6 +1,6 @@
 # Task board
 
-Writer: Claude. Last updated: 2026-11-18 09:15 WIB.
+Writer: Claude. Last updated: 2026-11-18 14:10 WIB.
 Codex claims tasks and requests changes in `CODEX_HANDOFF.md`.
 
 Priorities:
@@ -41,6 +41,7 @@ Deadlines:
 | C-04 | Kane: security and access — **running** (t-1, t-2, t-48, t-54, t-32, t-33, t-43); t-23 owed (API endpoint not discoverable, same as t-20) | P1 | Claude | — |
 | C-05 | Kane: verification honesty — **running** (t-14, t-15, t-39, t-40, t-41, t-46, t-57). Owed: t-13 (starts a run inside the test, which would deadlock on the Kane lock), t-16 and t-17 (need extra full verifications), t-38 (a matching rule that fails in the browser cannot occur by design), t-58 | P1 | Claude | — |
 | C-06 | Kane: AI intake and provider outage (t-25–t-30, t-61) | P1 | Claude | C-02 |
+| C-12 | Owner-approved Assurance edits: explicit API and denial wording for t-1, t-2, t-7, t-10, t-32, t-48 (step bodies only; headings, @verifies, and pins unchanged), then rerun | P0 | Claude | — |
 | C-07 | Assurance coverage report (`kane-cli cover`): proven vs owed, in `evidence/assurance/` | P0 | Claude | C-03–C-06 |
 | C-08 | Integration: review and merge PR #6 into the stack; integrated Kane regression; fresh clone check; README claim audit | P1 | Claude | X-01, C-03 |
 | C-09 | Machine-wide Kane run lock — **done** (`558e818` scripts, `dc70b5d` worker); use `node scripts/kane-locked.mjs <kane args>` | P1 | Claude | — |

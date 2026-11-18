@@ -21,7 +21,7 @@ On the same scholarship form, change GPA from 3.6 to 3.4, then assert the achiev
 
 ## Step 4 @verifies ac-13, ac-17
 
-Submit the same form with the name and GPA 3.4; inspect its raw public-submit network request before server sanitization, then assert the nonempty achievement certificate answer is absent from the raw request and a receipt is issued.
+Submit the same form with the name and GPA 3.4, then verify the POST request to /api/v1/public/forms/ sent by the page has a request body that does not contain {{certificate_fixture}}, verify the page shows a confirmation with a receipt code, and store that receipt code as 'receipt_code'.
 
 ## Step 5 @verifies ac-14, ac-18
 
