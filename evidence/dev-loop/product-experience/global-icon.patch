@@ -1,0 +1,8 @@
+diff --git a/apps/web/src/app/layout.tsx b/apps/web/src/app/layout.tsx
+index 46ffd13..7f35352 100644
+--- a/apps/web/src/app/layout.tsx
++++ b/apps/web/src/app/layout.tsx
+@@ -3,0 +4 @@ import type { ReactNode } from "react";
++import { landingIcon } from "@/features/landing/landing-icon";
+@@ -27,0 +29 @@ export const metadata: Metadata = {
++  icons: { icon: { url: landingIcon, type: "image/svg+xml" } },
