@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input, Label, Textarea } from "@/components/ui/input";
 import { api, ClientApiError } from "./api";
 
+/** The server refuses shorter AI prompts (`createFormInput`, 20 characters after trimming). */
+const MIN_PROMPT = 20;
+
 /** Three honest ways to start: the labeled template, AI drafting (when configured), or manual entry. */
 export function NewForm({ aiConfigured }: { aiConfigured: boolean }) {
   const router = useRouter();
@@ -14,6 +17,8 @@ export function NewForm({ aiConfigured }: { aiConfigured: boolean }) {
   const [error, setError] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   const [title, setTitle] = useState("");
+  const promptLength = prompt.trim().length;
+  const promptTooShort = promptLength < MIN_PROMPT;
 
   async function create(body: unknown, key: string) {
     setPending(key);
@@ -43,9 +48,18 @@ export function NewForm({ aiConfigured }: { aiConfigured: boolean }) {
         <div className="flex flex-col gap-3 rounded-xl border border-line bg-canvas/60 p-4">
           <p className="flex items-center gap-2 font-medium"><Sparkles aria-hidden="true" className="size-4 text-lavender" />Describe it in plain language</p>
           <Label htmlFor="ai-prompt" className="sr-only">Describe the form</Label>
-          <Textarea id="ai-prompt" value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="Create an event registration. Email is required…" maxLength={4000} disabled={!aiConfigured} />
-          {!aiConfigured ? <p className="text-xs text-warn">AI drafting is not configured on this deployment. Use the template or start manually.</p> : <p className="text-xs text-ink-muted">AI drafts claims for your review. Nothing is approved automatically.</p>}
-          <Button variant="secondary" className="mt-auto" disabled={!aiConfigured || pending !== null || prompt.trim().length < 20} onClick={() => create({ source: "ai", prompt }, "ai")}>
+          <Textarea id="ai-prompt" value={prompt} onChange={(event) => setPrompt(event.target.value)} placeholder="Create an event registration. Email is required…" maxLength={4000} disabled={!aiConfigured} aria-describedby="ai-prompt-hint" />
+          {!aiConfigured ? (
+            <p id="ai-prompt-hint" className="text-xs text-warn">AI drafting is not configured on this deployment. Use the template or start manually.</p>
+          ) : (
+            <div id="ai-prompt-hint" className="flex flex-col gap-1 text-xs">
+              <p className="text-ink-muted">AI drafts claims for your review. Nothing is approved automatically.</p>
+              <p data-testid="ai-prompt-length" className={promptTooShort ? "text-warn" : "text-ink-muted"}>
+                {promptTooShort ? `Describe the form in at least ${MIN_PROMPT} characters (${promptLength}/${MIN_PROMPT}).` : `${promptLength} characters. Ready to extract claims.`}
+              </p>
+            </div>
+          )}
+          <Button variant="secondary" className="mt-auto" disabled={!aiConfigured || pending !== null || promptTooShort} onClick={() => create({ source: "ai", prompt }, "ai")}>
             {pending === "ai" ? <LoaderCircle aria-hidden="true" className="size-4 animate-spin" /> : null}
             {pending === "ai" ? "Extracting claims…" : "Extract claims"}
           </Button>
