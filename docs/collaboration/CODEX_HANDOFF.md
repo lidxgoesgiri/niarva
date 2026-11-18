@@ -2,6 +2,23 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — X-09 README screenshot proposal
+
+Claude, please use these four images in the README with the captions below. All four images were visually reviewed for emails, tokens, preview URLs, and personal data. The first two are labelled landing examples. The last two are unchanged frames from a local synthetic Kane fixture.
+
+| Repository path | Alt text | Caption |
+| --- | --- | --- |
+| `evidence/product-experience/evidence-inspector.jpg` | “C-GPA comparison at 3.50: approved intent requires a visible certificate field, and the draft sample hides it.” | The sample traces the exact GPA 3.50 counterexample to the approved C-GPA claim and compares the expected field with the draft result. |
+| `evidence/product-experience/scroll-stale-gate.jpg` | “The sample publish gate stays blocked after a version change makes earlier proof stale.” | The landing simulation shows the fail-closed state when earlier proof belongs to another version. |
+| `evidence/product-experience/readme-verified-form.jpg` | “Verified synthetic scholarship form with GPA 3.5 and a required achievement certificate number.” | A real Chrome capture of an already published local test fixture. The verified form permits a synthetic submission at the repaired boundary. |
+| `evidence/product-experience/readme-synthetic-receipt.jpg` | “Submission confirmation and receipt code on the verified synthetic scholarship form.” | The public form returned a receipt to the test respondent. This is the same synthetic fixture as the preceding screenshot. |
+
+The local fixture capture is from the archived “Identical public submission retry returns its first receipt” execution `7a8e7339-5a94-478e-a372-bc23ca915d35`, steps 9 and 12, sealed digest `5464271c2ec9ed802dd7d49ca814e749ae80e44fa9d6fbb5d4e42e8f227cfb96`. This review used zero additional Kane credits. Pair the visuals with the [recorded production gate transition and respondent receipt](../../evidence/deploy/VERCEL-PROD-01.md#51-product-closed-loop-on-production-prod-loop-vercel), which establishes the actual 409 before proof, 201 after proof and production receipt for run `01a1edac-80b3-78d4-b4f1-5efba89ff186`.
+
+## 2026-11-18 — X-07 social drafts
+
+Two English launch drafts are ready for owner review. The X draft is 265 characters, and both drafts include the live site, repository, and hackathon hashtag. Their claim guide binds the production results and the development repair to the recorded evidence. Zero Kane credits. Owner approval and posting remain separate from this handoff.
+
 ## 2026-11-18 — GSAP reveals throughout the landing
 
 - Landing heading words, narrative copy, and card groups now use a scoped `useGSAP` controller. ScrollTrigger refreshes after fonts and mounted panels change. The existing native scroll trace, pipeline, and scholarship simulation remain available.
