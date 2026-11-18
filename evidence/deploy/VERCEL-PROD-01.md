@@ -126,3 +126,36 @@ Kane-reported consumption for the whole production verification: 308.59 (product
 - **Coverage.** This record proves the golden scholarship loop and five browser tests on the deployment. The other Assurance-designed tests keep the status in [`KANE_EXECUTION_REPORT.md`](../../docs/testing/KANE_EXECUTION_REPORT.md); they were not rerun here. Layouts narrower than 800 px are not provable with desktop Kane CLI.
 - **Release identity.** Proof is bound to the renderer build `r1-6b8a9a7ac0dd0397` and the environment `vercel-production`. A later deployment that changes the renderer makes this proof STALE by design; a deployment that changes only other code keeps the renderer identity but should be smoke-checked again.
 - **Fixtures.** Synthetic accounts and forms (`*@niarva.test`) now exist in the production database.
+- **Credits exposure.** While the worker runs, any signed-up creator can start a verification that spends the owner's Kane credits (at most `KANE_MAX_RUNS_PER_VERIFICATION` probes each, with no limit on the number of verifications in this build). The worker is stopped by default after this record (§9).
+
+## 8. Final release build (`8136ce3`)
+
+After this record was first written, the owner merged PR #6 (landing page) and PR #9 (this record) into `main`. Each merge redeployed production through the Git integration:
+
+| Deployment | Commit | Source | Creator | State |
+|---|---|---|---|---|
+| `dpl_8LxBxerAGVdr4ujgncdUt7r1wjRw` | `cb45587` (PR #6) | git | `lidxgoesgiri` | READY |
+| `dpl_AFWDUNXdqyLvpEy1DAL69nbKAEBb` | `8136ce3` (PR #9) | git | `lidxgoesgiri` | READY, promoted to `niarva.vercel.app` at 08:55:40 |
+
+Between `92d80c9` and `8136ce3` nothing changed under the renderer sources (`apps/web/src/features/form-renderer`, `apps/web/src/app/preview`, `apps/web/src/app/f`, `packages/core/src/{eval,dsl,decimal}`), `packages/`, `apps/worker`, or `apps/web/src/server`. The renderer identity `r1-6b8a9a7ac0dd0397` and the product-loop proof of §5.1 therefore stay valid. `GET /api/v1/health` on the final build: **200** (`vercel-production`, `pg`).
+
+The smoke tests ran again on the final build from a clean checkout of `8136ce3`. Recordings from §6.2 existed, so Kane **replayed** them where it could; a replay is still a real browser run against the deployment.
+
+| Started | Test | Outcome | Exit | Steps (authored / replayed) | Credits | Evidence pack SHA-256 |
+|---|---|---|---|---|---:|---|
+| 08:57 | all five | refused by the project guard before any run: t-6's recording from §6.2 was incomplete and bound to no project; it was moved out | — | — | 0 | — |
+| 08:57:54 | t-5 | **PASS** | 0 | 0 / 2 | 0 | `70592c3dfeb66f0b75bbbb97c5ce94122e0c498639034431bae477d4165929aa` |
+| 08:59:29 | t-6 | **PASS** | 0 | 2 / 0 | 21.50 | `030900cbf1f2088d00bf834a974c925ab9e3170f2eddaa2f7648e139d559d3ce` |
+| 09:02:11 | t-44 | **UNKNOWN** (did not start: "TMS did not return an org_id") | 2 | — | 0 | — |
+| 09:02:43 | t-44 (retry) | **PASS** | 0 | 0 / 2 | 0 | `8a58949687feb1d78f9a11373a3b56c5af3a7c33d9c5de54f60896f026ed892c` |
+| 09:04:42 | t-36 | **FAIL** (replay) | 1 | 0 / 5 | 0 | `68fa2c349ec6b02666874cbe6a3d6bcde69ddf34cc986268bcef2e8880a7302f` |
+| 09:10:10 | t-37 | **PASS** | 0 | 0 / 7 | 0 | `7bed63560e67295fa743ad5f03cd718021b40935e8a709adecd20c63fce968ca` |
+| 09:14:20 | t-36 (authored) | **PASS** | 0 | 5 / 0 | 82.82 | `2943755a6c07933a3b87b4cb9441cb4b053bc4e2b3b4a803a0c449c688bbd90b` |
+
+**t-36 diagnosis.** The replay failed on the step 4 assertion in 0.1 s. Its screenshot shows the rule view of the newly generated form: generated rule `gte(gpa, 3.5) → show achievement_certificate_number`, expectation from approved claim C-03 `gte(gpa, 3.5) → achievement_certificate_number visible AND required`, operator `≥ (gte)` and value 3.5 in the declarative editor, and the 3.49 / 3.50 / 3.51 boundary rows all agreeing. Kane's own triage: `replay_failure`, category `automation_bug/config_issue`, "the recording's assertion does not match the current healthy rule presentation". The test file was not changed. The stale recording was moved out of the test folder (kept privately) and the same test ran again with Kane deciding every step: **PASS**. Classification: test infrastructure (stale replay), not a product defect.
+
+Result on the final build: **t-5, t-6, t-44, t-36, t-37 PASS**; the replay FAIL and the UNKNOWN are kept above. Kane-reported credits for this round: 104.32.
+
+## 9. Live use observed during verification
+
+At 09:01:51 an account that is not one of the synthetic fixtures signed up on the deployment, created two scholarship forms, and requested a full verification (09:02:43), a diagnostic (09:08:13), and a second full verification (09:08:19). The running worker served the first full run (P-08, P-01, P-02, P-03 judged PASS) on the owner's Kane credits. Because any signed-up creator could start a verification that spends those credits, the worker was stopped at 09:23:58, right after P-03 and nine seconds into P-04 (its lease expires and the probe returns to the queue). The remaining runs stay queued and continue when the owner starts `pnpm worker:vercel` again. These runs are not part of this record's evidence.
