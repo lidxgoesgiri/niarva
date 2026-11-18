@@ -44,6 +44,8 @@ export async function acquireKaneLock(label, { waitMs = 45 * 60 * 1000, pollMs =
       const release = () => {
         if (released) return;
         released = true;
+        // Remove the exit hook again; a long-lived process (the worker) acquires the lock many times.
+        process.removeListener("exit", release);
         const holder = readHolder();
         if (holder?.pid === process.pid) rmSync(KANE_LOCK_PATH, { force: true });
       };
