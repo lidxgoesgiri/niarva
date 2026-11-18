@@ -27,13 +27,24 @@ if (!signIn.ok) throw new Error(`sign-in failed (HTTP ${signIn.status})`);
 const cookie = signIn.headers.getSetCookie().map((value) => value.split(";")[0]).join("; ");
 
 async function call(path, body, method = "POST") {
-  const response = await fetch(`${base}${path}`, {
-    method,
-    headers: { cookie, origin: base, ...(body !== undefined ? { "content-type": "application/json" } : {}) },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
-  const json = await response.json().catch(() => null);
-  return { status: response.status, json };
+  // A read is retried after a transient network error (a remote deployment is polled for an hour
+  // or more). A write is never retried, so no request with side effects can be sent twice.
+  const attempts = method === "GET" ? 5 : 1;
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const response = await fetch(`${base}${path}`, {
+        method,
+        headers: { cookie, origin: base, ...(body !== undefined ? { "content-type": "application/json" } : {}) },
+        body: body !== undefined ? JSON.stringify(body) : undefined,
+      });
+      const json = await response.json().catch(() => null);
+      return { status: response.status, json };
+    } catch (error) {
+      if (attempt >= attempts) throw error;
+      log(`network error on GET ${path} (${error.cause?.code ?? error.message}); retry ${attempt} of ${attempts - 1}`);
+      await new Promise((resolve) => setTimeout(resolve, 15_000 * attempt));
+    }
+  }
 }
 const state = async (formId) => (await call(`/api/v1/forms/${formId}`, undefined, "GET")).json;
 
