@@ -18,14 +18,19 @@ const STAGES: { id: Stage; label: string }[] = [
   { id: "responses", label: "Responses" },
 ];
 
-type Responses = { total: number; rows: { receiptCode: string; submittedAt: string; versionNo: number; answers: Record<string, unknown> }[] };
+type ResponseRow = { receiptCode: string; submittedAt: string; versionNo: number; answers: Record<string, unknown> };
+type Responses = { total: number; page: number; pageSize: number; rows: ResponseRow[] };
+/** What the responses view shows: a failed retrieval is an error, never an empty list. */
+type ResponsesView = { status: "loading" } | { status: "error"; message: string } | { status: "ready"; data: Responses };
 
 export function Workspace({ initial }: { initial: FormState }) {
   const [state, setState] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "error" | "info"; text: string; reasons?: string[] } | null>(null);
   const [stage, setStage] = useState<Stage>(initial.version ? "verify" : "intent");
-  const [responses, setResponses] = useState<Responses | null>(null);
+  const [responses, setResponses] = useState<{ key: string; view: ResponsesView } | null>(null);
+  const [responsesPage, setResponsesPage] = useState(1);
+  const [responsesAttempt, setResponsesAttempt] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const [traceFocus, setTraceFocus] = useState<TraceFocus>(null);
 
@@ -50,10 +55,25 @@ export function Workspace({ initial }: { initial: FormState }) {
     return () => clearInterval(timer);
   }, [active, refresh]);
 
+  // A view belongs to one request (form, page, attempt, response count); until that request settles
+  // the view is loading, and a failed request is shown as an error, never as an empty list.
+  const responsesKey = `${initial.form.id}|${responsesPage}|${responsesAttempt}|${state.responses}`;
   useEffect(() => {
     if (stage !== "responses") return;
-    api<Responses>(`/api/v1/forms/${initial.form.id}/responses`).then(setResponses).catch(() => setResponses({ total: 0, rows: [] }));
-  }, [stage, initial.form.id, state.responses]);
+    let current = true;
+    api<Responses>(`/api/v1/forms/${initial.form.id}/responses?page=${responsesPage}`)
+      .then((data) => {
+        if (current) setResponses({ key: responsesKey, view: { status: "ready", data } });
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof ClientApiError ? error.message : "The request did not complete.";
+        if (current) setResponses({ key: responsesKey, view: { status: "error", message } });
+      });
+    return () => {
+      current = false;
+    };
+  }, [stage, initial.form.id, responsesKey, responsesPage]);
+  const responsesView: ResponsesView = responses?.key === responsesKey ? responses.view : { status: "loading" };
 
   const onAction = useCallback(
     async (path: string, body?: unknown, method = "POST") => {
@@ -85,7 +105,7 @@ export function Workspace({ initial }: { initial: FormState }) {
       case "verify":
         return <VerifyPanel state={state} busy={busy} onAction={onAction} traceFocus={traceFocus} />;
       case "responses":
-        return <ResponsesPanel data={responses} />;
+        return <ResponsesPanel view={responsesView} onPage={setResponsesPage} onRetry={() => setResponsesAttempt((attempt) => attempt + 1)} />;
     }
   };
 
@@ -167,25 +187,56 @@ export function Workspace({ initial }: { initial: FormState }) {
   );
 }
 
-function ResponsesPanel({ data }: { data: Responses | null }) {
-  if (!data) return <p className="text-sm text-ink-muted">Loading responses…</p>;
+function ResponsesPanel({ view, onPage, onRetry }: { view: ResponsesView; onPage: (page: number) => void; onRetry: () => void }) {
+  if (view.status === "loading") return <p role="status" className="text-sm text-ink-muted">Loading responses…</p>;
+  if (view.status === "error")
+    return (
+      <div role="alert" className="rounded-xl border border-fail/40 bg-fail/10 px-4 py-3 text-sm">
+        <p className="font-medium">Responses could not be loaded.</p>
+        <p className="mt-1 text-ink-muted">{view.message} No responses are shown until they load.</p>
+        <button type="button" className="mt-2 text-xs text-lavender underline underline-offset-4" onClick={onRetry}>
+          Try again
+        </button>
+      </div>
+    );
+  const { data } = view;
   if (data.total === 0) return <p className="rounded-xl border border-dashed border-line-strong p-6 text-center text-sm text-ink-muted">No responses yet. They appear here after the form is published.</p>;
+  const pages = Math.max(1, Math.ceil(data.total / data.pageSize));
+  const first = (data.page - 1) * data.pageSize + 1;
+  const last = first + data.rows.length - 1;
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left text-sm">
-        <caption className="sr-only">Responses</caption>
-        <thead><tr className="text-xs text-ink-muted"><th className="py-2 font-normal">Receipt</th><th className="font-normal">Submitted</th><th className="font-normal">Version</th><th className="font-normal">Answers</th></tr></thead>
-        <tbody>
-          {data.rows.map((row) => (
-            <tr key={row.receiptCode} className="border-t border-line align-top">
-              <td className="py-2 font-mono">{row.receiptCode}</td>
-              <td className="whitespace-nowrap pr-3">{new Date(row.submittedAt).toLocaleString()}</td>
-              <td>v{row.versionNo}</td>
-              <td className="font-mono text-xs">{Object.entries(row.answers).map(([key, value]) => `${key}: ${String(value)}`).join(" · ")}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <caption className="sr-only">Responses, page {data.page} of {pages}</caption>
+          <thead><tr className="text-xs text-ink-muted"><th className="py-2 font-normal">Receipt</th><th className="font-normal">Submitted</th><th className="font-normal">Version</th><th className="font-normal">Answers</th></tr></thead>
+          <tbody>
+            {data.rows.map((row) => (
+              <tr key={row.receiptCode} className="border-t border-line align-top">
+                <td className="py-2 font-mono">{row.receiptCode}</td>
+                <td className="whitespace-nowrap pr-3">{new Date(row.submittedAt).toLocaleString()}</td>
+                <td>v{row.versionNo}</td>
+                <td className="font-mono text-xs">{Object.entries(row.answers).map(([key, value]) => `${key}: ${String(value)}`).join(" · ")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Response pages" className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-ink-muted">
+        <span aria-live="polite">
+          Showing {first}–{last} of {data.total} · Page {data.page} of {pages}
+        </span>
+        {pages > 1 ? (
+          <span className="flex gap-3">
+            <button type="button" className="text-lavender underline underline-offset-4 disabled:text-ink-muted disabled:no-underline" disabled={data.page <= 1} onClick={() => onPage(data.page - 1)}>
+              Previous page
+            </button>
+            <button type="button" className="text-lavender underline underline-offset-4 disabled:text-ink-muted disabled:no-underline" disabled={data.page >= pages} onClick={() => onPage(data.page + 1)}>
+              Next page
+            </button>
+          </span>
+        ) : null}
+      </nav>
     </div>
   );
 }

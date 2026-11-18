@@ -107,6 +107,8 @@ Keep these attributes and visible texts; Kane tests read them.
 - Intent Trace: `data-testid="intent-trace"`, heading text "Intent Trace", `data-trace-claim` + `data-static` + `data-browser`, `data-testid="trace-source" | "trace-expectation" | "trace-boundary" | "trace-discrepancy" | "trace-consequence" | "trace-browser-note" | "trace-coverage" | "trace-unrequested"`.
 - Visible texts relied on: "Seeded defect for demonstration", "Intent Trace", "Static checks passed", "Publishing blocked", "Ready to publish".
 - Form renderer: `data-field`, `data-rule`, `data-testid="form-footer" | "version-label" | "receipt-code" | "confirmation"`.
+- Owner responses view (t-49 to t-53): visible texts "Loading responses…" (`role="status"`), "Responses could not be loaded." with a **Try again** button (`role="alert"`), "No responses yet. They appear here after the form is published.", "Showing {first}–{last} of {total} · Page {page} of {pages}", and the **Previous page** / **Next page** buttons inside `nav[aria-label="Response pages"]`. A failed request must never render the empty state.
+- Test-only fault hook (never active on `vercel-production`): `NIARVA_TEST_RESPONSE_FAULTS=error:<formId>,delay:<formId>` makes the owner's `GET /forms/{formId}/responses` fail with `500 INTERNAL` or answer after 25 s, after the ownership check.
 
 ## 5. Change log
 
@@ -116,6 +118,7 @@ Keep these attributes and visible texts; Kane tests read them.
 | `5411b9f` | `buildIntentTrace`, `claimBrowserStatus`, `conditionDsl`, `ruleDsl`, `claimDsl` exported from `@niarva/core` | none (additive) |
 | `e860ecf` | `intentTrace` and `intentTraceNote` added to the form state; `IntentTrace` component; `onOpenTrace` / `traceFocus` props | additive; the verification column now starts with the ledger |
 | (this branch, after `e860ecf`) | Version identity header in `VerifyPanel` (`data-testid="version-identity"`) | additive; restyle freely but keep the four facts and the hook |
+| `5fa1af1` | Owner responses view: loading / error / ready per request, **Try again**, page range and Previous/Next page controls (DEV-LOOP-04) | keep the texts and roles listed in §4; restyle freely |
 
 ## 6. Local environments during parallel work
 
