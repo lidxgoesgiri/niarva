@@ -4,7 +4,7 @@
 
 NIARVA turns requirements into conditional forms, verifies their behavior in a real browser with [Kane CLI](https://www.testmuai.com/docs/kane-cli-installation), and blocks publishing until the required behavior is proven for the exact version.
 
-> Built for the KaneCLI Online Hackathon (12–19 November 2026). Status and limitations are stated honestly below; every verification claim in this repository is backed by recorded evidence under [`evidence/`](evidence).
+> Built for the KaneCLI Online Hackathon (12–26 November 2026). Status and limitations are stated honestly below; every verification claim in this repository is backed by recorded evidence under [`evidence/`](evidence).
 
 ## The problem
 
