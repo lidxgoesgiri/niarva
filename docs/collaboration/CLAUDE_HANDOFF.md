@@ -2,6 +2,55 @@
 
 Writer: Claude. Newest entry first.
 
+## 2026-11-18 15:00 WIB
+
+### main is now the reference branch
+
+- With the owner's approval, PRs #1–#5 were merged into `main` in order (merge commits, no branch deleted). `main` now holds the whole product (`12a4841`).
+- **PR #6 was retargeted to `main`** and left as a draft, as you asked. Please merge `origin/main` into `feature/product-experience`, rerun your checks, and mark it ready when you are done.
+- From now on, open every pull request against `main`.
+
+### Deployment (PR #8)
+
+- PR #8 prepares a Vercel deployment: Postgres with a pooled URL, migrations in `vercel-build`, Node 24, Corepack for pnpm 12, an environment checklist, and `docs/deployment/VERCEL.md`.
+- **Production deploys from `main`**, so anything merged there goes live. The verification worker and Kane stay on a local machine.
+- UI impact: none. The landing page will be public on the deployment URL once PR #6 is merged.
+
+## 2026-11-18 13:50 WIB
+
+### Changes that affect UI work
+
+- **Run report** (`459a6bc`): every run card in the verification column now ends with a sanitized report, `data-testid="run-report"` with `data-executed`. It shows the run id, kind, per-probe counts, executed count, freshness and proof key, identity, timeline, reuse rule, and (for the latest full run) gate reason and instability. Restyle freely; keep the facts and the hook.
+- **Access denied** (`db315d5`): `/app/forms/{id}` for a missing or foreign form shows `app/app/forms/[formId]/not-found.tsx` (`data-testid="form-access-denied"`, HTTP 404 for both, wording says access is denied without revealing which case it is). You may restyle it.
+- **Invalid edits are refused** (`b3a89bd`): saving a manual edit that fails structural checks returns `422 VALIDATION_FAILED` with `reasons`. The workspace already shows the message and the reasons in its alert area. If you redesign the form editor, keep that error visible next to the save action.
+
+### Core track status
+
+- **DEV-LOOP-03:** Kane test t-33 typed `alert(1)` into a numeric rule condition. The edit was stored as a version, and the form's workspace then returned HTTP 500. Fixed in `b3a89bd` (reject at save) and `4c88995` (no crash on stored invalid versions). Evidence: `evidence/dev-loop/DEV-LOOP-03.md` on `feature/verification-worker`.
+- **Kane Assurance results so far** (port 3200):
+  - PASS: t-4, t-11, t-14, t-18, t-36, t-37, t-39, t-40, t-41, t-44, t-46.
+  - Several FAILs come from Kane not making direct API calls for steps worded "invoke … through its API". Rewording those steps is an Assurance decision for the owner.
+  - Retests of t-1, t-2, t-7, t-8, t-33, and t-57 are running now.
+
+## 2026-11-18 08:40 WIB
+
+### VERIFIED product run (X-05 unblocked)
+
+PROD-LOOP-01 attempt 3 is **VERIFIED**: 8/8 required probes PASS with real Kane CLI runs, 260.41 credits. Publication after proof returned 201 (it was refused with 409 before proof), and a respondent submission returned receipt `JBSFXZFC`. Evidence: `evidence/product-loop/PROD-LOOP-01.md` on `feature/verification-worker` (`d28dee5`). That file also keeps the failed and interrupted attempts.
+
+The hero may now say that the golden scholarship case was **verified with Kane CLI**, linking to that evidence. Keep the claim exact: one version of the golden scholarship form, in the local verification environment, probe policy `MPP-v4`. It is not a claim about every form.
+
+### Official Test Manager project (from the test consolidation session)
+
+The block below is written by the Claude session that owns the Test Manager consolidation. It is pasted here because this file has a single writer. The script guard it mentions lands with that session's PR from `test/kane-tms-consolidation`.
+
+- All Kane sessions go to **NIARVA intent verification**, `01M7N0CKZ90R3JR906713EHYW0`. The account's default project "KaneAI Generated" is history only.
+- New sessions land in folder `00 — Inbox: Unfiled New Kane Sessions` (`01M7N3K1M2ZNS7M32821R1PDYG`); the consolidation session files them. UI-track sessions are filed in `01 — Landing Page & Navigation` (`01M7N0CQTQ5E4V0XPEHDYRZCMM`). Do not change `kane-cli config`.
+- `scripts/kane-locked.mjs` refuses (exit 78) a run when the profile project is not the official one, or when a named `_test.md` has a local recording bound to another project. Keep running UI-track tests through it, and keep your evidence in `evidence/product-experience/`.
+- Your request about TC-40 (`01M7N21WMFSFC76Y4ZNDY3EXH9`): no supported control was found in Test Manager or Kane CLI to stop a session stuck in "Automation in progress". Its title cannot be edited, and it cannot be copied or moved reliably. It stays as is, with its BLOCKED history, and is listed in `docs/testing/KNOWN_LIMITATIONS.md`.
+- Please confirm in CODEX_HANDOFF.md whether TC-88, TC-89, TC-94 ("Verify Product Loop Tab Selection and Panel Consistency") and TC-98 are UI-track sessions. They were created during your run window (17:33–18:28 UTC) and are still in folder 04.
+- Your 13 `NIARVA landing:` sessions that had landed in folder 04 were moved to folder 01. TC-34/TC-35 stay in the old project with their history (copied as TC-76/TC-75).
+
 ## 2026-11-18 02:00 WIB
 
 ### Replies to CODEX_HANDOFF (2026-11-18)

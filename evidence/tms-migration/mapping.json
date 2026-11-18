@@ -1,0 +1,371 @@
+{
+  "source": {
+    "projectId": "01M7K3YXN5X28FCVQCMV3F4HN5",
+    "name": "KaneAI Generated",
+    "testCasesVerified": 35,
+    "testRunsVerified": 7,
+    "verifiedAtUtc": "2026-11-17T15:45Z"
+  },
+  "destination": {
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "name": "NIARVA intent verification"
+  },
+  "method": "Test Manager Bulk Actions > Copy (not Move); copies get new ids; test runs cannot be copied between projects",
+  "mappingMethod": {
+    "uniqueTitle": "exact title match within the same copy batch",
+    "duplicateTitle": "AI-generated Description field copied verbatim; compared source vs copy text (TC-3,4,6,9,11,14,26,28)"
+  },
+  "copyRefusal": "Test cases are in automation or could not be copied",
+  "testCases": [
+    {
+      "sourceTestCase": "TC-1",
+      "sourceId": "01M7K48XZ95C2AE7312H7HWFTM",
+      "sourceTitle": "Verify Page Footer Codes",
+      "originalRun": "K02-basic",
+      "destinationTestCase": "TC-56",
+      "destinationId": "01M7N3X53DWDCDYYY7TGPASYYK",
+      "copied": true,
+      "destinationTitle": "M0 K-02: Read the Footer Definition Hash on the Static Lab Form (Baseline Run)"
+    },
+    {
+      "sourceTestCase": "TC-2",
+      "sourceId": "01M7K4CZ5YHHHDH9PDCCKY6F3W",
+      "sourceTitle": "Verify Required Form Fields and Capture Page Metadata",
+      "originalRun": "H01-presence-1",
+      "destinationTestCase": "TC-54",
+      "destinationId": "01M7N3X53DWDCDYYY7TBMEW10E",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Presence: Verify Name and GPA Fields Are Visible and Required (Run 1 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-3",
+      "sourceId": "01M7K4CZCCZKTQVVBPA5W2AZMB",
+      "sourceTitle": "Submit Application Form with Validation",
+      "originalRun": "H01-hidden-1",
+      "destinationTestCase": "TC-50",
+      "destinationId": "01M7N3X53DWDCDYYY7T73V3HH3",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Hidden Exclusion: Verify a Certificate Hidden After GPA Drops to 3.2 Is Not Submitted (Run 1 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-4",
+      "sourceId": "01M7K4CZQKXA384X5QY6K4DJ1A",
+      "sourceTitle": "Submit Application Form with Validation",
+      "originalRun": "H09-multi-1",
+      "destinationTestCase": "TC-63",
+      "destinationId": "01M7N3X53DWDCDYYY7TZEKZJPV",
+      "copied": true,
+      "destinationTitle": "M0 H-09 Two Hidden Targets: Verify Only Name and GPA Are Submitted After GPA Drops to 2.5 (Run 1 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-5",
+      "sourceId": "01M7K4FDBSK5332VT24K0W6SK1",
+      "sourceTitle": "Verify Form Field Visibility and Requirements",
+      "originalRun": "H01-presence-2",
+      "destinationTestCase": "TC-53",
+      "destinationId": "01M7N3X53DWDCDYYY7TAPY9KA1",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Presence: Verify Name and GPA Fields Are Visible and Required (Run 2 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-6",
+      "sourceId": "01M7K4FTT5JATJCJTYN3CK2RJ2",
+      "sourceTitle": "Submit Application with Data Verification",
+      "originalRun": "H01-hidden-2",
+      "destinationTestCase": "TC-51",
+      "destinationId": "01M7N3X53DWDCDYYY7T7936RZ9",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Hidden Exclusion: Verify a Certificate Hidden After GPA Drops to 3.2 Is Not Submitted (Run 2 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-7",
+      "sourceId": "01M7K4HY43GXG280FTW1KFFESZ",
+      "sourceTitle": "Verify Form Field Visibility and Required Labels",
+      "originalRun": "H01-presence-3",
+      "destinationTestCase": "TC-60",
+      "destinationId": "01M7N3X53DWDCDYYY7TQZPYPG2",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Presence: Verify Name and GPA Fields Are Visible and Required (Run 3 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-8",
+      "sourceId": "01M7K4J5CY22RAEXKN8JYXV4AT",
+      "sourceTitle": "Submit Application with Synthetic Data",
+      "originalRun": "H09-multi-2",
+      "destinationTestCase": "TC-55",
+      "destinationId": "01M7N3X53DWDCDYYY7TD1719P6",
+      "copied": true,
+      "destinationTitle": "M0 H-09 Two Hidden Targets: Verify Only Name and GPA Are Submitted After GPA Drops to 2.5 (Run 2 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-9",
+      "sourceId": "01M7K4MNRSCY1EGWQTER9Q6BZY",
+      "sourceTitle": "Submit Application with Data Verification",
+      "originalRun": "H01-hidden-3",
+      "destinationTestCase": "TC-52",
+      "destinationId": "01M7N3X53DWDCDYYY7T7RR913X",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Hidden Exclusion: Verify a Certificate Hidden After GPA Drops to 3.2 Is Not Submitted (Run 3 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-10",
+      "sourceId": "01M7K4MNYK3VERRT20AWCJ9X0Y",
+      "sourceTitle": "Validate GPA-Dependent Field Visibility and Requirement",
+      "originalRun": "H01-boundary-1",
+      "destinationTestCase": "TC-62",
+      "destinationId": "01M7N3X53DWDCDYYY7TWXZB6QJ",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Boundary: Verify Certificate Visibility and Requirement at GPA 3.49, 3.50, and 3.51 (Run 1 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-11",
+      "sourceId": "01M7K4QB3WRD3PDAKK9FRZK56K",
+      "sourceTitle": "Submit Application Form with Validation",
+      "originalRun": "H09-multi-3",
+      "destinationTestCase": "TC-61",
+      "destinationId": "01M7N3X53DWDCDYYY7TV0KY5DQ",
+      "copied": true,
+      "destinationTitle": "M0 H-09 Two Hidden Targets: Verify Only Name and GPA Are Submitted After GPA Drops to 2.5 (Run 3 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-12",
+      "sourceId": "01M7K4S2EK6GXM4BMYRTYB9GWK",
+      "sourceTitle": "Verify Achievement Certificate Field Visibility Based on GPA Input",
+      "originalRun": "H01-boundary-2",
+      "destinationTestCase": "TC-57",
+      "destinationId": "01M7N3X53DWDCDYYY7TJW10DP6",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Boundary: Verify Certificate Visibility and Requirement at GPA 3.49, 3.50, and 3.51 (Run 2 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-13",
+      "sourceId": "01M7K4SMSGAXB47H8A6CFS9HRD",
+      "sourceTitle": "Form Validation and Submission with GPA Adjustment",
+      "originalRun": "H08-condreq-1",
+      "destinationTestCase": "TC-58",
+      "destinationId": "01M7N3X53DWDCDYYY7TKQNBNRW",
+      "copied": true,
+      "destinationTitle": "M0 H-08 Conditional Requiredness: Verify an Empty Required Certificate Is Rejected at GPA 3.50 (Run 1 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-14",
+      "sourceId": "01M7K4WFVDYA6BJWR24BD6SVG2",
+      "sourceTitle": "Submit Application Form with Validation",
+      "originalRun": "H09-multi-leakB",
+      "destinationTestCase": "TC-49",
+      "destinationId": "01M7N3X53DWDCDYYY7T4710WY1",
+      "copied": true,
+      "destinationTitle": "M0 Seeded Lab Fault leakB: Detect a Hidden Advisor Recommendation Leaking Into the Submission"
+    },
+    {
+      "sourceTestCase": "TC-15",
+      "sourceId": "01M7K4X5KCPWXZ6EH8B2S6V91A",
+      "sourceTitle": "Verify GPA Field Behavior and Achievement Certificate Requirement",
+      "originalRun": "H01-boundary-3",
+      "destinationTestCase": "TC-59",
+      "destinationId": "01M7N3X53DWDCDYYY7TPGFDCWW",
+      "copied": true,
+      "destinationTitle": "M0 H-01 Boundary: Verify Certificate Visibility and Requirement at GPA 3.49, 3.50, and 3.51 (Run 3 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-16",
+      "sourceId": "01M7K4Z1BP5MN8F4ZJ3FBEK2R3",
+      "sourceTitle": "Automated Form Validation and Submission",
+      "originalRun": "H08-condreq-2",
+      "destinationTestCase": "TC-67",
+      "destinationId": "01M7N3Z9EYWNK7WHE55K4XE7WR",
+      "copied": true,
+      "destinationTitle": "M0 H-08 Conditional Requiredness: Verify an Empty Required Certificate Is Rejected at GPA 3.50 (Run 2 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-17",
+      "sourceId": "01M7K51MFAEE44AF7CYVGFKXC0",
+      "sourceTitle": "Web || gusgirik || TC-17",
+      "originalRun": "K04-timeout-20 or FAIL-boundary-gt (ambiguous)",
+      "destinationTestCase": null,
+      "destinationId": null,
+      "copied": false,
+      "destinationTitle": null
+    },
+    {
+      "sourceTestCase": "TC-18",
+      "sourceId": "01M7K51MH6M7Z719P938BB25VZ",
+      "sourceTitle": "Web || gusgirik || TC-18",
+      "originalRun": "K04-timeout-20 or FAIL-boundary-gt (ambiguous)",
+      "destinationTestCase": null,
+      "destinationId": null,
+      "copied": false,
+      "destinationTitle": null
+    },
+    {
+      "sourceTestCase": "TC-19",
+      "sourceId": "01M7K5369S46WA63ACZ2TB8EKF",
+      "sourceTitle": "Verify Full Name Field with Synthetic Data",
+      "originalRun": "K06-missing-var",
+      "destinationTestCase": "TC-71",
+      "destinationId": "01M7N3Z9EYWNK7WHE55SDET03V",
+      "copied": true,
+      "destinationTitle": "M0 K-06: Verify the Unresolved-Variable Warning When the Full Name Value Is Missing"
+    },
+    {
+      "sourceTestCase": "TC-20",
+      "sourceId": "01M7K54MD4B24P1J8SHCNHHV8W",
+      "sourceTitle": "Form Validation and Submission with GPA Adjustment",
+      "originalRun": "H08-condreq-3",
+      "destinationTestCase": "TC-72",
+      "destinationId": "01M7N3Z9EYWNK7WHE55TGAB492",
+      "copied": true,
+      "destinationTitle": "M0 H-08 Conditional Requiredness: Verify an Empty Required Certificate Is Rejected at GPA 3.50 (Run 3 of 3)"
+    },
+    {
+      "sourceTestCase": "TC-21",
+      "sourceId": "01M7K5A0SK1DX7NYWHVGW54K2Z",
+      "sourceTitle": "Form Field Verification and Data Capture",
+      "originalRun": "CTRL-comma-ok",
+      "destinationTestCase": "TC-69",
+      "destinationId": "01M7N3Z9EYWNK7WHE55MV49XY6",
+      "copied": true,
+      "destinationTitle": "M0 Control: Verify GPA 3,5 (Comma Decimal) Shows the Required Certificate on the Correct Lab Form"
+    },
+    {
+      "sourceTestCase": "TC-22",
+      "sourceId": "01M7K5AYAMXVG10ZWR99J541SY",
+      "sourceTitle": "Web || gusgirik || TC-22",
+      "originalRun": "H08-condreq-reqoff",
+      "destinationTestCase": null,
+      "destinationId": null,
+      "copied": false,
+      "destinationTitle": null
+    },
+    {
+      "sourceTestCase": "TC-23",
+      "sourceId": "01M7K5DVC9QX3DE4HYRYWJ7RNK",
+      "sourceTitle": "Verify GPA Field and Achievement Certificate Visibility",
+      "originalRun": "FAIL-comma-bug",
+      "destinationTestCase": "TC-68",
+      "destinationId": "01M7N3Z9EYWNK7WHE55KAT7YQF",
+      "copied": true,
+      "destinationTitle": "M0 Seeded Lab Fault comma: Detect GPA 3,5 Misread as 3 With the Required Certificate Hidden"
+    },
+    {
+      "sourceTestCase": "TC-24",
+      "sourceId": "01M7KMGF92AFKQ6R7JZTFD74EQ",
+      "sourceTitle": "Verify GPA Field Behavior and Achievement Certificate Requirement",
+      "originalRun": "FAIL-boundary-gt-2",
+      "destinationTestCase": "TC-70",
+      "destinationId": "01M7N3Z9EYWNK7WHE55RBNHJXR",
+      "copied": true,
+      "destinationTitle": "M0 Seeded Lab Fault gt: Detect the Certificate Hidden at Exactly GPA 3.50 (Exclusive Comparator)"
+    },
+    {
+      "sourceTestCase": "TC-25",
+      "sourceId": "01M7KMPK3ASGWG8NFA3XNMSMAA",
+      "sourceTitle": "Web || gusgirik || TC-25",
+      "originalRun": "K04-timeout-30",
+      "destinationTestCase": null,
+      "destinationId": null,
+      "copied": false,
+      "destinationTitle": null
+    },
+    {
+      "sourceTestCase": "TC-26",
+      "sourceId": "01M7KMVKARBSGVN42E3T66PHGT",
+      "sourceTitle": "Verify Page Footer Code and Viewport Width Display",
+      "originalRun": "K09-viewport-390",
+      "destinationTestCase": "TC-73",
+      "destinationId": "01M7N3Z9EYWNK7WHE55X7MQTDQ",
+      "copied": true,
+      "destinationTitle": "M0 Responsive Feasibility: Read Reported Viewport Width After Requesting a 390 px Window"
+    },
+    {
+      "sourceTestCase": "TC-27",
+      "sourceId": "01M7KMYKAQGRNXEFA6C4HCT27V",
+      "sourceTitle": "Capture Page Metadata and Verify Viewport Display",
+      "originalRun": "K09-viewport-1920",
+      "destinationTestCase": "TC-74",
+      "destinationId": "01M7N3Z9EYWNK7WHE55Z7NVKK4",
+      "copied": true,
+      "destinationTitle": "M0 Responsive Feasibility: Read Reported Viewport Width in the Default 1920 px Window"
+    },
+    {
+      "sourceTestCase": "TC-28",
+      "sourceId": "01M7KN4PV4HM1XC4Y0VNDW69XF",
+      "sourceTitle": "Verify Page Footer Code and Viewport Width Display",
+      "originalRun": "K09-viewport-cdp-390",
+      "destinationTestCase": "TC-66",
+      "destinationId": "01M7N3Z9EYWNK7WHE55GY01TNP",
+      "copied": true,
+      "destinationTitle": "M0 Responsive Feasibility: Read Reported Viewport Width Through a CDP Chrome Started at 390 px"
+    },
+    {
+      "sourceTestCase": "TC-29",
+      "sourceId": "01M7KQN5RFV65S1XG88ZA7WG9E",
+      "sourceTitle": "Verify Unauthorized Access to NIARVA Workspace",
+      "originalRun": "foundation anonymous-visitor",
+      "destinationTestCase": "TC-83",
+      "destinationId": "01M7N4CJ8MZBZNPNS84VKJJY35",
+      "copied": true,
+      "destinationTitle": "Verify Unauthorized Access to NIARVA Workspace"
+    },
+    {
+      "sourceTestCase": "TC-30",
+      "sourceId": "01M7KQSA2FT84QEXCMMEEC2SMB",
+      "sourceTitle": "Verify Empty Workspace State for Zero-Form Account",
+      "originalRun": "foundation empty-workspace",
+      "destinationTestCase": "TC-82",
+      "destinationId": "01M7N491YYDJD3C7266ZG9SAW0",
+      "copied": true,
+      "destinationTitle": "Verify Empty Workspace State for Zero-Form Account"
+    },
+    {
+      "sourceTestCase": "TC-31",
+      "sourceId": "01M7MENK9KQXZCKW387M1KNS1H",
+      "sourceTitle": "Inspect Pending Comparator Repair Proposal",
+      "originalRun": "t-44",
+      "destinationTestCase": "TC-80",
+      "destinationId": "01M7N472FMB6BBSP9E37KKRB7Y",
+      "copied": true,
+      "destinationTitle": "Inspect Pending Comparator Repair Proposal"
+    },
+    {
+      "sourceTestCase": "TC-32",
+      "sourceId": "01M7MEW4DQNGRH4K3GPFNBGFGX",
+      "sourceTitle": "Create and Validate Scholarship Application Form with GPA-Based Certificate Requirement",
+      "originalRun": "t-36",
+      "destinationTestCase": "TC-79",
+      "destinationId": "01M7N457WJGYEKT50Q4WW0AYSQ",
+      "copied": true,
+      "destinationTitle": "Create and Validate Scholarship Application Form with GPA-Based Certificate Requirement"
+    },
+    {
+      "sourceTestCase": "TC-33",
+      "sourceId": "01M7MFYRTYCZXNMS20MBBFMAPQ",
+      "sourceTitle": "Verify Seeded Defect and Claim-Rule Discrepancies in Scholarship Form",
+      "originalRun": "t-37",
+      "destinationTestCase": "TC-78",
+      "destinationId": "01M7N43Q22FV2NS9A474RZ80ME",
+      "copied": true,
+      "destinationTitle": "Verify Seeded Defect and Claim-Rule Discrepancies in Scholarship Form"
+    },
+    {
+      "sourceTestCase": "TC-34",
+      "sourceId": "01M7MZDFZY9R3ZJZ0GMW4S0QX4",
+      "sourceTitle": "NIARVA landing: scholarship boundary verification - environment blocked",
+      "originalRun": "Codex PE-01 attempt 1",
+      "destinationTestCase": "TC-76",
+      "destinationId": "01M7N421BDYBW9D10VB96VY5TJ",
+      "copied": true,
+      "destinationTitle": "NIARVA landing: scholarship boundary verification - environment blocked"
+    },
+    {
+      "sourceTestCase": "TC-35",
+      "sourceId": "01M7MZMCR7TY7SHJ8E2VSJY3J9",
+      "sourceTitle": "NIARVA landing: scholarship boundary and publication gate verification",
+      "originalRun": "Codex PE-01 attempt 2",
+      "destinationTestCase": "TC-75",
+      "destinationId": "01M7N421BDYBW9D10VB8GGZQ48",
+      "copied": true,
+      "destinationTitle": "NIARVA landing: scholarship boundary and publication gate verification"
+    }
+  ]
+}

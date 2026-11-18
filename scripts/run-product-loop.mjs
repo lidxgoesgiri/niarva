@@ -7,7 +7,7 @@
 //
 // Requires: the web app running, `pnpm worker` running, and the synthetic owner from
 // `pnpm seed:kane`. Writes evidence/product-loop/prod-loop-01.json (sanitized).
-// Usage: node scripts/run-product-loop.mjs [baseUrl]
+// Usage: node scripts/run-product-loop.mjs [baseUrl] [--resume <formId>] [--out <file name>]
 import { randomUUID } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -37,14 +37,27 @@ async function call(path, body, method = "POST") {
 }
 const state = async (formId) => (await call(`/api/v1/forms/${formId}`, undefined, "GET")).json;
 
-async function waitForRun(formId, runId, minutes = 45) {
-  const deadline = Date.now() + minutes * 60_000;
+/**
+ * Waits for a run to finish. The Kane lock is shared with other work on this machine, so a run
+ * can pause between probes; the wait only gives up after `idleMinutes` without a newly judged
+ * probe, and never after more than `maxMinutes` in total.
+ */
+async function waitForRun(formId, runId, { idleMinutes = 30, maxMinutes = 180 } = {}) {
+  const hardDeadline = Date.now() + maxMinutes * 60_000;
+  let lastProgress = Date.now();
+  let lastDone = -1;
   for (;;) {
     const current = await state(formId);
     const run = current.runs.find((candidate) => candidate.id === runId);
     if (run && !["QUEUED", "RUNNING"].includes(run.state)) return { run, state: current };
-    if (Date.now() > deadline) throw new Error(`run ${runId} did not finish in ${minutes} minutes`);
     const done = run ? run.probes.filter((probe) => probe.latest?.status === "completed").length : 0;
+    if (done !== lastDone) {
+      lastDone = done;
+      lastProgress = Date.now();
+    }
+    if (Date.now() - lastProgress > idleMinutes * 60_000 || Date.now() > hardDeadline) {
+      throw new Error(`run ${runId} made no progress for ${idleMinutes} minutes (or exceeded ${maxMinutes} minutes)`);
+    }
     log(`run ${runId.slice(-8)} ${run?.state ?? "?"} · ${done}/${run?.probes.length ?? "?"} probes judged`);
     await new Promise((resolve) => setTimeout(resolve, 20_000));
   }
@@ -87,10 +100,37 @@ const step = (name, data) => {
   log(name, JSON.stringify(data).slice(0, 300));
 };
 
+// --resume <formId>: continue a loop whose driver stopped while its full run was still going.
+// Nothing is redone; the run is read from the server, then steps 6 onward run normally.
+const resumeIndex = process.argv.indexOf("--resume");
+const resumeFormId = resumeIndex > 0 ? process.argv[resumeIndex + 1] : null;
+const outIndex = process.argv.indexOf("--out");
+const outName = outIndex > 0 ? process.argv[outIndex + 1] : "prod-loop-01.json";
+let formId;
+let v2;
+let fullDone;
+if (resumeFormId) {
+  formId = resumeFormId;
+  const current = await state(formId);
+  v2 = current.version;
+  const fullRun = current.runs.find((run) => run.mode === "full");
+  if (!fullRun) throw new Error(`form ${formId} has no full verification run to resume`);
+  step("resumed", {
+    formId,
+    reason: "the driver stopped waiting before the full run finished; the steps before this point are in the attempt log",
+    versions: current.versions,
+    claimsHash: current.claimSet.claimsHash,
+    staticVerdict: current.analysis?.verdict ?? null,
+    approvedRepairs: current.repairs.filter((repair) => repair.status === "applied" || repair.resultingVersionId).map((repair) => ({ strategy: repair.strategy, ops: repair.patch.ops, resultingVersionId: repair.resultingVersionId })),
+    fullRunId: fullRun.id,
+  });
+  fullDone = await waitForRun(formId, fullRun.id);
+  step("full verification finished", { run: summarizeRun(fullDone.run), gate: fullDone.state.gate });
+} else {
 // 1. Template form, approved claims, seeded defect.
 const title = `Product Loop Scholarship ${new Date().toISOString().slice(0, 16)}`;
 const created = await call("/api/v1/forms", { source: "template", template: "scholarship", title });
-const formId = created.json.formId;
+formId = created.json.formId;
 let current = await state(formId);
 await call(`/api/v1/forms/${formId}/claims/approve`, { revision: current.claimSet.revision });
 await call(`/api/v1/forms/${formId}/generate`, { strategy: "seeded_demo" });
@@ -110,7 +150,7 @@ const chosen = proposals.json.proposals[0];
 step("repair proposed", { proposals: proposals.json.proposals.map((proposal) => ({ strategy: proposal.strategy, ops: proposal.patch.ops, explanation: proposal.explanation })) });
 const applied = await call(`/api/v1/forms/${formId}/repairs/${chosen.id}`, { decision: "approve" });
 current = await state(formId);
-const v2 = current.version;
+v2 = current.version;
 step("repair approved", { status: applied.status, newVersionNo: v2.versionNo, definitionHash: v2.definitionHash, parentVersionId: v2.parentVersionId, claimsHash: current.claimSet.claimsHash, claimsHashUnchanged: current.claimSet.claimsHash === record.steps[0].claimsHash, staticVerdict: current.analysis.verdict });
 
 // 4. Publishing before proof is refused by the backend.
@@ -120,8 +160,9 @@ step("publish before proof", { status: early.status, code: early.json?.error?.co
 // 5. Full suite with real Kane runs.
 const full = await call(`/api/v1/forms/${formId}/versions/${v2.id}/verify`, { mode: "full", force: true });
 step("full verification requested", { status: full.status, runId: full.json.runId });
-const fullDone = await waitForRun(formId, full.json.runId);
+fullDone = await waitForRun(formId, full.json.runId);
 step("full verification finished", { run: summarizeRun(fullDone.run), gate: fullDone.state.gate });
+}
 
 // 6. Publish only if the backend gate allows it, then submit as a respondent.
 const published = await call(`/api/v1/forms/${formId}/publish`, { versionId: v2.id, acknowledgedWarningKeys: [] });
@@ -138,5 +179,5 @@ if (published.status === 201) {
 
 record.finishedAt = new Date().toISOString();
 mkdirSync(join(root, "evidence", "product-loop"), { recursive: true });
-writeFileSync(join(root, "evidence", "product-loop", "prod-loop-01.json"), JSON.stringify(record, null, 2) + "\n");
-log("wrote evidence/product-loop/prod-loop-01.json");
+writeFileSync(join(root, "evidence", "product-loop", outName), JSON.stringify(record, null, 2) + "\n");
+log(`wrote evidence/product-loop/${outName}`);

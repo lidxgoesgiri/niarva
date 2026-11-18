@@ -22,16 +22,16 @@ Never edit a file you are not the writer of. To change the task board or ownersh
 
 ## Where these files live
 
-They are committed on `feature/creator-workflow`, the branch both feature branches build on.
+They live on `main`, which every branch now builds on (all core pull requests were merged on 18 November 2026).
 
 - **Claude** writes them there.
-- **Codex** writes only `CODEX_HANDOFF.md`, on its own branch, after merging `origin/feature/creator-workflow` into that branch.
+- **Codex** writes only `CODEX_HANDOFF.md`, on its own branch, after merging `origin/main` into that branch.
 - To read the other side, fetch and use `git show`, for example:
 
 ```bash
 git fetch origin
 git show origin/feature/product-experience:docs/collaboration/CODEX_HANDOFF.md
-git show origin/feature/creator-workflow:docs/collaboration/TASK_BOARD.md
+git show origin/main:docs/collaboration/TASK_BOARD.md
 ```
 
 ## Routine

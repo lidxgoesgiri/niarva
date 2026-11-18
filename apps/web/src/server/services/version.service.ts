@@ -15,6 +15,7 @@ import {
   proposeRepairs,
   skeletonFromClaims,
   validateRepair,
+  validateStructure,
   ENGINE_VERSION,
   type FormDefinition,
 } from "@niarva/core";
@@ -182,7 +183,16 @@ export async function saveEdits(actor: Actor, formId: string, input: z.infer<typ
     if (!current || current.id !== input.baseVersionId) {
       throw new ApiError("STALE_REVISION", "The form changed since you opened it. Reload to see the latest version.");
     }
-    return snapshotVersion(tx, { actor, formId, claimSetId: claimSet.id, definition: input.definition, createdVia: "manual_edit", parentVersionId: current.id, requestId });
+    // ac-73: invalid references, cycles, unsupported conditions, and literals that do not fit
+    // their field are rejected instead of being saved as a version (found by Kane test t-33,
+    // which typed "alert(1)" into a numeric rule condition).
+    const structure = validateStructure(input.definition);
+    if (!structure.ok) {
+      throw new ApiError("VALIDATION_FAILED", "These rules cannot be saved. Fix the problems listed below.", {
+        reasons: structure.findings.slice(0, 10).map((finding) => finding.message),
+      });
+    }
+    return snapshotVersion(tx, { actor, formId, claimSetId: claimSet.id, definition: structure.definition, createdVia: "manual_edit", parentVersionId: current.id, requestId });
   });
 }
 
