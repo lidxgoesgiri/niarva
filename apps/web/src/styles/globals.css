@@ -1,0 +1,121 @@
+@import "tailwindcss";
+
+/*
+ * NIARVA design tokens. Landing and workspace share the brand
+ * system; only the landing uses ambient effects.
+ */
+@theme {
+  --color-canvas: #0b1024;
+  --color-surface: rgba(17, 24, 54, 0.72);
+  --color-elevated: #131b3a;
+  --color-raised: #1a2450;
+  --color-line: rgba(233, 237, 245, 0.1);
+  --color-line-strong: rgba(233, 237, 245, 0.22);
+  --color-line-active: rgba(79, 108, 246, 0.55);
+  --color-ink: #e9edf5;
+  --color-ink-muted: #9ba6c4;
+  --color-sapphire: #4f6cf6;
+  --color-lavender: #b894fa;
+  --color-cta: #344dd0;
+  --color-cta-hover: #3f5ae0;
+  --color-cta-fg: #ffffff;
+  --color-focus: #b894fa;
+  --color-pass: #34d399;
+  --color-fail: #f87171;
+  --color-warn: #fbbf24;
+  --color-unknown: #94a3b8;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-heading: var(--font-space-grotesk), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, "Cascadia Code", Consolas, monospace;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-portal: portal-drift 16s ease-in-out infinite alternate;
+}
+
+@keyframes portal-drift {
+  from {
+    transform: translate3d(-2%, -1%, 0) scale(1);
+    opacity: 0.85;
+  }
+  to {
+    transform: translate3d(2%, 1.5%, 0) scale(1.06);
+    opacity: 1;
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  /* A solid, offset focus ring on every interactive element; never colour-only. */
+  :focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background-color: rgba(79, 108, 246, 0.45);
+  }
+
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  .skip-link {
+    position: absolute;
+    left: 1rem;
+    top: -4rem;
+    z-index: 100;
+    padding: 0.625rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-cta);
+    color: var(--color-cta-fg);
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+}
+
+/* Reduced motion: remove ambient and narrative motion; state changes stay instant. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

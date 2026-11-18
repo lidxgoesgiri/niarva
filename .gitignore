@@ -50,3 +50,20 @@ Thumbs.db
 .vercel/
 .turbo/
 .claude/settings.local.json
+
+# Kane Assurance variable values (may hold synthetic test credentials)
+.testmuai/variables/
+.testmuai/assurance.json
+
+# M0 lab raw results (sanitized derivatives live in docs/ and evidence/)
+m0-lab/results/
+
+# Confidential PRD and build documents stay on the owner's machine only.
+/private/
+/docs/NIARVA_*
+/governance/
+/handoff/
+/sources/
+/PRD_PACKAGE_README.md
+/AGENTS.md
+/CLAUDE.md
