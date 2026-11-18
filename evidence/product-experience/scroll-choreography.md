@@ -1,5 +1,7 @@
 # Scroll choreography and pipeline
 
+The later [landing reveal evidence](./landing-reveals.md) records the GSAP word and card transitions on a newer build.
+
 The browser's scroll position advances and reverses the hero camera, word illumination, pipeline beam, and page progress rail. A sticky panel follows the active chapter on desktop. Direct selection takes precedence during that visit so an active control can keep focus. The loop previews drift into a stack and the evidence columns shift in opposite directions.
 
 The implementation uses the browser's native scroll and a scheduled read/write pass for the DOM. The WebGL core reads the same hero progress and stays in the visible hero. The fixed CSS light field carries the palette into later chapters. The shader and DOM scrubbing stop with the motion pause control or the system reduced-motion preference. The earlier motionless portal continues to provide a fallback.

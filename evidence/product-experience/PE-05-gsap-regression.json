@@ -1,0 +1,188 @@
+{
+  "testId": "PE-05",
+  "status": "PASS",
+  "assessment": "Desktop regression at actual 1905 CSS px. Screenshots show the masked hero word entrance with actual WebGL geometry, a readable static CSS portal after Pause, and all three Semantic Gap states reached via Verification after Resume. Primary and demo actions remain visible. Zero console errors and 22 local HTTP 200 responses. Narrow viewport and active system reduced motion were not observed.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-08",
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-16",
+    "UI-AC-20"
+  ],
+  "source": {
+    "commit": "67ee71786ee026a3853c1b2673a16a0f944075e7",
+    "branch": "feature/product-experience",
+    "buildId": "JKPjK4rSMUo1bOaRgK6H1",
+    "files": {
+      "apps/web/src/features/landing/landing-reveals.tsx": "e58ed47f5a2d720867b764f41d75f1ae393825015530a43636a593ae2c35b2cd",
+      "apps/web/src/features/landing/scroll-words.tsx": "d5aaf4a40eaf54a7dd43fb6c5130f9eb2fe25aa836cb4aed30c2b1c4281e68b8",
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "8550fe78a5e2f98ef703bc6a312d0290da805b013ed9f5006282ce4b954dc40a",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "9250aa082026194f4997bdca9d34e6687e57006d82effbee5414e741f8fa5d6d",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "882abaa31c1c05ccad0e75c3748517966fb727011cfceb15b232fc6c14794b55",
+      "apps/web/src/features/landing/landing.module.css": "c69871acd67e111eda042d511a7fb92f1e2c3a07e4f48a80e0f69ae7901c043c",
+      "apps/web/src/features/landing/portal-scene.ts": "8d855d5f8a1681be362dc01c7918634dfd3359d9a1abf30cd78b3d4853cff42e",
+      "apps/web/src/features/landing/scroll-choreography.ts": "07138b4902d652b3f4e579e3d42572377d955b52be17197eb92cca301fa12353",
+      "apps/web/src/features/landing/scroll-trace.tsx": "96c0d63ffb893a4883840dd709b86d8f2b81151b31abc07ed03f007fa36d4575",
+      "apps/web/src/features/landing/scroll.module.css": "c89189377cf87129ab382bae1f4de0001f32ad037d94b527e4846270344e4818",
+      "apps/web/src/features/landing/story-panels.tsx": "186b59eccc970b222e3916e7d0d65a1ddbb9de972249ee7b8fc28eda3d63381d",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "72376bc82066f4b77cb8a319fbda45a49547a22039997cfe0c8e2ff240d8f074"
+    },
+    "diffSha256": "4aed718e52ee9ac0a09c905408bb5e3aa41ba6877bbf3832d471bbed772a3764"
+  },
+  "objectiveSha256": "07f5f70904c6fc168eb0fc5302312d3bf37b15310abaaaddc353034184eee7b3",
+  "executionObjectiveSha256": "745748fb0f1844ed6a1d5df09f71fe655bdc7e5747f3fe90967680150ddd3ac8",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "1ea67d1e651afe8e34476ce57af61b2f9d40eb8c935287450a8a01930998dcbe",
+  "startedAtUtc": "2026-11-18T07:10:39.839Z",
+  "completedAtUtc": "2026-11-18T07:14:26.915Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 194.3,
+  "creditsConsumed": 72.2512335,
+  "sealedPrivatePackSha256": "2dfa66d9a3039145819d965266b584b07d14137f7e7efc056113af9632be40b5",
+  "testManager": {
+    "id": "01M7PQWNGWHJ7FMSEJ646TYHC2",
+    "title": "NIARVA landing: cinematic hero, motion fallback, and semantic gap",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "intention_to_proof_heading_visible",
+      "condition": "the complete heading “From Intention to Proof.” is visible",
+      "subject": "the complete heading “From Intention to Proof.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "build_verified_form_action_usable",
+      "condition": "the primary “Build Verified Form” action is visible and usable",
+      "subject": "the primary “Build Verified Form” action",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "inspect_golden_case_link_usable",
+      "condition": "the “Inspect Golden Case” link is visible and usable",
+      "subject": "the “Inspect Golden Case” link",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "narrow_css_viewport_unavailable",
+      "condition": "a narrow CSS viewport is unavailable",
+      "subject": "a narrow CSS viewport",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 2
+    },
+    {
+      "observationId": "active_reduced_motion_preference_unavailable",
+      "condition": "an active reduced-motion preference is unavailable",
+      "subject": "an active reduced-motion preference",
+      "mustBe": "absent",
+      "observed": "false",
+      "expected": "false",
+      "step": 2
+    },
+    {
+      "observationId": "hero_surface_readable",
+      "condition": "the hero surface is readable",
+      "subject": "the hero surface readable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "observationId": "hero_surface_stationary",
+      "condition": "the hero surface is stationary",
+      "subject": "the hero surface stationary",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "observationId": "primary_action_reachable",
+      "condition": "the primary action is reachable",
+      "subject": "the primary action reachable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 7
+    },
+    {
+      "observationId": "verification_semantic_gap_destination",
+      "condition": "the “Verification” navigation link reaches “The semantic gap.”",
+      "observed": "The semantic gap.",
+      "expected": "The semantic gap.",
+      "step": 12
+    },
+    {
+      "observationId": "heading_usable_unobstructed",
+      "condition": "the heading stays usable with no obstruction",
+      "subject": "the heading usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 16
+    },
+    {
+      "observationId": "actions_usable_unobstructed",
+      "condition": "the actions stay usable with no obstruction",
+      "subject": "the actions usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 16
+    },
+    {
+      "observationId": "cinematic_landing",
+      "condition": "the concrete observations, including the actual viewport width and specific unsupported checks, are saved as {{cinematic_landing}}",
+      "observed": "{\"viewport_width\":1905,\"narrow_css_viewport_unavailable\":false,\"active_reduced_motion_preference_unavailable\":false}",
+      "expected": "",
+      "step": 16
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-05",
+    "buildId": "JKPjK4rSMUo1bOaRgK6H1",
+    "packSha256": "2dfa66d9a3039145819d965266b584b07d14137f7e7efc056113af9632be40b5",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 22,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 22
+      }
+    ],
+    "firstPartyRequests": 22,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 22
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}

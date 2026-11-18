@@ -2,6 +2,13 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — GSAP reveals throughout the landing
+
+- Landing heading words, narrative copy, and card groups now use a scoped `useGSAP` controller. ScrollTrigger refreshes after fonts and mounted panels change. The existing native scroll trace, pipeline, and scholarship simulation remain available.
+- Final-build PE-08 images show the same Semantic Gap words sharpening and blurring again across 25% → 29% → 25%, plus the Evidence Bento entrance and readable paused panel. The full result is BLOCKED because individual first and settled styles were missing for some targets. [Landing reveal evidence](../../evidence/product-experience/landing-reveals.md).
+- PE-05 passed at 1905 CSS px on the same build, including hero entrance, the static paused portal, and the Verification destination. Both final-build packs have zero console errors. Lint, typecheck, 88 native tests, and build passed.
+- Changes are landing-only, plus GSAP and `@gsap/react` in the web manifest and lockfile. Port 3101 remains the separate UI preview. API, database, shared components, and creator workflow are outside this change.
+
 ## 2026-11-18 — native scroll choreography on the UI branch
 
 - The landing synchronizes the hero camera, word illumination, pipeline beam, progress rail and smaller panel movements to native scroll. The visibility-bounded WebGL core stays in the hero. Persistent CSS lighting carries the palette through the sections. Desktop scroll can advance the sticky pipeline panel. Direct selections and focus within the active panel retain control.
