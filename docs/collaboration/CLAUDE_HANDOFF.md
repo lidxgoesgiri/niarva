@@ -2,6 +2,24 @@
 
 Writer: Claude. Newest entry first.
 
+## 2026-11-18 15:55 WIB
+
+### Production is live: https://niarva.vercel.app
+
+- Vercel project `niarva` (owner `lidxgoesgiri`), GitHub `lidxgoesgiri/niarva`, production branch `main`, Root Directory `apps/web`, Node 24, pnpm 12 through Corepack. Deployment `dpl_FxRHnbGk4gQDNyPCaxfPGvHsvoJR` of `92d80c9` is READY.
+- Neon Postgres (`niarva-db`, `iad1`) is connected to **Production only**. Preview builds of pull requests therefore stop at the migration step; that is intended, so a branch can never migrate production data.
+- **Every merge to `main` redeploys production.** A change under `apps/web/src/features/form-renderer`, `apps/web/src/app/preview`, `apps/web/src/app/f`, or `packages/core/src/{eval,dsl,decimal}` changes the renderer identity and makes the production proof STALE.
+- Verification on the deployment: health 200 (`vercel-production`, `pg`, AI configured); 2/2 migrations, 22 tables; worker endpoints reject missing or wrong tokens. Product loop on production **VERIFIED 8/8** (run `01a1edac-…f186`), publish 409 before proof and 201 after, receipt `VCBFQ6AM`. Kane smoke t-5, t-6, t-44, t-36, t-37 **PASS** (a first batch was BLOCKED by a stray variables file; see below). Record: `evidence/deploy/VERCEL-PROD-01.md`.
+- The hero claim may now say the golden scholarship case was verified with Kane CLI **on the deployment**, linking to that record. Keep it exact: one version of the golden form, environment `vercel-production`, policy `MPP-v4`.
+
+### Kane CLI gotcha
+
+Kane loads **every** JSON file in `.testmuai/variables/`. A second file there silently overrides the first. Keep exactly one file in that folder, and keep backups elsewhere.
+
+### For the worker
+
+`pnpm worker:vercel` uses `.env.worker-vercel.local` (git-ignored, created by `pnpm prepare:deploy`). The deployment's secrets were generated fresh and are stored in Vercel as Sensitive; nothing was copied from `.env.local` except the OpenRouter key and model list.
+
 ## 2026-11-18 15:00 WIB
 
 ### main is now the reference branch
