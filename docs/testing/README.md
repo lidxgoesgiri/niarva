@@ -23,7 +23,7 @@ Every Kane entry point in this repository checks the project before it runs (see
 | [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md) | Every test case in the official project, by area folder, and the designed tests in the repository |
 | [`MIGRATION_REPORT.md`](MIGRATION_REPORT.md) | The consolidation into the official project: capabilities checked, method, counts, refusals, verification |
 | [`TEST_CASE_MAPPING.md`](TEST_CASE_MAPPING.md) | Source test case → destination test case, for all 35 source test cases |
-| [`KANE_EXECUTION_REPORT.md`](KANE_EXECUTION_REPORT.md) | Every recorded Kane execution: historical (source project) and retests (official project) |
+| [`KANE_EXECUTION_REPORT.md`](KANE_EXECUTION_REPORT.md) | Every recorded Kane execution: historical (source project), product verification probes, and retests (official project) |
 | [`DEFECT_TRACEABILITY.md`](DEFECT_TRACEABILITY.md) | Defects Kane found → root cause → fix commit → Kane retest |
 | [`REGRESSION_REPORT.md`](REGRESSION_REPORT.md) | Regression runs after each fix, and the current state of the regression set |
 | [`EVIDENCE_INDEX.md`](EVIDENCE_INDEX.md) | Claim → execution → evidence pack digest → Test Manager record |
@@ -52,7 +52,7 @@ Evidence that already existed keeps its place; nothing is duplicated here:
 | 09 — Security & Negative Testing | Access control and negative paths |
 | 12 — Infrastructure & Feasibility Testing (M0 Lab) | Kane CLI runtime validation on a static lab form |
 
-Folders 07 (Publication Gate), 08 (End-to-End User Workflows), 10 (Accessibility & Responsive), and 11 (Regression) are not created yet because no executed test case belongs to them. Regression is tracked as Kane test runs, not as a folder. Designed tests for those areas exist in the repository and are listed as `NOT RUN` in [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md) until they are executed.
+Folders 07 (Publication Gate), 08 (End-to-End User Workflows), 10 (Accessibility & Responsive), and 11 (Regression) are not created yet because no executed test case belongs to them. Regression is tracked as Kane test runs, not as a folder. Designed tests for those areas exist in the repository and are listed as `NOT RUN` in [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md) until they are executed. Sessions that another track starts for those areas wait in the Inbox until that track records them; the area folder is created when they are filed.
 
 ## Configuration
 

@@ -56,7 +56,7 @@ The last two were run **after** the profile was switched to the official project
 
 ### 1.4 Product verification probes (verification worker, `kane-cli run`)
 
-PROD-LOOP-01 runs the product's own verification: the worker sends probe objectives to Kane, and NIARVA's server judges each observation. These sessions went to the official project (folder 04). Source: the worker's log, provided by the core track.
+PROD-LOOP-01 runs the product's own verification: the worker sends probe objectives to Kane, and NIARVA's server judges each observation. These sessions went to the official project (folder 04). Sources: the worker's records (`evidence/product-loop/PROD-LOOP-01.md` and the attempt files beside it, on branch `feature/verification-worker`, commit `d28dee5`) and the worker log, from which the core track mapped each Kane session to its test case.
 
 | Attempt | Probe | Kane session | Test case | NIARVA verdict |
 |---|---|---|---|---|
@@ -70,14 +70,28 @@ PROD-LOOP-01 runs the product's own verification: the worker sends probe objecti
 | 1 | P-05 valid_submission | `87f8a649-dc26-4a72-a6f5-356a55348fe1` | TC-45 | UNKNOWN (`MISSING_OBSERVATION`, DEV-LOOP-02) |
 | 1 | P-06 decimal_comma | `f14b2c4d-548b-411e-9344-e4f4e6b7bab6` | TC-46 (by creation time) | PASS |
 | 1 | P-07 constraint_check | `fc9cb192-4bd4-4af7-ab17-8b0140525185` | TC-47 | PASS |
-| 2 (interrupted) | D-01 | `4c3a2799-b4f2-4ded-99fb-06dc78dba437` | TC-64 | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed) |
-| 2 | P-01 | `2e3c99ac-cd51-45be-a700-b3bd7ea3f0e8` | TC-77 | PASS |
-| 2 | P-02 | `fc3c734c-7529-4f9d-814e-b3e363d9d1a7` | TC-81 | PASS |
-| 2 | P-03 | `bf3621b7-7fc0-406a-ba3c-4a8e2005514b` | — | UNKNOWN (no start URL, 0 steps) |
-| 3 (core track, running at the time of writing) | D-01 | `2c149ca9-2994-4c03-bda4-8742cbe494dc` | `01M7NDRGE6BN9E0Q4EJ12877ME` | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed) |
-| 3 | P-01 | `8fbce2f3-a1c1-44fb-91d8-36b938edf382` | — | PASS |
+| 2 (interrupted, run cancelled) | D-01 | `4c3a2799-b4f2-4ded-99fb-06dc78dba437` | TC-64 | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed) |
+| 2 | P-01 initial_required | `2e3c99ac-cd51-45be-a700-b3bd7ea3f0e8` | TC-77 | PASS |
+| 2 | P-02 boundary_bundle | `fc3c734c-7529-4f9d-814e-b3e363d9d1a7` | TC-81 | PASS |
+| 2 | P-03 conditional_required_empty | `bf3621b7-7fc0-406a-ba3c-4a8e2005514b` | TC-84 | UNKNOWN (`MISSING_OBSERVATION`: Kane ended with "No start URL provided" before any step, 0 credits) |
+| 2 | P-04 hidden_exclusion | `11b7dce7-4d58-4057-b061-a1246e73a456` | TC-85 | UNKNOWN (no verdict: the session never reached `run_end`; the run was cancelled) |
+| 2 | P-05, P-06, P-07 | — | — | NOT RUN (cancelled before they started) |
+| 3 (VERIFIED) | D-01 (diagnostic run `01a1eadc-…63dd`) | `2c149ca9-2994-4c03-bda4-8742cbe494dc` | TC-101 | FAIL (`OBSERVATION_MISMATCH`, seeded defect confirmed; Kane said `passed`) |
+| 3 | P-01 initial_required | `8fbce2f3-a1c1-44fb-91d8-36b938edf382` | TC-103 | PASS |
+| 3 | P-02 boundary_bundle | `d5346906-806f-4319-abf2-752a5b4a667c` | TC-104 | PASS |
+| 3 | P-03 conditional_required_empty | `6c42296e-226b-4e9f-93a6-c3d3a17661bb` | TC-106 | PASS |
+| 3 | P-04 hidden_exclusion | `5a3ec84b-db23-4f62-91df-a7e82494747f` | TC-108 | PASS |
+| 3 | P-05 valid_submission | `62114ad6-0baf-4349-99fd-95d7508f8290` | TC-110 | PASS (the probe DEV-LOOP-02 repaired) |
+| 3 | P-06 decimal_comma | `fd484a4b-314d-4f40-b458-ae6a37166853` | TC-113 | PASS |
+| 3 | P-07 constraint_check | `551c74fd-8779-4e2b-91be-514251a064f0` | TC-115 | PASS |
 
-Probe P-08 is an HTTP server-contract check without Kane, so it has no test case. The verdicts belong to NIARVA, not to Kane: for D-01, Kane reported `passed` while NIARVA, comparing the observation with the approved claim, reported the mismatch it was built to find.
+Attempt 3 ended **VERIFIED, 8/8 required probes PASS** (full verification `01a1eade-4eef-7d44-8714-0375693a4fff`, build `71839e9`, policy `MPP-v4`, 260.41 credits). Publishing the repaired version was refused before browser proof (`409 GATE_BLOCKED`) and accepted after it (`201`); a public respondent submission then returned receipt `JBSFXZFC`. The evidence pack digest of every attempt-3 probe is in `PROD-LOOP-01.md`. These are the core track's executions; this report references them and did not run them again.
+
+Probe P-08 is an HTTP server-contract check without Kane, so it has no test case; it passed in attempts 1, 2, and 3. The verdicts belong to NIARVA, not to Kane: for D-01, Kane reported `passed` while NIARVA, comparing the observation with the approved claim, reported the mismatch it was built to find.
+
+TC-85, TC-103, TC-108, and TC-115 show 0 steps and stay in *Automation in progress* in Test Manager. Kane completed the three attempt-3 sessions (TC-103, TC-108, TC-115); TC-85's session was cancelled before `run_end`. For those probes the evidence is the worker's record and the pack digest, not the Test Manager test case.
+
+Correction: the first version of these documents matched TC-84 and TC-85 by creation time to attempt 2's P-03 "and its retry". The worker log shows that TC-85 is attempt 2's P-04 session.
 
 ## 2. Retests in the official project
 
@@ -109,6 +123,7 @@ Sanitized records: [`evidence/tms-migration/retests.json`](../../evidence/tms-mi
 |---|---:|---:|---:|---:|---:|
 | Development runs, 17 Nov (§1.2) | 9 | 4 | 0 | 8 | — |
 | Retests in the official project (§2) | 5 | 0 | 0 | 1 | — |
+| Product probes, PROD-LOOP-01 attempts 0–3, Kane sessions (§1.4, NIARVA verdicts) | 15 | 3 | 0 | 5 | 3 |
 | Designed tests never executed | — | — | — | — | 59 |
 
-M0 lab runs and product probes are reported in their own sections because their verdicts are not Kane's status (§1.1, §1.4). BLOCKED is 0 here; the UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.
+The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, and 3: the expected result, not a regression. P-08 (no Kane) is not counted in that row. M0 lab runs are reported in §1.1 because their verdicts are the lab oracle's, not Kane's status. BLOCKED is 0 here; the UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.

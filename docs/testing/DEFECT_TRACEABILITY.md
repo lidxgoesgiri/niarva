@@ -46,7 +46,20 @@ Evidence packs are private (they contain local URLs and synthetic session cookie
 | NIARVA verdict | **UNKNOWN** (`MISSING_OBSERVATION`): Kane searched for the certificate field before entering the GPA that reveals it |
 | Root cause | NIARVA's generated probe objective did not state that conditional fields appear only after the answer that reveals them |
 | Fix | `4359d55` fix(probes): tell the browser agent that conditional fields appear only after the answers that reveal them (policy `MPP-v4`; earlier proofs become stale by design) |
-| Retest | PROD-LOOP-01 attempts 2 and 3 (core track); status in the task board |
+| Regression test | `6a3be40` test(core): cover the step order of conditional fields in probe objectives |
+| Same probe again | PROD-LOOP-01 attempt 3 (core track), full verification `01a1eade-4eef-7d44-8714-0375693a4fff` on build `71839e9` (contains `4359d55`): P-05 **PASS**, Kane session `62114ad6-0baf-4349-99fd-95d7508f8290`, pack `c4b83043…9d11`, destination test case TC-110. The run was VERIFIED (8/8 required probes). Attempt 2 was interrupted before P-05 started |
+| Record | `evidence/dev-loop/DEV-LOOP-02.md` on branch `feature/verification-worker` (`d28dee5`) |
+
+### PROD-LOOP-01 attempt 2 — the worker started Kane without a start URL
+
+| Step | Record |
+|---|---|
+| Kane run | PROD-LOOP-01 attempt 2, probe P-03; Kane session `bf3621b7-7fc0-406a-ba3c-4a8e2005514b`; destination test case TC-84 |
+| What Kane reported | "No start URL provided", before any step (0 credits) |
+| NIARVA verdict | **UNKNOWN** (`MISSING_OBSERVATION`); the run was later cancelled |
+| Root cause | the worker did not start Kane on the preview origin, so the run depended on a global start URL; a run with zero steps was not yet treated as not started |
+| Fix | `b67d140` fix(worker): start Kane on the preview origin; `0e0a977` fix(verdict): treat a Kane run that executed no step as not started and retry it once |
+| Same probe again | attempt 3, P-03 **PASS**, Kane session `6c42296e-226b-4e9f-93a6-c3d3a17661bb`, destination test case TC-106 |
 
 ## 2. Not a proven defect
 

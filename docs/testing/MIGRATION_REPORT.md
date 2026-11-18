@@ -15,7 +15,7 @@
 | KaneAI Generated | 35 | 7 | 2026-11-17 ~15:45 UTC, Test Manager list view (2 pages) |
 | NIARVA intent verification | 12 | 0 | same time; it had grown from 7 because the verification worker was creating probe sessions |
 
-The destination kept growing during the migration (worker probes and UI-track sessions). Nothing that was already there was removed. At 19:50 UTC it held **80 test cases**; the folder-by-folder list is in [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md). The source still held **35 test cases and 7 test runs** after the migration (re-checked at about 19:35 UTC).
+The destination kept growing during the migration (worker probes and UI-track sessions). Nothing that was already there was removed. At 19:50 UTC it held **80 test cases**, and at 01:43 UTC on 18 November **84**; the folder-by-folder list is in [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md). The source still held **35 test cases and 7 test runs** after the migration (re-checked at about 19:35 UTC).
 
 ## 2. What the platform supports (checked first, nothing assumed)
 
@@ -61,9 +61,10 @@ No undocumented endpoint was called. Kane CLI's own Test Manager API calls were 
 | Copy to destination (7 bulk operations, ~16:10–16:25 UTC) | 35 attempted | **31 copied**; 4 refused by the platform |
 | Copy retried for a refused case (TC-25 alone) | 1 | refused again: "Test cases are in automation or could not be copied" |
 | Rename of copied M0 test cases with generic or repeated titles | 24 | all 24 confirmed by reading the title back from Test Manager; each rename is a version-history commit naming the source test case and stating that steps, assertions, and results are unchanged |
-| Rename of product-probe sessions (verification worker) and one unattributed session | 13 | TC-38, TC-39, TC-41–TC-47, TC-64, TC-77, TC-81, TC-101; all confirmed by reading the title back; commit messages name the probe, attempt, and Kane session (or state that the session is unattributed) |
+| Rename of product-probe sessions (verification worker) and one unattributed session | 18 | TC-38, TC-39, TC-41–TC-47, TC-64, TC-77, TC-81, TC-84, TC-101, TC-104, TC-106, TC-110, TC-113; all confirmed by reading the title back; commit messages name the probe, attempt, and Kane session (or state that the session is unattributed) |
 | Rename of live retest test cases to their designed test | 5 | TC-105, TC-107, TC-109, TC-112, TC-114 (`t-n: <designed test title>`); all confirmed by reading the title back |
-| Move within the destination | 18 | 13 UI-track sessions from 04 to 01; 5 live retest test cases from the Inbox to their area folders |
+| Move within the destination | 23 | 13 UI-track sessions from 04 to 01; 5 live retest test cases from the Inbox to their area folders; 4 attempt-3 probe sessions (TC-104, TC-106, TC-110, TC-113) from the Inbox to 04; UI-track TC-111 from the Inbox to 01 |
+| Move refused by the platform | 2 | TC-108, TC-115 ("Remaining test cases are in automation"); they stay in the Inbox |
 | Renames that reported success but did not persist | 10 | Test Manager showed "Test case updated successfully" and a new version, but the page had re-rendered and dropped the typed title. Detected by an audit of the list view, redone with a read-back check, and verified. The extra versions in those test cases' history are title-only no-ops |
 | Source test cases modified, archived, or deleted | 0 | — |
 

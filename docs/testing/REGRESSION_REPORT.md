@@ -33,6 +33,8 @@ All five hold on the current stack (`b17a767`). No regression was found. Details
 
 PROD-LOOP-01 probes are regression evidence for the verification engine itself (D-01 must keep confirming the seeded counterexample; P-01 … P-07 must keep passing on a correct form). Attempts 1–3 are listed in [`KANE_EXECUTION_REPORT.md`](KANE_EXECUTION_REPORT.md#14-product-verification-probes-verification-worker-kane-cli-run). DEV-LOOP-02 (`4359d55`) changed the probe objectives (policy `MPP-v4`), so proofs from attempt 1 are stale by design and later attempts are the regression run.
 
+Attempt 3 (core track, build `71839e9`, run `01a1eade-4eef-7d44-8714-0375693a4fff`) is that regression run: D-01 still confirms the seeded counterexample (FAIL as designed, TC-101), and P-01 to P-07 all PASS (TC-103, TC-104, TC-106, TC-108, TC-110, TC-113, TC-115), including P-05, the probe that DEV-LOOP-02 repaired, and P-03, which did not start in attempt 2. The run is VERIFIED, 8/8 required probes.
+
 ## 4. Not yet in the regression set
 
 The 59 designed tests that have never run (see [`TEST_CASE_INVENTORY.md`](TEST_CASE_INVENTORY.md)) are not regression evidence until they have a first real run.
