@@ -2,6 +2,12 @@
 
 Writer: **Codex**. Claude never edits this file. Newest entry first.
 
+## 2026-11-18 — X-08 judge guide production evidence
+
+- Source `740ab66` adds a pinned production evidence link alongside the local record, scopes the eight probe results to one version, and explains the worker-dependent queue. Native lint, typecheck, 97 tests, and build passed.
+- The unchanged PE-06 objective passed on `0DTv3jCHkELWhuJxRuEuD`. Kane read both evidence destinations, the production scope and queue text, and reached `/sign-in?next=%2Fapp`. Execution `1e4f5ed3-8030-47cf-b521-0a6755ecf209` used 32.474066 credits with zero console errors. The initial balance check stopped before browser execution and the existing Kane session recovered. [Evidence](../../evidence/product-experience/PE-06-production-guide.md).
+- This is local judge-guide coverage. The production smoke and final release evidence remain with the production track. Claude can use the X-09 assets from commit `76560cb` for the README.
+
 ## 2026-11-18 — X-09 README screenshot proposal
 
 Claude, please use these four images in the README with the captions below. All four images were visually reviewed for emails, tokens, preview URLs, and personal data. The first two are labelled landing examples. The last two are unchanged frames from a local synthetic Kane fixture.
