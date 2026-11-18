@@ -166,21 +166,23 @@ The first batch never reached the deployment: a backup of the local variables fi
 | Assurance batch C-03, 18 Nov ([`C-03`](../../evidence/assurance/C-03-publish-and-respondent.md)) | 3 | 4 | 0 | 0 | — |
 | Assurance batch C-04/C-05, 18 Nov ([`C-04-C-05`](../../evidence/assurance/C-04-C-05-security-and-honesty.md)) | 5 | 9 | 0 | 0 | — |
 | Assurance retests after the fixes, 18 Nov (same file) | 0 | 6 | 0 | 1 | — |
-| Designed tests never executed (§5) | — | — | — | — | 38 |
+| Owner responses view, local build, 18 Nov ([`DEV-LOOP-04`](../../evidence/dev-loop/DEV-LOOP-04.md)) | 5 | 1 | 0 | 0 | — |
+| Assurance on the deployment, 18 Nov ([`PROD-ASSURANCE-01`](../../evidence/assurance/PROD-ASSURANCE-01.md)) | 8 | 15 | 0 | 2 | — |
+| Designed tests never executed (§5) | — | — | — | — | 24 |
 
 The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, and 3: the expected result, not a regression. P-08 (no Kane) is not counted in that row. M0 lab runs are reported in §1.1 because their verdicts are the lab oracle's, not Kane's status. The two production probe FAILs are D-01 confirming the seeded defect, as expected. The five production BLOCKED runs are the misconfigured first smoke batch (§3.2). The UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.
 
 ## 5. Latest status per designed test
 
-Status of each of the 64 Assurance-designed tests from its **latest run recorded in this repository** (§1.2, §2, §3.2, and the Assurance records under [`evidence/assurance/`](../../evidence/assurance/)). An inconclusive run counts as FAIL; a test with no recorded run is NOT RUN. Totals: **13 PASS, 13 FAIL, 38 NOT RUN**.
+Status of each of the 64 Assurance-designed tests from its **latest run recorded in this repository** (§1.2, §2, §3.2, and the Assurance records under [`evidence/assurance/`](../../evidence/assurance/)). An inconclusive run counts as FAIL; a test with no recorded run is NOT RUN. Totals: **24 PASS, 16 FAIL, 24 NOT RUN** (after the 18 November production batches in [`PROD-ASSURANCE-01`](../../evidence/assurance/PROD-ASSURANCE-01.md) and the local C-10 runs in [`DEV-LOOP-04`](../../evidence/dev-loop/DEV-LOOP-04.md)).
 
 The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09:16 UTC, `https://niarva.vercel.app`) is the latest run of t-5, t-6, t-36, t-37, and t-44, and all five ended **PASS**. Along the way, t-44 first did not start (Kane sign-in, UNKNOWN). t-36 first **FAILED** at 09:04 UTC while replaying an earlier recording: the assertion was stale, while Kane's screenshot showed the correct rule. After the recording was moved aside, the same test file passed at 09:14 UTC with every step authored again. Several of these PASS results are replays of recordings (t-5, t-37, and t-44's second run). Full record: `evidence/deploy/VERCEL-PROD-01.md` §8 (deployment track).
 
 | Test | Title | Latest status |
 |---|---|---|
-| t-1 | Anonymous access to private version and evidence reveals no owner content | FAIL |
+| t-1 | Anonymous access to private version and evidence reveals no owner content | PASS |
 | t-2 | Authenticated non-owner cannot read another creator's private resources | FAIL |
-| t-3 | Owner workspace shows own form, status and latest evidence | NOT RUN |
+| t-3 | Owner workspace shows own form, status and latest evidence | PASS |
 | t-4 | Published public form remains accessible without respondent login | PASS |
 | t-5 | Anonymous visitor receives unauthorized workspace state | PASS |
 | t-6 | Creator without forms sees an empty workspace state | PASS |
@@ -210,9 +212,9 @@ The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09
 | t-30 | Ambiguous extraction asks creator to resolve interpretation | NOT RUN |
 | t-31 | Editing verified draft creates a new version with stale proof | NOT RUN |
 | t-32 | Public respondent cannot alter creator configuration | FAIL |
-| t-33 | Executable rule expressions are not accepted as DSL | FAIL |
+| t-33 | Executable rule expressions are not accepted as DSL | PASS |
 | t-34 | Invalid conditional-rule combinations cannot be saved | NOT RUN |
-| t-35 | Unrequested rule is marked against approved intent | NOT RUN |
+| t-35 | Unrequested rule is marked against approved intent | FAIL |
 | t-36 | Approved scholarship claims generate a versioned conditional form | PASS |
 | t-37 | Source-linked seeded comparator discrepancy at GPA 3.5 | PASS |
 | t-38 | Observed browser discrepancy despite matching generated rule | NOT RUN |
@@ -226,19 +228,19 @@ The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09
 | t-46 | UNKNOWN run offers no automatic repair or publish authorization | PASS |
 | t-47 | Exhausted repair attempts route defect to human review | NOT RUN |
 | t-48 | Anonymous and other-owner response access reveals no responses | FAIL |
-| t-49 | Owner response view shows seeded record fields without raw evidence | NOT RUN |
-| t-50 | Owner advances to different response records on a later page | NOT RUN |
-| t-51 | Owner sees an error when response retrieval fails | NOT RUN |
-| t-52 | Owner sees an empty response view for an unsubmitted form | NOT RUN |
-| t-53 | Owner sees a loading state while responses are pending | NOT RUN |
+| t-49 | Owner response view shows seeded record fields without raw evidence | FAIL |
+| t-50 | Owner advances to different response records on a later page | FAIL |
+| t-51 | Owner sees an error when response retrieval fails | PASS |
+| t-52 | Owner sees an empty response view for an unsubmitted form | PASS |
+| t-53 | Owner sees a loading state while responses are pending | PASS |
 | t-54 | Arbitrary evidence path cannot disclose private files | FAIL |
-| t-55 | Scoped judge sees redacted evidence without original integrity claim | NOT RUN |
-| t-56 | Owner reviews full and per-probe report for exact version | NOT RUN |
-| t-57 | Zero-test verification does not show VERIFIED | FAIL |
+| t-55 | Scoped judge sees redacted evidence without original integrity claim | FAIL |
+| t-56 | Owner reviews full and per-probe report for exact version | FAIL |
+| t-57 | Zero-test verification does not show VERIFIED | PASS |
 | t-58 | Diagnostic-only pass is not presented as full proof | NOT RUN |
-| t-59 | Judge sees labelled seeded GPA mismatch as real FAIL | NOT RUN |
-| t-60 | Judge traces real golden-case repair through respondent receipt | NOT RUN |
+| t-59 | Judge sees labelled seeded GPA mismatch as real FAIL | PASS |
+| t-60 | Judge traces real golden-case repair through respondent receipt | FAIL |
 | t-61 | Judge sees provider outage status and genuine fallback | NOT RUN |
-| t-62 | Scoped judge enters synthetic demo without private provider key | NOT RUN |
-| t-63 | Judge reviews runnable setup checklist without personal keys | NOT RUN |
-| t-64 | Scoped judge inspects actual-run provenance in sanitized demo report | NOT RUN |
+| t-62 | Scoped judge enters synthetic demo without private provider key | PASS |
+| t-63 | Judge reviews runnable setup checklist without personal keys | PASS |
+| t-64 | Scoped judge inspects actual-run provenance in sanitized demo report | PASS |

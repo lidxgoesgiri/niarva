@@ -36,11 +36,24 @@ Everything here is a real constraint met during testing or the Test Manager cons
 | Transient sign-in failures (`TMS did not return an org_id`, `Token refresh failed`, `Could not resolve credentials`) | The run never starts; it is recorded as UNKNOWN and retried once after a pause |
 | Kane does not retain a request that has already completed, and makes a direct HTTP call only for an explicit `Call POST <url> with body …` step that never carries the browser login (found 18 Nov in Assurance tests t-1, t-7, t-8, t-10, t-20, t-32, t-33; t-23 has the same dependency and has not been run) | Steps that inspect a raw request body or call an authenticated API end inconclusive and are recorded as FAIL. The same behavior is covered by server contract probe P-08 and native integration tests, which are reported separately and never counted as Kane proof |
 | Replaying a recording from an earlier run can fail on a stale start URL or a changed page state (t-33, 18 Nov) | Recorded as FAIL; the test is rerun so that Kane authors every step against the current build |
+| Kane does not always re-inspect every state before a combined final assertion, or leaves its own checks pending (t-2, t-56, t-60 step 4, 18 Nov) | Recorded as FAIL (inconclusive) even when every earlier step passed |
+| Kane can describe an action it did not take: in t-60 its summary says it "ran the full verification suite", but the read-only judge account cannot start a run, and the form still had only its two recorded runs afterwards | NIARVA's state, not Kane's summary, is the record; checked after each judge batch |
+| Sign-in can fail before a run starts ("TMS did not return an org_id", t-64 and t-59 on 18 Nov) | Recorded as UNKNOWN with 0 credits and retried once |
 | Kane's own `passed` status does not mean the oracle was met | NIARVA computes verdicts from observations; three M0 seeded mismatches were reported `passed` by Kane |
 
 ## 4. Coverage not yet proven
 
-The repository holds 64 Kane Assurance-designed tests. As of 18 November 2026, 16:30 WIB, the repository's records show real Kane executions for 26 of them. By latest recorded run: **13 PASS, 13 FAIL, 38 NOT RUN** (per-test list: [`KANE_EXECUTION_REPORT.md` §5](KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)). Most FAILs are inconclusive runs in which Kane could not make or observe the request a step needs (§3, last rows); they still count as FAIL. No coverage is claimed for a NOT RUN test. In particular, no designed test has run yet for AI intake and provider outage (t-25 to t-30, t-61), owner response views (t-49 to t-53), or scoped judge access (t-55, t-62 to t-64); NIARVA's own behavior in those areas is covered only by native tests where they exist.
+The repository holds 64 Kane Assurance-designed tests. As of 18 November 2026, 22:00 WIB, by latest recorded run: **24 PASS, 16 FAIL, 24 NOT RUN** (per-test list: [`KANE_EXECUTION_REPORT.md` §5](KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)). Most FAILs are inconclusive runs in which Kane could not make, observe, or finish a step (§3); they still count as FAIL. No coverage is claimed for a NOT RUN test.
+
+Not proven by Kane yet:
+- AI intake and provider outage (t-25 to t-30, t-61);
+- paging of the owner's responses (t-50: the later page loads, but Kane could not capture the network response the test asks for);
+- tests that need extra full verifications or a second published form (t-9, t-12, t-16, t-17, t-19, t-21, t-22, t-31);
+- tests that start a verification while holding the Kane lock (t-13);
+- rule validation and repair steps that need authenticated direct API calls or extra fixtures (t-23, t-34, t-42, t-45, t-47), and a renderer change after publication (t-24);
+- tests whose situation cannot arise by design (t-38, t-58).
+
+The owner responses view's error, loading, and empty states (t-51 to t-53) are proven on a local build only, because the fault hook they need is inert on the deployment.
 
 ## 5. Process
 
