@@ -18,7 +18,13 @@ Worker machine: apps/worker + Kane CLI 0.10.4 + Chrome
 
 ## 2. Database
 
-1. In the project, open **Storage** and add **Neon Postgres** from the Marketplace, then connect it to the project.
+1. In the project, open **Storage** and add **Neon Postgres** from the Marketplace, then connect it to the project. From the CLI (in a folder linked with `vercel link`):
+
+   ```bash
+   vercel integration add neon --name niarva-db --plan free_v3 -m region=iad1 -m auth=false -e production --no-env-pull
+   ```
+
+   Pick the region of the project's functions (`iad1` by default). Connect it to **Production only**: the build runs migrations, so a preview build connected to the same database would migrate production data from a feature branch.
 2. Make sure `DATABASE_URL` is the **pooled** connection string (its host contains `-pooler`). Serverless instances open their own connections, and `DATABASE_POOL_MAX=3` keeps each one small.
 3. On Vercel the app refuses to start without `DATABASE_URL`, because an embedded database on a temporary disk would lose data.
 
@@ -43,7 +49,7 @@ To rotate every secret later, run the script again with `--force` and re-import 
 
 ## 4. Deploy and smoke check
 
-Merging to `main` deploys to production. Then check:
+Merging to `main` deploys to production. A deployment of the current `main` can also be requested from the CLI without uploading local files, using the connected GitHub repository (`gitSource` in `POST /v13/deployments`, sent with `vercel api`). Then check:
 
 ```bash
 curl -s https://<project>.vercel.app/api/v1/health
@@ -72,6 +78,6 @@ Give judges a synthetic demo account through the official private channel, never
 
 ## 7. Limits
 
-- Preview deployments share the production database unless you connect a separate database to the Preview environment.
+- With the database connected to Production only, preview deployments have no `DATABASE_URL`, so their build stops at the migration step. Connect a separate database (or a Neon branch) to the Preview environment to get working previews; never the production one.
 - A verification only progresses while the worker machine is running.
 - Desktop Kane CLI verifies viewports of 800 px and wider; narrower layouts are reviewed manually.
