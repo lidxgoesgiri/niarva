@@ -35,4 +35,10 @@ describe("machine-wide Kane lock", () => {
     expect(messages.some((message) => message.includes("abandoned"))).toBe(true);
     release();
   });
+
+  it("does not accumulate exit listeners across many acquisitions", async () => {
+    const before = process.listenerCount("exit");
+    for (let index = 0; index < 15; index += 1) (await lock.acquireKaneLock(`leak ${index}`))();
+    expect(process.listenerCount("exit")).toBe(before);
+  });
 });

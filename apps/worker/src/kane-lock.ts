@@ -44,6 +44,8 @@ export async function acquireKaneLock(label: string, options: { pollMs?: number;
       const release = () => {
         if (released) return;
         released = true;
+        // Remove the exit hook again: the worker acquires the lock once per probe for hours.
+        process.removeListener("exit", release);
         if (readHolder()?.pid === process.pid) rmSync(KANE_LOCK_PATH, { force: true });
       };
       process.once("exit", release);
