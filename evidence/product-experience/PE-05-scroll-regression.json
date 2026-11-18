@@ -1,0 +1,200 @@
+{
+  "testId": "PE-05",
+  "status": "PASS",
+  "assessment": "Desktop scope at 1920 px. Actual screenshots distinguish the paused static CSS portal and restored shader geometry with the rail. Pause and Resume actions execute, both CTAs remain visible, and three Semantic Gap stages match the sample. Zero console errors and 21 HTTP 200 responses. System reduced motion and narrow layout were not exercised.",
+  "scope": "Landing UI only; no real form publication or release readiness is inferred",
+  "requirementIds": [
+    "UI-AC-01",
+    "UI-AC-08",
+    "UI-AC-10",
+    "UI-AC-11",
+    "UI-AC-16",
+    "UI-AC-20"
+  ],
+  "source": {
+    "commit": "693871a903dd0a6f49fcf30efc904db3fd1bbb24",
+    "branch": "feature/product-experience",
+    "buildId": "2R8sHDGmJJL_PyBrE6eJp",
+    "files": {
+      "apps/web/src/app/demo/page.tsx": "07e9216807b708cc392fd7bf9b672b85fd3113c161bb79ee46197fea2b8569d4",
+      "apps/web/src/app/layout.tsx": "a78ef1805f47600355f632636ddd4840be354cc0bf45ac5bdf3a65563f14303c",
+      "apps/web/src/app/page.tsx": "32d149730102c460e0ea0db28b083e479810accd709dfdaa5852ea0de149214c",
+      "apps/web/src/features/landing/boundary-sandbox.tsx": "ca6a710e301a5d47aa8eb71481829c1a3c62b2990057c7b7361c65650b15a9ab",
+      "apps/web/src/features/landing/hero-atmosphere.tsx": "71f6bf46d0bc0de2da852b6d8e674bbfef46c55e781fcc8b1428ccd149413dc7",
+      "apps/web/src/features/landing/landing-icon.ts": "04074bf57866dc0a445727284f44c52c1c0ff2e6f2c81bc4241b1735b2bae7ac",
+      "apps/web/src/features/landing/landing-shell.tsx": "082a3eecaf490825ec95f2c819b8e51e84c1a7550cc8ef1f07aea826588ed4e8",
+      "apps/web/src/features/landing/landing.module.css": "6f4e1050dbbde00840ee5580dad330ece8cc257e05e1205909db180205a4df46",
+      "apps/web/src/features/landing/portal-scene.ts": "8d855d5f8a1681be362dc01c7918634dfd3359d9a1abf30cd78b3d4853cff42e",
+      "apps/web/src/features/landing/scroll-choreography.ts": "07138b4902d652b3f4e579e3d42572377d955b52be17197eb92cca301fa12353",
+      "apps/web/src/features/landing/scroll-trace.tsx": "96c0d63ffb893a4883840dd709b86d8f2b81151b31abc07ed03f007fa36d4575",
+      "apps/web/src/features/landing/scroll.module.css": "a493089307973ca6859e1de6ecc4b62f65680f773419c298e89318729f2b0b31",
+      "apps/web/src/features/landing/story-panels.tsx": "3c181c3a2b9855387a7383007e9f9ec4d95bc6611597e23ab15ec9a683081294",
+      "apps/web/src/features/landing/story.module.css": "840abe19560dbcdac816ec627e8b7c1483a5b09c69f4ffe1e033db468892e2ad",
+      "apps/web/src/features/landing/verification-concepts.tsx": "7c3bfa386073cf96d06b421b57781cf4a7423d75ca7f3c4d660181e6a159b43e"
+    },
+    "diffSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "objectiveSha256": "07f5f70904c6fc168eb0fc5302312d3bf37b15310abaaaddc353034184eee7b3",
+  "executionObjectiveSha256": "745748fb0f1844ed6a1d5df09f71fe655bdc7e5747f3fe90967680150ddd3ac8",
+  "extractionSupplementSha256": "bd7ec59477b1990a851a42c401df37e652920a4e565974a923884332b750507d",
+  "extractionSupplementApproval": "APPROVED_BY_OWNER_2026-11-18",
+  "contextSha256": "536c168a93f23429a9adbd1a5051d8cc7d3ce0b5d8b3b72a8fdde5b2d6941708",
+  "startedAtUtc": "2026-11-18T05:30:40.048Z",
+  "completedAtUtc": "2026-11-18T05:34:46.372Z",
+  "processExitCode": 0,
+  "completionEvents": 1,
+  "durationSeconds": 196,
+  "creditsConsumed": 75.47343900000001,
+  "sealedPrivatePackSha256": "e039965015aedf885368a71db9563ee2508e3ea03a41d58c27b888b8d42ab322",
+  "testManager": {
+    "id": "01M7PJ5JE6GWSN862PNAQ35791",
+    "title": "NIARVA landing: cinematic hero, motion fallback, and semantic gap",
+    "projectId": "01M7N0CKZ90R3JR906713EHYW0",
+    "verified": true
+  },
+  "observations": [
+    {
+      "observationId": "intention_to_proof_heading_usable",
+      "condition": "the complete heading “From Intention to Proof.” is visible and usable",
+      "subject": "the complete heading “From Intention to Proof.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "build_verified_form_action_usable",
+      "condition": "the primary “Build Verified Form” action is visible and usable",
+      "subject": "the primary “Build Verified Form” action",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "inspect_golden_case_link_usable",
+      "condition": "the “Inspect Golden Case” link is visible and usable",
+      "subject": "the “Inspect Golden Case” link",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 2
+    },
+    {
+      "observationId": "hero_surface_readable",
+      "condition": "the hero surface is readable",
+      "subject": "the hero surface",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "hero_surface_stationary",
+      "condition": "the hero surface is stationary",
+      "subject": "the hero surface stationary",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "primary_action_reachable",
+      "condition": "the primary action is reachable",
+      "subject": "the primary action reachable",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 6
+    },
+    {
+      "observationId": "semantic_gap_reached",
+      "condition": "“The semantic gap.” is reached through the “Verification” navigation link",
+      "subject": "“The semantic gap.”",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 11
+    },
+    {
+      "observationId": "claim_includes_3_5",
+      "condition": "the claim includes exactly 3.5",
+      "observed": "3.5",
+      "expected": "3.5",
+      "step": 15
+    },
+    {
+      "observationId": "greater_than_rule_excludes_3_5",
+      "condition": "the greater-than rule excludes 3.5",
+      "observed": "3.5",
+      "expected": "3.5",
+      "step": 15
+    },
+    {
+      "observationId": "missing_field_publication_blocked",
+      "condition": "the observed missing field keeps publication blocked in the labelled sample",
+      "subject": "publication blocked in the labelled sample",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 15
+    },
+    {
+      "observationId": "heading_unobstructed_usable",
+      "condition": "the heading stays usable with no obstruction",
+      "subject": "the heading usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 15
+    },
+    {
+      "observationId": "actions_unobstructed_usable",
+      "condition": "the actions stay usable with no obstruction",
+      "subject": "the actions usable with no obstruction",
+      "mustBe": "present",
+      "observed": "true",
+      "expected": "true",
+      "step": 15
+    },
+    {
+      "observationId": "cinematic_landing",
+      "condition": "concrete observations, including actual viewport width and specific unsupported checks, are stored as {{cinematic_landing}}",
+      "observed": "Viewport: 1920px wide. The rendered landing page shows a dark navy, grid-lined hero with a large purple 3D interlocking-loop graphic, the headline “From Intention to Proof.”, supporting copy, visible Build Verified Form and Inspect Golden Case actions, a scroll-trace panel, and a Pause animations control. Unsupported by this static capture: responsive behavior at other viewport widths, animation motion/state over time, action/link behavior, and content below the current viewport.",
+      "expected": "",
+      "step": 19
+    },
+    {
+      "observationId": "cinematic_landing_2",
+      "condition": "the actual rendered landing-page observations, including the actual hero surface state, actual viewport width, and specific unsupported checks, are stored as {{cinematic_landing}}",
+      "observed": "Viewport: 1920px wide. The hero surface is visibly rendered and readable: a dark navy, grid-lined background with a luminous purple 3D interlocking-loop graphic at right; the left side shows “From Intention to Proof.”, the form-builder label and description, plus Build Verified Form and Inspect Golden Case actions. Unsupported by this static capture: hero animation behavior over time, interactions/navigation, responsive layouts at other widths, and off-screen landing-page sections.",
+      "expected": "",
+      "step": 19
+    }
+  ],
+  "observedLogs": {
+    "testId": "PE-05",
+    "buildId": "2R8sHDGmJJL_PyBrE6eJp",
+    "packSha256": "e039965015aedf885368a71db9563ee2508e3ea03a41d58c27b888b8d42ab322",
+    "consoleLogPresent": true,
+    "consoleErrors": 0,
+    "favicon404Errors": 0,
+    "networkLogPresent": true,
+    "recordedRequests": 21,
+    "httpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "firstPartyRequests": 21,
+    "firstPartyHttpStatuses": [
+      {
+        "status": "200",
+        "count": 21
+      }
+    ],
+    "outOfScopeRequests": 0,
+    "faviconRequests": 0
+  }
+}
