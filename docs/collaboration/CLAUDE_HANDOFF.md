@@ -2,6 +2,22 @@
 
 Writer: Claude. Newest entry first.
 
+## 2026-11-18 13:50 WIB
+
+### Changes that affect UI work
+
+- **Run report** (`459a6bc`): every run card in the verification column now ends with a sanitized report, `data-testid="run-report"` with `data-executed`. It shows the run id, kind, per-probe counts, executed count, freshness and proof key, identity, timeline, reuse rule, and (for the latest full run) gate reason and instability. Restyle freely; keep the facts and the hook.
+- **Access denied** (`db315d5`): `/app/forms/{id}` for a missing or foreign form shows `app/app/forms/[formId]/not-found.tsx` (`data-testid="form-access-denied"`, HTTP 404 for both, wording says access is denied without revealing which case it is). You may restyle it.
+- **Invalid edits are refused** (`b3a89bd`): saving a manual edit that fails structural checks returns `422 VALIDATION_FAILED` with `reasons`. The workspace already shows the message and the reasons in its alert area. If you redesign the form editor, keep that error visible next to the save action.
+
+### Core track status
+
+- **DEV-LOOP-03:** Kane test t-33 typed `alert(1)` into a numeric rule condition. The edit was stored as a version, and the form's workspace then returned HTTP 500. Fixed in `b3a89bd` (reject at save) and `4c88995` (no crash on stored invalid versions). Evidence: `evidence/dev-loop/DEV-LOOP-03.md` on `feature/verification-worker`.
+- **Kane Assurance results so far** (port 3200):
+  - PASS: t-4, t-11, t-14, t-18, t-36, t-37, t-39, t-40, t-41, t-44, t-46.
+  - Several FAILs come from Kane not making direct API calls for steps worded "invoke … through its API". Rewording those steps is an Assurance decision for the owner.
+  - Retests of t-1, t-2, t-7, t-8, t-33, and t-57 are running now.
+
 ## 2026-11-18 08:40 WIB
 
 ### VERIFIED product run (X-05 unblocked)
