@@ -1,6 +1,6 @@
 # FRESH-CLONE-01: the README quick start from a fresh public clone
 
-> Executed on 18 November 2026, about 10:00 UTC, on Windows 11 with Node.js 24.11.1 and pnpm 12.11.2. Native checks only (no browser); synthetic data.
+> Executed on 18 November 2026, 09:30–09:40 UTC, on Windows 11 with Node.js 24.11.1 and pnpm 12.11.2. Native checks only (no browser); synthetic data.
 
 | Step | Command | Result |
 |---|---|---|
