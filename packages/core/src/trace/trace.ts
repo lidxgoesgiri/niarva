@@ -145,20 +145,27 @@ function boundaryPoints(
     ["above", addUnits(threshold, 1n, precision)],
   ];
   const absent: FieldBehavior = { visible: false, required: false };
-  const points = candidates.map(([relation, value]) => {
-    const raw = fixed(value, precision);
-    const assignment = { [controller.key]: parseValue(controller, raw).value };
-    const expected = behaviorOf(intent, assignment).get(claim.field) ?? absent;
-    const implemented = behaviorOf(implementation, assignment).get(claim.field) ?? absent;
-    return {
-      value: raw,
-      relation,
-      expected,
-      implemented,
-      agrees: expected.visible === implemented.visible && expected.required === implemented.required,
-    };
-  });
-  return { points, controller: controllerView };
+  try {
+    const points = candidates.map(([relation, value]) => {
+      const raw = fixed(value, precision);
+      const assignment = { [controller.key]: parseValue(controller, raw).value };
+      const expected = behaviorOf(intent, assignment).get(claim.field) ?? absent;
+      const implemented = behaviorOf(implementation, assignment).get(claim.field) ?? absent;
+      return {
+        value: raw,
+        relation,
+        expected,
+        implemented,
+        agrees: expected.visible === implemented.visible && expected.required === implemented.required,
+      };
+    });
+    return { points, controller: controllerView };
+  } catch {
+    // A definition that fails structural checks (for example a literal that is not a number)
+    // cannot be evaluated; its findings already say why. The trace omits the table instead of
+    // failing the whole workspace.
+    return { points: [], controller: controllerView };
+  }
 }
 
 /**

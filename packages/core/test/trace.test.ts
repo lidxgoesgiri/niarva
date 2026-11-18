@@ -71,6 +71,15 @@ describe("Intent Trace", () => {
     expect(row(trace, "C-GPA").staticStatus).toBe("FAILED");
   });
 
+  it("does not fail on a stored definition whose numeric literal is not a number", () => {
+    // Found by Kane test t-33, which typed "alert(1)" into a rule condition.
+    const base = goldenDefinition();
+    const broken: FormDefinition = { ...base, rules: base.rules.map((rule) => ({ ...rule, when: { kind: "cmp" as const, field: "gpa", op: "gte" as const, value: "alert(1)" } })) };
+    const trace = buildIntentTrace(GOLDEN_CLAIMS, broken, analyze(broken, GOLDEN_CLAIMS));
+    expect(row(trace, "C-GPA").boundary).toEqual([]);
+    expect(row(trace, "C-GPA").staticStatus).not.toBe("PASS");
+  });
+
   it("reports NOT_ANALYSED instead of guessing when no analysis exists", () => {
     const trace = buildIntentTrace(GOLDEN_CLAIMS, goldenDefinition(), null);
     expect(trace.rows.every((candidate) => candidate.staticStatus === "NOT_ANALYSED")).toBe(true);
