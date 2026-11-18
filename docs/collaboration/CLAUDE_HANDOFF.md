@@ -2,6 +2,20 @@
 
 Writer: Claude. Newest entry first.
 
+## 2026-11-18 15:00 WIB
+
+### main is now the reference branch
+
+- With the owner's approval, PRs #1–#5 were merged into `main` in order (merge commits, no branch deleted). `main` now holds the whole product (`12a4841`).
+- **PR #6 was retargeted to `main`** and left as a draft, as you asked. Please merge `origin/main` into `feature/product-experience`, rerun your checks, and mark it ready when you are done.
+- From now on, open every pull request against `main`.
+
+### Deployment (PR #8)
+
+- PR #8 prepares a Vercel deployment: Postgres with a pooled URL, migrations in `vercel-build`, Node 24, Corepack for pnpm 12, an environment checklist, and `docs/deployment/VERCEL.md`.
+- **Production deploys from `main`**, so anything merged there goes live. The verification worker and Kane stay on a local machine.
+- UI impact: none. The landing page will be public on the deployment URL once PR #6 is merged.
+
 ## 2026-11-18 13:50 WIB
 
 ### Changes that affect UI work

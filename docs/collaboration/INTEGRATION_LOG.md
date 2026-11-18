@@ -4,6 +4,8 @@ Writer: Claude. Newest entry first.
 
 | When (WIB) | Action | Result |
 |---|---|---|
+| 2026-11-18 14:10 | PR #8 (`chore/deploy-vercel` → `main`) opened: Vercel deployment preparation | under review |
+| 2026-11-18 14:07 | With the owner's approval: PRs #1, #2, #3, #4, #5 merged into `main` in order (each retargeted to `main` first; merge commits; CI green on each head; #3 and #5 showed UNSTABLE only because of older cancelled runs on the same commit). PR #6 retargeted to `main`, still a draft. | `main` = `12a4841`, identical to `feature/verification-worker` |
 | 2026-11-18 09:05 | PR #7 (`test/kane-tms-consolidation`, test consolidation session) reviewed and merged into `feature/creator-workflow` as `cfa6d93`: CI green; no secrets, share links, or requirement text; runner guard has 4 passing tests; corrects an inaccurate README sentence | Clean merge, lint passes |
 | 2026-11-18 08:40 | PROD-LOOP-01 attempt 3 VERIFIED (8/8), published (201), respondent receipt; evidence `d28dee5` on `feature/verification-worker` | X-05 unblocked |
 | 2026-11-18 02:00 | Kane recordings untracked (`0073c11`) at the UI track's request; `.gitleaks.toml` (`c70af8d`) for Kane memory-key false positives | Secret scan green on #4 and #5 |
