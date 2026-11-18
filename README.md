@@ -94,7 +94,8 @@ See [`.env.example`](.env.example). Secrets (`BETTER_AUTH_SECRET`, `PREVIEW_TOKE
 
 - [`evidence/m0/`](evidence/m0): Kane CLI runtime validation, 28 recorded runs.
 - [`evidence/dev-loop/`](evidence/dev-loop): development closed loop. [`DEV-LOOP-01.md`](evidence/dev-loop/DEV-LOOP-01.md) records a real Kane CLI failure, the source repair, and the same test passing again. [`regression.md`](evidence/dev-loop/regression.md) lists every regression run after it, including failures, runs that never started, and which steps Kane replayed.
-- `evidence/product-loop/`: product closed loop (diagnostic failure, approved repair, fresh verification, publication), added when it is produced.
+- [`evidence/product-loop/PROD-LOOP-01.md`](evidence/product-loop/PROD-LOOP-01.md): product closed loop with a real worker and Kane CLI. The seeded `gt` defect is confirmed in a real browser (Kane reported `passed`; NIARVA judged FAIL from its observations), the creator approves a bounded repair, publishing is refused before proof, the fresh full suite is VERIFIED (8/8), publishing then succeeds, and a respondent receives a receipt. Failed and interrupted attempts are listed too.
+- [`evidence/dev-loop/DEV-LOOP-02.md`](evidence/dev-loop/DEV-LOOP-02.md): a Kane UNKNOWN found during product verification, the repair of NIARVA's probe objectives, and the same probe passing again.
 - From 17 November 2026 (evening, WIB), Kane CLI sessions upload to the Test Manager project "NIARVA intent verification". Earlier sessions, including the M0 lab, are in the account's default project.
 - [`docs/integration/API_CONTRACT.md`](docs/integration/API_CONTRACT.md): the HTTP API, the form-state contract, shared components, and the hooks Kane tests rely on.
 
