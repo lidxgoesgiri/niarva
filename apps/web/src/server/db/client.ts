@@ -17,10 +17,10 @@ type DbHandle = { db: Db; driver: "pg" | "pglite"; close: () => Promise<void> };
 const globalKey = Symbol.for("niarva.db");
 type GlobalWithDb = typeof globalThis & { [globalKey]?: Promise<DbHandle> };
 
-async function createPg(connectionString: string): Promise<DbHandle> {
+async function createPg(connectionString: string, max: number): Promise<DbHandle> {
   const { Pool } = await import("pg");
   const { drizzle } = await import("drizzle-orm/node-postgres");
-  const pool = new Pool({ connectionString, max: 10 });
+  const pool = new Pool({ connectionString, max });
   const db = drizzle(pool, { schema }) as unknown as Db;
   return { db, driver: "pg", close: () => pool.end() };
 }
@@ -41,7 +41,9 @@ export async function createPglite(dataDir?: string): Promise<DbHandle> {
 
 async function open(): Promise<DbHandle> {
   const env = getEnv();
-  if (env.DATABASE_URL) return createPg(env.DATABASE_URL);
+  if (env.DATABASE_URL) return createPg(env.DATABASE_URL, env.DATABASE_POOL_MAX);
+  // A serverless filesystem is temporary: an embedded database there would silently lose data.
+  if (process.env.VERCEL) throw new Error("DATABASE_URL is required on Vercel; the embedded database cannot persist there.");
   const dataDir = env.PGLITE_DIR ?? path.join(process.cwd(), ".pglite");
   return createPglite(dataDir);
 }

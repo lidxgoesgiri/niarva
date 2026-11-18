@@ -16,6 +16,8 @@ const envSchema = z.object({
 
   /** PostgreSQL connection string. When absent, an embedded PGlite database is used. */
   DATABASE_URL: z.string().min(1).optional(),
+  /** Connections per server instance. Keep it small on serverless platforms with a pooled URL. */
+  DATABASE_POOL_MAX: z.coerce.number().int().min(1).max(50).default(10),
   /** Directory of the embedded database. Ignored when DATABASE_URL is set. */
   PGLITE_DIR: z.string().min(1).optional(),
 
