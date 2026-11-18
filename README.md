@@ -102,9 +102,20 @@ See [`.env.example`](.env.example). Secrets (`BETTER_AUTH_SECRET`, `PREVIEW_TOKE
 - [`evidence/dev-loop/`](evidence/dev-loop): development closed loop. [`DEV-LOOP-01.md`](evidence/dev-loop/DEV-LOOP-01.md) records a real Kane CLI failure, the source repair, and the same test passing again. [`regression.md`](evidence/dev-loop/regression.md) lists every regression run after it, including failures, runs that never started, and which steps Kane replayed.
 - [`evidence/product-loop/PROD-LOOP-01.md`](evidence/product-loop/PROD-LOOP-01.md): product closed loop with a real worker and Kane CLI. The seeded `gt` defect is confirmed in a real browser (Kane reported `passed`; NIARVA judged FAIL from its observations), the creator approves a bounded repair, publishing is refused before proof, the fresh full suite is VERIFIED (8/8), publishing then succeeds, and a respondent receives a receipt. Failed and interrupted attempts are listed too.
 - [`evidence/dev-loop/DEV-LOOP-02.md`](evidence/dev-loop/DEV-LOOP-02.md): a Kane UNKNOWN found during product verification, the repair of NIARVA's probe objectives, and the same probe passing again.
+- [`evidence/dev-loop/DEV-LOOP-03.md`](evidence/dev-loop/DEV-LOOP-03.md): a Kane security test typed `alert(1)` into a numeric rule; the edit was stored and the workspace then failed with HTTP 500. The source was repaired, and the repair is proven by native integration tests. The Kane rerun of that test has not passed yet: it failed while replaying a stale recording (see the Assurance records below).
+- [`evidence/deploy/VERCEL-PROD-01.md`](evidence/deploy/VERCEL-PROD-01.md): the product closed loop on the live deployment (VERIFIED 8/8, publish 409 before proof and 201 after, receipt `VCBFQ6AM`) and the Kane smoke tests on the deployment, including the blocked first batch.
+- [`evidence/assurance/`](evidence/assurance): Kane Assurance-designed tests for publishing, respondents, access security, and verification honesty, with every FAIL and its classification.
 - [`docs/testing/`](docs/testing): how testing is organized, the Test Manager consolidation, test case mapping, every Kane execution, defect traceability, and an evidence index that leads from each claim to its execution.
 - All new Kane CLI sessions go to one Test Manager project, **NIARVA intent verification** (`01M7N0CKZ90R3JR906713EHYW0`); the runners refuse any other project. Sessions from 17 November 2026, including the M0 lab, stay in the account's default project "KaneAI Generated" as the historical record. Two runs made after the profile was switched still landed there because their tests had recordings bound to it; see [`docs/testing/MIGRATION_REPORT.md`](docs/testing/MIGRATION_REPORT.md).
 - [`docs/integration/API_CONTRACT.md`](docs/integration/API_CONTRACT.md): the HTTP API, the form-state contract, shared components, and the hooks Kane tests rely on.
+
+## Verification status
+
+What Kane CLI has proven, and what it has not. Details and run IDs: [`docs/testing/KANE_EXECUTION_REPORT.md`](docs/testing/KANE_EXECUTION_REPORT.md).
+
+- **Proven in a real browser, judged by NIARVA:** the golden scholarship loop, both locally and on the live deployment. The seeded `gt` defect is confirmed at GPA 3.50, a repair is approved with unchanged claims, the full suite is VERIFIED 8/8, publishing is refused before proof and accepted after it, and a respondent receives a receipt.
+- **Assurance-designed tests (64 in total):** by latest recorded run, **13 PASS, 13 FAIL, 38 NOT RUN**. Most FAILs are inconclusive: Kane could not capture a request that had already completed, could not make an authenticated API call, or replayed a stale recording. They still count as FAIL. Where the same behavior is covered by native integration tests or the server contract probe, that coverage is listed separately and is not counted as Kane proof.
+- **Not proven by Kane:** layouts narrower than 800 px, reduced motion, browser zoom, AI intake and provider outage, the paging, error, empty, and loading states of the owner's response view, and scoped judge access.
 
 ## Security notes and limitations
 
