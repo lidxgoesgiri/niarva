@@ -82,6 +82,7 @@ export default function LandingPage() {
         <VerificationConcepts />
         <section
           id="verification"
+          tabIndex={-1}
           className={`${styles.container} ${styles.semanticSection}`}
           aria-labelledby="semantic-title"
           data-scroll-stop
@@ -163,6 +164,7 @@ export default function LandingPage() {
         </section>
         <section
           id="how-it-works"
+          tabIndex={-1}
           className={`${styles.container} ${styles.storySection}`}
           aria-labelledby="pipeline-title"
           data-scroll-stop
@@ -217,6 +219,7 @@ export default function LandingPage() {
         </section>
         <section
           id="evidence"
+          tabIndex={-1}
           className={`${styles.container} ${styles.storySection}`}
           aria-labelledby="evidence-title"
           data-scroll-stop
