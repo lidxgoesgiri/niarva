@@ -1,7 +1,7 @@
 ---
 assurance:
   id: t-2
-  base: sha256:4a37108e48520fe246dbd08ef9d58624fc89367da82f11f672e6f16b3772e8b9
+  base: sha256:58f9c5a0892020fb747348c4c95be00473197aada22dda7b712b20c597751483
 ---
 # Authenticated non-owner cannot read another creator's private resources
 

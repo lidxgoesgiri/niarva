@@ -1,7 +1,7 @@
 ---
 assurance:
   id: t-7
-  base: sha256:ff6cb0ba1f735c48e73169bc1725b258eb8b32b4109a2c159385c5e9f95f1e15
+  base: sha256:025022760ec0bd658794a913cf957a0afeda3d2f4373544104d6c67562535d8c
 ---
 # Hidden certificate stays out of raw request and stored response
 

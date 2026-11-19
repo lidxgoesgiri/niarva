@@ -2,13 +2,13 @@ import { and, eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { Actor } from "@/server/context/session";
 import type { Db } from "@/server/db/client";
-import { auditEvents, formVersions, forms } from "@/server/db/schema";
+import { auditEvents, formVersions, forms, verificationRuns } from "@/server/db/schema";
 import { ApiError } from "@/server/http/errors";
 import { deleteDraftForm, listForms } from "@/server/services/form.service";
 import { approveClaims, createForm } from "@/server/services/intent.service";
 import { getFormState } from "@/server/services/state.service";
 import { cancelRun, requestVerification } from "@/server/services/verification.service";
-import { generateVersion } from "@/server/services/version.service";
+import { generateVersion, saveEdits } from "@/server/services/version.service";
 import { bootTestApp, createCreator } from "../support/test-app";
 
 // A creator can delete a draft they no longer need. Deleting archives the form: it is gone from the
@@ -43,7 +43,7 @@ describe("deleting a draft form", () => {
 
   it("removes a draft from the workspace and every API, and keeps its versions and audit trail", async () => {
     const formId = await draft("Unused draft");
-    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true });
+    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true, canceledRuns: 0 });
     expect((await listForms(owner)).map((form) => form.id)).not.toContain(formId);
     await rejects(getFormState(owner, formId), "NOT_FOUND");
     await rejects(deleteDraftForm(owner, formId, "test"), "NOT_FOUND");
@@ -56,7 +56,7 @@ describe("deleting a draft form", () => {
 
   it("deletes a draft that has no version yet", async () => {
     const formId = await draft("Empty draft", false);
-    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true });
+    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true, canceledRuns: 0 });
   });
 
   it("refuses a published form", async () => {
@@ -66,13 +66,28 @@ describe("deleting a draft form", () => {
     expect((await listForms(owner)).map((form) => form.id)).toContain(formId);
   });
 
-  it("refuses while a verification is queued, and allows it after the run is canceled", async () => {
+  it("cancels a queued verification on an earlier version as part of the deletion", async () => {
     const formId = await draft("Draft under verification");
+    const seeded = (await getFormState(owner, formId)).version!;
+    // A run queued on v1, then a repair-free edit makes v2 current: the v1 run has no cancel control in view.
+    const { runId } = await requestVerification(owner, formId, seeded.id, { mode: "diagnostic", force: false }, "test");
+    const definition = structuredClone(seeded.definition) as { fields: { key: string; label: string }[] };
+    definition.fields[0]!.label = `${definition.fields[0]!.label} (edited)`;
+    await saveEdits(owner, formId, { baseVersionId: seeded.id, definition }, "test");
+    expect((await getFormState(owner, formId)).version!.id).not.toBe(seeded.id);
+
+    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true, canceledRuns: 1 });
+    const [run] = await db.select().from(verificationRuns).where(eq(verificationRuns.id, runId));
+    expect(run?.state).toBe("CANCELED");
+    expect(await db.select().from(auditEvents).where(and(eq(auditEvents.entityId, runId), eq(auditEvents.action, "verification.canceled")))).toHaveLength(1);
+  });
+
+  it("still allows cancelling a run first and deleting afterwards", async () => {
+    const formId = await draft("Draft canceled first");
     const state = await getFormState(owner, formId);
     const { runId } = await requestVerification(owner, formId, state.version!.id, { mode: "diagnostic", force: false }, "test");
-    await rejects(deleteDraftForm(owner, formId, "test"), "CONFLICT");
     await cancelRun(owner, formId, runId, "test");
-    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true });
+    expect(await deleteDraftForm(owner, formId, "test")).toEqual({ deleted: true, canceledRuns: 0 });
   });
 
   it("never lets another account delete the draft", async () => {

@@ -1,7 +1,7 @@
 ---
 assurance:
   id: t-32
-  base: sha256:ace4b8a9fdba470e12904292e7971e738be0d17ce0ef20066266b31d1975fa81
+  base: sha256:3a940a72a39aa79f913336ff475aa7939de3452644ee0094b73a061666f05f6a
 ---
 # Public respondent cannot alter creator configuration
 
