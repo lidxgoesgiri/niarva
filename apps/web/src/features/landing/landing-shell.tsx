@@ -6,11 +6,10 @@ import {
   useContext,
   useEffect,
   useRef,
-  useState,
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { ArrowUpRight, Menu, Pause, Play, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import { BrandMark } from "@/components/composites/brand-mark";
 import { ButtonLink } from "@/components/ui/button";
 import { bindLandingScroll } from "./scroll-choreography";
@@ -53,11 +52,11 @@ export function useLandingMotion() {
 }
 
 export function LandingShell({ children }: { children: ReactNode }) {
-  const [paused, setPaused] = useState(false);
+  // Motion follows the visitor's system setting (prefers-reduced-motion) and pauses while the tab is hidden.
   const reduced = useSyncExternalStore(subscribeMotion, getReducedMotion, serverReducedMotion);
   const visible = useSyncExternalStore(subscribeVisibility, getVisible, serverVisible);
   const root = useRef<HTMLDivElement>(null);
-  const moving = !paused && !reduced && visible;
+  const moving = !reduced && visible;
   useEffect(() => {
     if (moving && !getReducedMotion() && root.current) return bindLandingScroll(root.current);
   }, [moving]);
@@ -82,20 +81,6 @@ export function LandingShell({ children }: { children: ReactNode }) {
         <SiteNavigation />
         {children}
         <LandingReveals surface={root} active={moving} />
-        <button
-          type="button"
-          className={styles.motionControl}
-          aria-pressed={paused}
-          onClick={() => setPaused(!paused)}
-        >
-          {paused || reduced ? (
-            <Play aria-hidden="true" size={14} />
-          ) : (
-            <Pause aria-hidden="true" size={14} />
-          )}
-          {paused ? "Resume animations" : "Pause animations"}
-          {reduced && <span className={styles.srOnly}> · Reduced motion is active</span>}
-        </button>
       </div>
     </MotionContext>
   );
