@@ -47,7 +47,7 @@ Add **`OPENROUTER_API_KEY` yourself** in Vercel; the script never reads or write
 
 To rotate every secret later, run the script again with `--force` and re-import the file.
 
-**Kane credit budget.** Sign-up is open on a public deployment, and every browser probe spends Kane credits from the operator's account. The backend therefore refuses a new verification run with `429 RATE_LIMITED`, queuing nothing, when its Kane probes would exceed the rolling 24-hour budget. `KANE_PROBE_BUDGET_PER_WORKSPACE_24H` (default 24, about three complete golden loops) caps one workspace, and `KANE_PROBE_BUDGET_GLOBAL_24H` (default 48) caps the whole deployment. Cached and already-queued runs are never refused. Set either value to `0` to stop new browser verification. A changed value takes effect with the next deployment.
+**Kane credit budget.** Sign-up is open on a public deployment, and every browser probe spends Kane credits from the operator's account. The backend therefore refuses a new verification run with `429 RATE_LIMITED`, queuing nothing, when its Kane probes would exceed the rolling 24-hour budget. `KANE_PROBE_BUDGET_PER_WORKSPACE_24H` (default 24, about three complete golden loops) caps one workspace, and `KANE_PROBE_BUDGET_GLOBAL_24H` (default 48) caps the whole deployment. Cached and already-queued runs are never refused. A probe counts while it is queued, running, or has run; a probe canceled before it ran spent nothing and is not counted, so canceling a queued run frees its places. Set either value to `0` to stop new browser verification. A changed value takes effect with the next deployment.
 
 ## 4. Deploy and smoke check
 

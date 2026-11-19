@@ -3,10 +3,10 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { resetEnvCache } from "@/server/config/env";
 import type { Actor } from "@/server/context/session";
 import type { Db } from "@/server/db/client";
-import { probes, verificationRuns } from "@/server/db/schema";
+import { probeRuns, probes, verificationRuns } from "@/server/db/schema";
 import { approveClaims, createForm } from "@/server/services/intent.service";
 import { getFormState } from "@/server/services/state.service";
-import { requestVerification } from "@/server/services/verification.service";
+import { cancelRun, requestVerification } from "@/server/services/verification.service";
 import { generateVersion } from "@/server/services/version.service";
 import { bootTestApp, createCreator } from "../support/test-app";
 
@@ -77,7 +77,7 @@ describe("Kane probe budget", () => {
     const { formId, versionId } = await verifiableForm(ownerA);
     await expect(requestVerification(ownerA, formId, versionId, { mode: "full", force: false }, "test")).rejects.toMatchObject({
       code: "RATE_LIMITED",
-      message: expect.stringContaining("this workspace queued"),
+      message: expect.stringContaining("this workspace has"),
     });
     expect(await runsOf(formId)).toHaveLength(0);
   });
@@ -106,5 +106,39 @@ describe("Kane probe budget", () => {
     const { formId, versionId } = await verifiableForm(ownerA);
     await expect(requestVerification(ownerA, formId, versionId, { mode: "full", force: false }, "test")).rejects.toMatchObject({ code: "RATE_LIMITED" });
     expect(await runsOf(formId)).toHaveLength(0);
+  });
+  it("frees the places of a run canceled before any probe ran", async () => {
+    const { actor: owner } = await createCreator("budget-cancel");
+    setBudget(kanePerRun, 10_000);
+    const first = await verifiableForm(owner);
+    const { runId } = await requestVerification(owner, first.formId, first.versionId, { mode: "full", force: false }, "test");
+    const second = await verifiableForm(owner);
+    await expect(requestVerification(owner, second.formId, second.versionId, { mode: "full", force: false }, "test")).rejects.toMatchObject({ code: "RATE_LIMITED" });
+    await cancelRun(owner, first.formId, runId, "test");
+    const queued = await requestVerification(owner, second.formId, second.versionId, { mode: "full", force: false }, "test");
+    expect(queued.deduplicated).toBe(false);
+    expect(await runsOf(second.formId)).toHaveLength(1);
+  });
+
+  it("keeps counting a probe that ran before its run was canceled", async () => {
+    const { actor: owner } = await createCreator("budget-ran");
+    setBudget(kanePerRun, 10_000);
+    const first = await verifiableForm(owner);
+    const { runId } = await requestVerification(owner, first.formId, first.versionId, { mode: "full", force: false }, "test");
+    // As if the worker had completed one Kane probe before the cancel.
+    const [ran] = await db
+      .select({ id: probeRuns.id })
+      .from(probeRuns)
+      .innerJoin(probes, eq(probes.id, probeRuns.probeId))
+      .where(and(eq(probeRuns.verificationRunId, runId), eq(probes.executor, "kane")))
+      .limit(1);
+    await db.update(probeRuns).set({ status: "completed" }).where(eq(probeRuns.id, ran!.id));
+    await cancelRun(owner, first.formId, runId, "test");
+    const second = await verifiableForm(owner);
+    await expect(requestVerification(owner, second.formId, second.versionId, { mode: "full", force: false }, "test")).rejects.toMatchObject({
+      code: "RATE_LIMITED",
+      message: expect.stringContaining("has 1 Kane probes queued or run"),
+    });
+    expect(await runsOf(second.formId)).toHaveLength(0);
   });
 });
