@@ -66,7 +66,7 @@ function FormRow({ form, canDelete }: { form: FormListEntry; canDelete: boolean 
       </div>
       {confirming ? (
         <div role="group" aria-label={`Confirm deleting ${form.title}`} className="flex flex-wrap items-center justify-between gap-3 border-t border-line px-5 py-3 text-sm">
-          <p>Delete this draft? It disappears from your forms; its versions and audit trail are kept.</p>
+          <p>Delete this draft? Any queued verification is canceled. The draft disappears from your forms; its versions and audit trail are kept.</p>
           <span className="flex gap-2">
             <Button size="sm" variant="ghost" disabled={deleting} onClick={() => setConfirming(false)}>
               Cancel

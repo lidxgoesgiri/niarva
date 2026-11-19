@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, ChevronDown, Lock, LockOpen, Server, Terminal } from "lucide-react";
+import { ArrowRight, ChevronDown, CircleX, Lock, LockOpen, Server, Terminal } from "lucide-react";
 import { useState } from "react";
 import { StatusBadge, type StatusKind } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
@@ -209,8 +209,13 @@ export function VerifyPanel({
         ) : (
           <p className="text-xs text-ink-muted">Full browser verification starts once static checks pass.</p>
         )}
-        {activeRun ? <Button size="sm" variant="ghost" className="self-start" disabled={busy} onClick={() => onAction(`${base}/runs/${activeRun.id}/cancel`, {})}>Cancel run</Button> : null}
-        {state.runs.map((run, index) => <RunCard key={run.id} run={run} pageIdentity={version.pageIdentity} report={{ versionNo: version.versionNo, definitionHash: version.definitionHash, claimsHash: state.claimSet?.claimsHash ?? null, gate, latestFull: index === state.runs.findIndex((candidate) => candidate.mode === "full") }} />)}
+        {activeRun ? (
+          <Button variant="danger" disabled={busy} onClick={() => onAction(`${base}/runs/${activeRun.id}/cancel`, {})}>
+            <CircleX aria-hidden="true" className="size-4" />
+            Cancel this run
+          </Button>
+        ) : null}
+        {state.runs.map((run, index) => <RunCard key={run.id} run={run} busy={busy} onCancel={() => onAction(`${base}/runs/${run.id}/cancel`, {})} pageIdentity={version.pageIdentity} report={{ versionNo: version.versionNo, definitionHash: version.definitionHash, claimsHash: state.claimSet?.claimsHash ?? null, gate, latestFull: index === state.runs.findIndex((candidate) => candidate.mode === "full") }} />)}
       </section>
 
       {/* Proof history: earlier versions keep their own runs and the repairs proposed on them. */}
@@ -232,6 +237,8 @@ export function VerifyPanel({
                 <RunCard
                   key={run.id}
                   run={run}
+                  busy={busy}
+                  onCancel={() => onAction(`${base}/runs/${run.id}/cancel`, {})}
                   pageIdentity={entry.pageIdentity}
                   report={{ versionNo: entry.versionNo, definitionHash: entry.definitionHash, claimsHash: entry.claimsHash, gate, latestFull: false }}
                 />
@@ -284,7 +291,8 @@ export function VerifyPanel({
   );
 }
 
-function RunCard({ run, pageIdentity, report }: { run: Run; pageIdentity: string; report: ReportContext }) {
+function RunCard({ run, pageIdentity, report, onCancel, busy = false }: { run: Run; pageIdentity: string; report: ReportContext; onCancel?: () => void; busy?: boolean }) {
+  const active = run.state === "QUEUED" || run.state === "RUNNING";
   const [open, setOpen] = useState(run.state !== "VERIFIED");
   const badge = runBadge(run);
   return (
@@ -300,6 +308,15 @@ function RunCard({ run, pageIdentity, report }: { run: Run; pageIdentity: string
           <ChevronDown aria-hidden="true" className={`size-4 transition-transform ${open ? "rotate-180" : ""}`} />
         </span>
       </button>
+      {active && onCancel ? (
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-line px-4 py-3">
+          <p className="text-xs text-ink-muted">{run.state === "QUEUED" ? "Waiting for a verification worker." : "A worker is running this verification."}</p>
+          <Button size="sm" variant="danger" disabled={busy} onClick={onCancel}>
+            <CircleX aria-hidden="true" className="size-4" />
+            Cancel run
+          </Button>
+        </div>
+      ) : null}
       {open ? (
         <ol className="flex flex-col gap-2 border-t border-line px-4 py-3">
           {run.probes.map((probe) => <ProbeRow key={probe.probeKey} probe={probe} pageIdentity={pageIdentity} />)}
