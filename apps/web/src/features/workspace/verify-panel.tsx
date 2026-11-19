@@ -215,7 +215,7 @@ export function VerifyPanel({
             Cancel this run
           </Button>
         ) : null}
-        {state.runs.map((run, index) => <RunCard key={run.id} run={run} busy={busy} onCancel={() => onAction(`${base}/runs/${run.id}/cancel`, {})} pageIdentity={version.pageIdentity} report={{ versionNo: version.versionNo, definitionHash: version.definitionHash, claimsHash: state.claimSet?.claimsHash ?? null, gate, latestFull: index === state.runs.findIndex((candidate) => candidate.mode === "full") }} />)}
+        {state.runs.map((run, index) => <RunCard key={run.id} run={run} pageIdentity={version.pageIdentity} report={{ versionNo: version.versionNo, definitionHash: version.definitionHash, claimsHash: state.claimSet?.claimsHash ?? null, gate, latestFull: index === state.runs.findIndex((candidate) => candidate.mode === "full") }} />)}
       </section>
 
       {/* Proof history: earlier versions keep their own runs and the repairs proposed on them. */}
@@ -238,6 +238,8 @@ export function VerifyPanel({
                   key={run.id}
                   run={run}
                   busy={busy}
+                  // Earlier versions have no other cancel control; the current version's active run is
+                  // canceled with the single "Cancel this run" button below the run button.
                   onCancel={() => onAction(`${base}/runs/${run.id}/cancel`, {})}
                   pageIdentity={entry.pageIdentity}
                   report={{ versionNo: entry.versionNo, definitionHash: entry.definitionHash, claimsHash: entry.claimsHash, gate, latestFull: false }}
