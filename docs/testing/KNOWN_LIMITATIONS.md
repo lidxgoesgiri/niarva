@@ -43,7 +43,7 @@ Everything here is a real constraint met during testing or the Test Manager cons
 
 ## 4. Coverage not yet proven
 
-The repository holds 64 Kane Assurance-designed tests. As of 18 November 2026, 22:00 WIB, by latest recorded run: **24 PASS, 16 FAIL, 24 NOT RUN** (per-test list: [`KANE_EXECUTION_REPORT.md` §5](KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)). Most FAILs are inconclusive runs in which Kane could not make, observe, or finish a step (§3); they still count as FAIL. No coverage is claimed for a NOT RUN test.
+The repository holds 64 Kane Assurance-designed tests. As of 18 November 2026, 22:00 WIB, by latest recorded run: **25 PASS, 15 FAIL, 24 NOT RUN** (per-test list: [`KANE_EXECUTION_REPORT.md` §5](KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)). Most FAILs are inconclusive runs in which Kane could not make, observe, or finish a step (§3); they still count as FAIL. No coverage is claimed for a NOT RUN test.
 
 Not proven by Kane yet:
 - AI intake and provider outage (t-25 to t-30, t-61);

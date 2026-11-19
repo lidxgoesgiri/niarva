@@ -174,7 +174,7 @@ The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, an
 
 ## 5. Latest status per designed test
 
-Status of each of the 64 Assurance-designed tests from its **latest run recorded in this repository** (§1.2, §2, §3.2, and the Assurance records under [`evidence/assurance/`](../../evidence/assurance/)). An inconclusive run counts as FAIL; a test with no recorded run is NOT RUN. Totals: **24 PASS, 16 FAIL, 24 NOT RUN** (after the 18 November production batches in [`PROD-ASSURANCE-01`](../../evidence/assurance/PROD-ASSURANCE-01.md) and the local C-10 runs in [`DEV-LOOP-04`](../../evidence/dev-loop/DEV-LOOP-04.md)).
+Status of each of the 64 Assurance-designed tests from its **latest run recorded in this repository** (§1.2, §2, §3.2, and the Assurance records under [`evidence/assurance/`](../../evidence/assurance/)). An inconclusive run counts as FAIL; a test with no recorded run is NOT RUN. Totals: **25 PASS, 15 FAIL, 24 NOT RUN** (after the 18 November production batches in [`PROD-ASSURANCE-01`](../../evidence/assurance/PROD-ASSURANCE-01.md) the local C-10 runs in [`DEV-LOOP-04`](../../evidence/dev-loop/DEV-LOOP-04.md), and t-35 in [`DEV-LOOP-06`](../../evidence/dev-loop/DEV-LOOP-06.md)).
 
 The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09:16 UTC, `https://niarva.vercel.app`) is the latest run of t-5, t-6, t-36, t-37, and t-44, and all five ended **PASS**. Along the way, t-44 first did not start (Kane sign-in, UNKNOWN). t-36 first **FAILED** at 09:04 UTC while replaying an earlier recording: the assertion was stale, while Kane's screenshot showed the correct rule. After the recording was moved aside, the same test file passed at 09:14 UTC with every step authored again. Several of these PASS results are replays of recordings (t-5, t-37, and t-44's second run). Full record: `evidence/deploy/VERCEL-PROD-01.md` §8 (deployment track).
 
@@ -214,7 +214,7 @@ The final production smoke on `8136ce3` (label `vercel-final`, 18 Nov 08:57–09
 | t-32 | Public respondent cannot alter creator configuration | FAIL |
 | t-33 | Executable rule expressions are not accepted as DSL | PASS |
 | t-34 | Invalid conditional-rule combinations cannot be saved | NOT RUN |
-| t-35 | Unrequested rule is marked against approved intent | FAIL |
+| t-35 | Unrequested rule is marked against approved intent | PASS |
 | t-36 | Approved scholarship claims generate a versioned conditional form | PASS |
 | t-37 | Source-linked seeded comparator discrepancy at GPA 3.5 | PASS |
 | t-38 | Observed browser discrepancy despite matching generated rule | NOT RUN |
