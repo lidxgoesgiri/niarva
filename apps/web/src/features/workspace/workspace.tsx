@@ -8,6 +8,7 @@ import { api, ClientApiError } from "./api";
 import { formatDateTime } from "./format";
 import { FormPanel } from "./form-panel";
 import { IntentPanel } from "./intent-panel";
+import { ProgressSteps } from "./progress-steps";
 import type { TraceFocus } from "./intent-trace";
 import { VerifyPanel } from "./verify-panel";
 
@@ -143,6 +144,8 @@ export function Workspace({ initial }: { initial: FormState }) {
           {state.gate.eligible ? <StatusBadge status="VERIFIED" label="Ready to publish" /> : <StatusBadge status="BLOCKED" label="Not publishable" />}
         </div>
       </header>
+
+      <ProgressSteps state={state} />
 
       {readOnly ? (
         <div role="note" data-testid="demo-read-only" className="rounded-xl border border-sapphire/40 bg-sapphire/10 px-4 py-3 text-sm">

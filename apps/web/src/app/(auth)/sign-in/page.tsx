@@ -22,7 +22,7 @@ export default async function SignInPage({
         <p
           role="status"
           data-state="unauthorized"
-          className="flex w-full max-w-md items-start gap-2.5 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3 text-sm text-ink"
+          className="flex w-full items-start gap-2.5 rounded-xl border border-warn/40 bg-warn/10 px-4 py-3 text-sm text-ink"
         >
           <Lock aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-warn" />
           <span>
