@@ -1,7 +1,7 @@
 ---
 assurance:
   id: t-1
-  base: sha256:ce46a212d8ab8f1c5308a5c03e4170faf49e073e79c5df4bf0e1e24dd39a2d9f
+  base: sha256:dfd83e6133a9edd326864cb5c15be5fe1a87054e83d1f90f340d618eb8ad4862
 ---
 # Anonymous access to private version and evidence reveals no owner content
 
