@@ -5,6 +5,7 @@ import { useState } from "react";
 import { StatusBadge, type StatusKind } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
 import type { FormState } from "@/server/services/state.service";
+import { formatDateTime } from "./format";
 import { IntentTrace, type TraceFocus } from "./intent-trace";
 
 type Run = FormState["runs"][number];
@@ -295,6 +296,7 @@ function RunCard({ run, pageIdentity, report }: { run: Run; pageIdentity: string
         </span>
         <span className="flex items-center gap-2 text-xs text-ink-muted">
           {run.creditsTotal ? `${Number(run.creditsTotal).toFixed(1)} credits` : null}
+          <span className="text-lavender">{open ? "Hide full report" : "Show full report"}</span>
           <ChevronDown aria-hidden="true" className={`size-4 transition-transform ${open ? "rotate-180" : ""}`} />
         </span>
       </button>
@@ -436,7 +438,7 @@ function ExpectedObserved({ probe, pageIdentity }: { probe: ProbeView; pageIdent
 type ReportContext = { versionNo: number; definitionHash: string; claimsHash: string | null; gate: FormState["gate"]; latestFull: boolean };
 
 const short = (value: string | null | undefined, length = 12) => (value ? value.slice(0, length) : "—");
-const when = (value: string | null) => (value ? new Date(value).toLocaleString() : "—");
+const when = (value: string | null) => formatDateTime(value);
 
 /**
  * Sanitized run report (FR-18): what ran, for which exact proof identity, when, and why the
@@ -449,6 +451,8 @@ function RunReport({ run, context }: { run: Run; context: ReportContext }) {
   const end = run.completedAt ?? run.canceledAt;
   const seconds = end ? Math.round((Date.parse(end) - Date.parse(run.startedAt ?? run.requestedAt)) / 1000) : null;
   return (
+    <section aria-label="Full verification report" className="flex flex-col gap-1">
+    <h4 className="text-xs font-semibold">Full verification report</h4>
     <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2 text-[11px]" data-testid="run-report" data-executed={executed}>
       <dt className="text-ink-muted">Run</dt>
       <dd className="break-all font-mono">{run.id}</dd>
@@ -469,9 +473,13 @@ function RunReport({ run, context }: { run: Run; context: ReportContext }) {
         v{context.versionNo} · definition {short(context.definitionHash, 8)} · claims {short(context.claimsHash, 8)} · renderer {run.rendererBuildId} · environment {run.environmentId} · policy {run.probePolicyVersion} · scenarios {short(run.scenarioSetHash, 8)}
       </dd>
       <dt className="text-ink-muted">Timeline</dt>
-      <dd>
+      <dd suppressHydrationWarning>
         requested {when(run.requestedAt)} · started {when(run.startedAt)} · {run.canceledAt ? `canceled ${when(run.canceledAt)}` : `finished ${when(run.completedAt)}`}
         {seconds !== null ? ` · ${seconds} s` : ""}
+      </dd>
+      <dt className="text-ink-muted">Evidence</dt>
+      <dd data-testid="evidence-note">
+        Sanitized. Each probe below shows its Kane run ID, the SHA-256 digest of its sealed evidence pack, and NIARVA&apos;s typed observations. The sealed pack itself stays private on the worker machine, because it can contain the token-scoped preview URL; it holds step records, screenshots, and run summaries, and no video. This report is a redacted derivative: it does not carry the pack&apos;s sealed integrity, so check a pack against its digest.
       </dd>
       <dt className="text-ink-muted">Reuse</dt>
       <dd>Every result in this report was produced by this run. Reusing an earlier proof never creates a run, and never counts toward recovery after a failure.</dd>
@@ -488,5 +496,6 @@ function RunReport({ run, context }: { run: Run; context: ReportContext }) {
         </>
       ) : null}
     </dl>
+    </section>
   );
 }

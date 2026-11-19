@@ -5,6 +5,7 @@ import { StatusBadge } from "@/components/composites/status-badge";
 import { cn } from "@/lib/cn";
 import type { FormState } from "@/server/services/state.service";
 import { api, ClientApiError } from "./api";
+import { formatDateTime } from "./format";
 import { FormPanel } from "./form-panel";
 import { IntentPanel } from "./intent-panel";
 import type { TraceFocus } from "./intent-trace";
@@ -237,7 +238,7 @@ function ResponsesPanel({ view, onPage, onRetry }: { view: ResponsesView; onPage
             {data.rows.map((row) => (
               <tr key={row.receiptCode} className="border-t border-line align-top">
                 <td className="py-2 font-mono">{row.receiptCode}</td>
-                <td className="whitespace-nowrap pr-3">{new Date(row.submittedAt).toLocaleString()}</td>
+                <td className="whitespace-nowrap pr-3"><time dateTime={row.submittedAt} title={`${row.submittedAt} (UTC)`}>{formatDateTime(row.submittedAt)}</time></td>
                 <td>v{row.versionNo}</td>
                 <td className="font-mono text-xs">{Object.entries(row.answers).map(([key, value]) => `${key}: ${String(value)}`).join(" · ")}</td>
               </tr>
