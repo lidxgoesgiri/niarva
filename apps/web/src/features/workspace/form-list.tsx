@@ -1,14 +1,15 @@
 "use client";
 
-import { LoaderCircle, Trash2 } from "lucide-react";
+import { ChevronRight, FileText, LoaderCircle, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { StatusBadge, type StatusKind } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
 import { api, ClientApiError } from "./api";
+import { formatDateTime } from "./format";
 
-export type FormListEntry = { id: string; title: string; slug: string; status: "draft" | "published" | "closed" | "archived" };
+export type FormListEntry = { id: string; title: string; slug: string; status: "draft" | "published" | "closed" | "archived"; updatedAt?: Date | string };
 
 const statusOf: Record<FormListEntry["status"], StatusKind> = {
   draft: "DRAFT",
@@ -48,11 +49,20 @@ function FormRow({ form, canDelete }: { form: FormListEntry; canDelete: boolean 
   }
 
   return (
-    <li className="rounded-xl border border-line bg-elevated transition-colors hover:border-line-active" data-testid="form-row" data-form-status={form.status}>
-      <div className="flex flex-wrap items-center justify-between gap-3 px-5 py-4">
-        <Link href={`/app/forms/${form.id}`} className="min-w-0 flex-1">
-          <span className="block truncate font-medium">{form.title}</span>
-          <span className="block font-mono text-xs text-ink-muted">/f/{form.slug}</span>
+    <li className="glass-card group rounded-xl transition-colors hover:border-line-active" data-testid="form-row" data-form-status={form.status}>
+      <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
+        <Link href={`/app/forms/${form.id}`} className="flex min-w-0 flex-1 items-center gap-3.5">
+          <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-raised/70">
+            <FileText aria-hidden="true" className="size-4 text-lavender" />
+          </span>
+          <span className="min-w-0">
+            <span className="block truncate font-medium">{form.title}</span>
+            <span className="block truncate font-mono text-xs text-ink-muted" suppressHydrationWarning>
+              /f/{form.slug}
+              {form.updatedAt ? ` · updated ${formatDateTime(typeof form.updatedAt === "string" ? form.updatedAt : form.updatedAt.toISOString())}` : ""}
+            </span>
+          </span>
+          <ChevronRight aria-hidden="true" className="ml-auto hidden size-4 text-ink-muted transition-transform group-hover:translate-x-0.5 sm:block" />
         </Link>
         <span className="flex items-center gap-2">
           <StatusBadge status={statusOf[form.status]} />

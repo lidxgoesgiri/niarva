@@ -119,3 +119,36 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* App backdrop: the landing's light and grid, quieter, behind sign-in and the workspace. Decorative only. */
+@layer components {
+  .app-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60rem 36rem at 12% -8%, rgba(184, 148, 250, 0.16), transparent 60%),
+      radial-gradient(52rem 32rem at 100% 0%, rgba(79, 108, 246, 0.14), transparent 62%),
+      radial-gradient(40rem 30rem at 50% 110%, rgba(52, 77, 208, 0.12), transparent 65%),
+      var(--color-canvas);
+  }
+  .app-backdrop::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(233, 237, 245, 0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(233, 237, 245, 0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at 50% 0%, black 0%, transparent 72%);
+  }
+  .glass-card {
+    background: linear-gradient(180deg, rgba(26, 36, 80, 0.72), rgba(19, 27, 58, 0.82));
+    border: 1px solid var(--color-line);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 24px 60px -32px rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(14px);
+  }
+}

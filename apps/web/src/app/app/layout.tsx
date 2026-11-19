@@ -18,7 +18,8 @@ export default async function WorkspaceLayout({ children }: { children: ReactNod
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="sticky top-0 z-40 border-b border-line bg-canvas/95 backdrop-blur-sm">
+      <div className="app-backdrop" aria-hidden="true" />
+      <header className="sticky top-0 z-40 border-b border-line bg-canvas/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6">
           <BrandMark href="/app" />
           <div className="flex items-center gap-2">

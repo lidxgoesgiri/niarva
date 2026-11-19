@@ -18,9 +18,24 @@ export default async function WorkspacePage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
-        <h1 className="text-3xl">Your forms</h1>
-        <p className="mt-1 text-sm text-ink-muted">Each form is published only after its exact version is proven in a real browser.</p>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p className="font-mono text-xs tracking-[0.18em] text-lavender">WORKSPACE</p>
+          <h1 className="mt-2 text-3xl sm:text-4xl">Your forms</h1>
+          <p className="mt-2 max-w-xl text-sm text-ink-muted">Each form is published only after its exact version is proven in a real browser.</p>
+        </div>
+        <dl className="flex gap-2" aria-label="Form summary">
+          {[
+            ["Forms", forms.length],
+            ["Published", forms.filter((form) => form.status === "published").length],
+            ["Drafts", forms.filter((form) => form.status === "draft").length],
+          ].map(([label, value]) => (
+            <div key={label} className="glass-card min-w-24 rounded-xl px-4 py-2.5">
+              <dt className="text-xs text-ink-muted">{label}</dt>
+              <dd className="font-heading text-2xl font-semibold">{value}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
 
       {showcase.length > 0 ? (

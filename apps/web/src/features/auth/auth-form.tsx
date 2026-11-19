@@ -1,6 +1,6 @@
 "use client";
 
-import { LoaderCircle } from "lucide-react";
+import { Eye, EyeOff, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useId, useState, type FormEvent } from "react";
@@ -10,9 +10,10 @@ import { authClient } from "@/lib/auth-client";
 
 type Mode = "sign-in" | "sign-up";
 
-const copy: Record<Mode, { title: string; submit: string; pending: string; alt: string; altHref: string; altLabel: string }> = {
+const copy: Record<Mode, { title: string; lead: string; submit: string; pending: string; alt: string; altHref: string; altLabel: string }> = {
   "sign-in": {
     title: "Sign in to NIARVA",
+    lead: "Your forms, their approved claims, and their browser proof are waiting.",
     submit: "Sign in",
     pending: "Signing in…",
     alt: "New to NIARVA?",
@@ -21,6 +22,7 @@ const copy: Record<Mode, { title: string; submit: string; pending: string; alt: 
   },
   "sign-up": {
     title: "Create your NIARVA account",
+    lead: "Your workspace is private. Start from the scholarship template to see the whole loop.",
     submit: "Create account",
     pending: "Creating account…",
     alt: "Already have an account?",
@@ -42,6 +44,7 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [showPassword, setShowPassword] = useState(false);
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -85,8 +88,9 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
   const describedBy = (key: string) => (fieldErrors[key] ? `${formId}-${key}-error` : undefined);
 
   return (
-    <div className="w-full max-w-md rounded-2xl border border-line bg-elevated p-6 sm:p-8">
+    <div className="glass-card w-full rounded-2xl p-6 sm:p-8">
       <h1 className="text-2xl">{text.title}</h1>
+      <p className="mt-2 text-sm text-ink-muted">{text.lead}</p>
       <form onSubmit={onSubmit} noValidate className="mt-6 flex flex-col gap-4" aria-busy={pending}>
         {mode === "sign-up" ? (
           <div className="flex flex-col gap-1.5">
@@ -126,14 +130,26 @@ export function AuthForm({ mode, next }: { mode: Mode; next?: string }) {
 
         <div className="flex flex-col gap-1.5">
           <Label htmlFor={`${formId}-password`}>Password</Label>
-          <Input
-            id={`${formId}-password`}
-            name="password"
-            type="password"
-            autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
-            aria-invalid={Boolean(fieldErrors.password)}
-            aria-describedby={describedBy("password")}
-          />
+          <div className="relative">
+            <Input
+              id={`${formId}-password`}
+              name="password"
+              type={showPassword ? "text" : "password"}
+              autoComplete={mode === "sign-up" ? "new-password" : "current-password"}
+              className="pr-12"
+              aria-invalid={Boolean(fieldErrors.password)}
+              aria-describedby={describedBy("password")}
+            />
+            <button
+              type="button"
+              className="absolute inset-y-0 right-1 my-auto grid size-10 place-items-center rounded-md text-ink-muted transition-colors hover:text-ink"
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              aria-pressed={showPassword}
+              onClick={() => setShowPassword((value) => !value)}
+            >
+              {showPassword ? <EyeOff aria-hidden="true" className="size-4" /> : <Eye aria-hidden="true" className="size-4" />}
+            </button>
+          </div>
           {fieldErrors.password ? (
             <p id={`${formId}-password-error`} className="text-sm text-fail">
               {fieldErrors.password}
