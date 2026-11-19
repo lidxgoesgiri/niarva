@@ -92,19 +92,29 @@ async function enforceKaneBudget(tx: DbOrTx, workspaceId: string, kaneProbes: nu
   const env = getEnv();
   await tx.execute(sql`select pg_advisory_xact_lock(hashtext('niarva:kane-probe-budget'))`);
   const since = new Date(Date.now() - BUDGET_WINDOW_MS);
+  // A probe counts while it can still spend credits or already did: it has at least one attempt
+  // that was not canceled (queued, leased, running, or finished). A probe canceled before any
+  // attempt ran spent nothing and frees its place.
   const queuedSince = (workspace?: string) =>
     tx
       .select({ n: count() })
       .from(probes)
       .innerJoin(verificationRuns, eq(probes.verificationRunId, verificationRuns.id))
-      .where(and(eq(probes.executor, "kane"), gte(verificationRuns.requestedAt, since), workspace ? eq(verificationRuns.workspaceId, workspace) : undefined));
+      .where(
+        and(
+          eq(probes.executor, "kane"),
+          gte(verificationRuns.requestedAt, since),
+          workspace ? eq(verificationRuns.workspaceId, workspace) : undefined,
+          sql`exists (select 1 from ${probeRuns} where ${probeRuns.probeId} = ${probes.id} and ${probeRuns.status} <> 'canceled')`,
+        ),
+      );
   const [[own], [all]] = await Promise.all([queuedSince(workspaceId), queuedSince()]);
   const ownCount = Number(own?.n ?? 0);
   const allCount = Number(all?.n ?? 0);
   if (ownCount + kaneProbes > env.KANE_PROBE_BUDGET_PER_WORKSPACE_24H) {
     throw new ApiError(
       "RATE_LIMITED",
-      `Browser verification budget reached: this workspace queued ${ownCount} Kane probes in the last 24 hours, this run needs ${kaneProbes} more, and the limit is ${env.KANE_PROBE_BUDGET_PER_WORKSPACE_24H}. Nothing was queued. Try again later.`,
+      `Browser verification budget reached: this workspace has ${ownCount} Kane probes queued or run in the last 24 hours (probes canceled before they ran are not counted), this run needs ${kaneProbes} more, and the limit is ${env.KANE_PROBE_BUDGET_PER_WORKSPACE_24H}. Nothing was queued. Try again later.`,
     );
   }
   if (allCount + kaneProbes > env.KANE_PROBE_BUDGET_GLOBAL_24H) {
