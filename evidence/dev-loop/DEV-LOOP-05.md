@@ -13,7 +13,7 @@
 
 ## 2. Diagnosis
 
-`getFormState` (`apps/web/src/server/services/state.service.ts`) loaded runs and repair proposals for the **latest version only**. After the approved repair created v2, the seeded v1 kept its diagnostic run (Kane reported `passed`, NIARVA judged FAIL at GPA 3.50) and the applied repair in the database. However, nothing in the workspace showed them; the lineage line was the only trace. The golden case could not be followed from the mismatch to the current proof, for the owner or for a judge. That contradicts FR-18 (judges inspect run IDs, objective, expected and observed, pack, and version lineage) and the judge path in the master PRD §15.
+`getFormState` (`apps/web/src/server/services/state.service.ts`) loaded runs and repair proposals for the **latest version only**. After the approved repair created v2, the seeded v1 kept its diagnostic run (Kane reported `passed`, NIARVA judged FAIL at GPA 3.50) and the applied repair in the database. However, nothing in the workspace showed them; the lineage line was the only trace. The golden case could not be followed from the mismatch to the current proof, for the owner or for a judge. That contradicts FR-18 (judges inspect run IDs, objective, expected and observed, pack, and version lineage) and NIARVA's judge path.
 
 Classification: source defect in NIARVA (evidence visibility across versions).
 

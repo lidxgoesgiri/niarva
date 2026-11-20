@@ -75,3 +75,6 @@ CLAUDE.md
 # Kane CLI recordings (replay caches, raw action tapes, screenshots) stay local.
 # Authored tests (*_test.md) are tracked; their evidence is recorded by digest under evidence/.
 .testmuai/tests/output-*/
+
+# Internal coordination between the owner and the coding agents stays local.
+/docs/collaboration/
