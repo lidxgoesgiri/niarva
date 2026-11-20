@@ -47,6 +47,8 @@ Add **`OPENROUTER_API_KEY` yourself** in Vercel; the script never reads or write
 
 To rotate every secret later, run the script again with `--force` and re-import the file.
 
+**Kane credit budget.** Sign-up is open on a public deployment, and every browser probe spends Kane credits from the operator's account. The backend therefore refuses a new verification run with `429 RATE_LIMITED`, queuing nothing, when its Kane probes would exceed the rolling 24-hour budget. `KANE_PROBE_BUDGET_PER_WORKSPACE_24H` (default 24, about three complete golden loops) caps one workspace, and `KANE_PROBE_BUDGET_GLOBAL_24H` (default 48) caps the whole deployment. Cached and already-queued runs are never refused. A probe counts while it is queued, running, or has run; a probe canceled before it ran spent nothing and is not counted, so canceling a queued run frees its places. Set either value to `0` to stop new browser verification. A changed value takes effect with the next deployment.
+
 ## 4. Deploy and smoke check
 
 Merging to `main` deploys to production. A deployment of the current `main` can also be requested from the CLI without uploading local files, using the connected GitHub repository (`gitSource` in `POST /v13/deployments`, sent with `vercel api`). Then check:
@@ -75,6 +77,13 @@ Browser proof is bound to the environment: proofs made on a local server do not 
 ## 6. Judge access
 
 Give judges a synthetic demo account through the official private channel, never the owner's credentials. Evidence packs and raw Kane streams stay on the worker machine; the app shows digests, Kane session ids, and sanitized observations.
+
+Scoped judge access:
+
+1. Create the account: `pnpm seed:judge https://<your-domain> --showcase <form id>[,<form id>]`. It creates `judge@niarva.test` with a generated password, stores the password only in the gitignored `.testmuai/variables/assurance.json` (`scoped_judge_password`), and prints the three settings below.
+2. In Vercel → Settings → Environment Variables (Production), set `DEMO_MODE=true`, `DEMO_JUDGE_EMAILS=judge@niarva.test`, and `DEMO_SHOWCASE_FORM_IDS` to the showcase form ids, for example the form of the recorded production loop. Redeploy.
+3. Signed in, the judge sees **Demo examples (read-only)** above their own forms. A showcase form opens with every claim, version, run, observation, and the gate, marked **Demo example · read-only**. Every change is refused by the backend (`404`, as for any foreign form), and response answers stay visible to the owner only. The judge's own workspace works like any creator's, within the Kane credit budget.
+4. Hand the email and password to judges in the submission form only.
 
 ## 7. Limits
 

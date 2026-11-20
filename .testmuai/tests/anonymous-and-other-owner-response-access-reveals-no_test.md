@@ -1,7 +1,7 @@
 ---
 assurance:
   id: t-48
-  base: sha256:e4e2dc5804351cea8a2091c0145b32a89335ea6cd2f852c00665ac6af7414414
+  base: sha256:283526fad4f0a570786d35b49d7625370317d2208e7821bd63869ee986309f9f
 ---
 # Anonymous and other-owner response access reveals no responses
 

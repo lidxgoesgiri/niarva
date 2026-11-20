@@ -40,6 +40,27 @@ const envSchema = z.object({
 
   /** Mandatory Kane probes allowed per full verification before the request is rejected. */
   KANE_MAX_RUNS_PER_VERIFICATION: z.coerce.number().int().min(1).max(50).default(10),
+  /**
+   * Kane browser probes one workspace may queue in a rolling 24 hours. Every probe spends Kane
+   * credits from the operator's account, so a public deployment must cap it. 0 disables new
+   * browser verification.
+   */
+  KANE_PROBE_BUDGET_PER_WORKSPACE_24H: z.coerce.number().int().min(0).max(100_000).default(24),
+  /** Kane browser probes the whole deployment may queue in a rolling 24 hours. */
+  KANE_PROBE_BUDGET_GLOBAL_24H: z.coerce.number().int().min(0).max(100_000).default(48),
+  /**
+   * Test-only fault injection for the owner's responses endpoint, used by the Kane tests of the
+   * responses view's error and loading states. Comma-separated `error:<formId>` and
+   * `delay:<formId>` entries. Ignored on the production environment (`vercel-production`).
+   */
+  NIARVA_TEST_RESPONSE_FAULTS: z.string().max(2000).optional(),
+  /**
+   * Judge accounts (comma-separated emails). With `DEMO_MODE=true` they may read, never change,
+   * the forms in `DEMO_SHOWCASE_FORM_IDS`; their own workspace works like any creator's.
+   */
+  DEMO_JUDGE_EMAILS: z.string().max(2000).optional(),
+  /** Forms judges may read (comma-separated form ids), for example the recorded golden case. */
+  DEMO_SHOWCASE_FORM_IDS: z.string().max(2000).optional(),
   /** Enables the seeded demo account and the labeled golden scenario. */
   DEMO_MODE: z
     .enum(["true", "false"])

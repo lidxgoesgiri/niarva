@@ -56,6 +56,9 @@ export async function bootTestApp(): Promise<{ db: Db; driver: "pg" | "pglite"; 
     BETTER_AUTH_SECRET: "test-only-better-auth-secret-0123456789abcdef",
     PREVIEW_TOKEN_SECRET: "test-only-preview-token-secret-0123456789abcd",
     IP_HASH_SECRET: "test-only-ip-hash-secret-0123456789abcdefghij",
+    // The credit budget has its own test (kane-budget.test.ts); other flows queue many runs.
+    KANE_PROBE_BUDGET_PER_WORKSPACE_24H: "10000",
+    KANE_PROBE_BUDGET_GLOBAL_24H: "10000",
   });
   resetEnvCache();
   resetAuthForTests();

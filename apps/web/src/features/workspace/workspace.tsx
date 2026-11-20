@@ -5,8 +5,10 @@ import { StatusBadge } from "@/components/composites/status-badge";
 import { cn } from "@/lib/cn";
 import type { FormState } from "@/server/services/state.service";
 import { api, ClientApiError } from "./api";
+import { formatDateTime } from "./format";
 import { FormPanel } from "./form-panel";
 import { IntentPanel } from "./intent-panel";
+import { ProgressSteps } from "./progress-steps";
 import type { TraceFocus } from "./intent-trace";
 import { VerifyPanel } from "./verify-panel";
 
@@ -18,15 +20,23 @@ const STAGES: { id: Stage; label: string }[] = [
   { id: "responses", label: "Responses" },
 ];
 
-type Responses = { total: number; rows: { receiptCode: string; submittedAt: string; versionNo: number; answers: Record<string, unknown> }[] };
+type ResponseRow = { receiptCode: string; submittedAt: string; versionNo: number; answers: Record<string, unknown> };
+type Responses = { total: number; page: number; pageSize: number; rows: ResponseRow[] };
+/** What the responses view shows: a failed retrieval is an error, never an empty list. */
+type ResponsesView = { status: "loading" } | { status: "error"; message: string } | { status: "ready"; data: Responses };
 
 export function Workspace({ initial }: { initial: FormState }) {
   const [state, setState] = useState(initial);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState<{ tone: "error" | "info"; text: string; reasons?: string[] } | null>(null);
   const [stage, setStage] = useState<Stage>(initial.version ? "verify" : "intent");
-  const [responses, setResponses] = useState<Responses | null>(null);
+  const [responses, setResponses] = useState<{ key: string; view: ResponsesView } | null>(null);
+  const [responsesPage, setResponsesPage] = useState(1);
+  const [responsesAttempt, setResponsesAttempt] = useState(0);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
+  // A judge reading a demo showcase form: everything is visible, every change is refused here
+  // and, independently, by the backend.
+  const readOnly = state.access === "judge";
   const [traceFocus, setTraceFocus] = useState<TraceFocus>(null);
 
   // Opens a claim's Intent Trace in the verification workspace (a tab below xl, a column on xl).
@@ -50,13 +60,32 @@ export function Workspace({ initial }: { initial: FormState }) {
     return () => clearInterval(timer);
   }, [active, refresh]);
 
+  // A view belongs to one request (form, page, attempt, response count); until that request settles
+  // the view is loading, and a failed request is shown as an error, never as an empty list.
+  const responsesKey = `${initial.form.id}|${responsesPage}|${responsesAttempt}|${state.responses}`;
   useEffect(() => {
-    if (stage !== "responses") return;
-    api<Responses>(`/api/v1/forms/${initial.form.id}/responses`).then(setResponses).catch(() => setResponses({ total: 0, rows: [] }));
-  }, [stage, initial.form.id, state.responses]);
+    if (stage !== "responses" || readOnly) return;
+    let current = true;
+    api<Responses>(`/api/v1/forms/${initial.form.id}/responses?page=${responsesPage}`)
+      .then((data) => {
+        if (current) setResponses({ key: responsesKey, view: { status: "ready", data } });
+      })
+      .catch((error: unknown) => {
+        const message = error instanceof ClientApiError ? error.message : "The request did not complete.";
+        if (current) setResponses({ key: responsesKey, view: { status: "error", message } });
+      });
+    return () => {
+      current = false;
+    };
+  }, [stage, readOnly, initial.form.id, responsesKey, responsesPage]);
+  const responsesView: ResponsesView = responses?.key === responsesKey ? responses.view : { status: "loading" };
 
   const onAction = useCallback(
     async (path: string, body?: unknown, method = "POST") => {
+      if (readOnly) {
+        setMessage({ tone: "info", text: "This demo example is read-only. Create your own form from the template on the forms page to try every step." });
+        return false;
+      }
       setBusy(true);
       setMessage(null);
       try {
@@ -73,7 +102,7 @@ export function Workspace({ initial }: { initial: FormState }) {
         setBusy(false);
       }
     },
-    [refresh],
+    [readOnly, refresh],
   );
 
   const panel = (id: Stage) => {
@@ -85,7 +114,13 @@ export function Workspace({ initial }: { initial: FormState }) {
       case "verify":
         return <VerifyPanel state={state} busy={busy} onAction={onAction} traceFocus={traceFocus} />;
       case "responses":
-        return <ResponsesPanel data={responses} />;
+        if (readOnly)
+          return (
+            <p data-testid="responses-owner-only" className="rounded-xl border border-dashed border-line-strong p-6 text-center text-sm text-ink-muted">
+              Responses are visible to the form owner only. This form has recorded {state.responses} {state.responses === 1 ? "response" : "responses"}.
+            </p>
+          );
+        return <ResponsesPanel view={responsesView} onPage={setResponsesPage} onRetry={() => setResponsesAttempt((attempt) => attempt + 1)} />;
     }
   };
 
@@ -109,6 +144,18 @@ export function Workspace({ initial }: { initial: FormState }) {
           {state.gate.eligible ? <StatusBadge status="VERIFIED" label="Ready to publish" /> : <StatusBadge status="BLOCKED" label="Not publishable" />}
         </div>
       </header>
+
+      <ProgressSteps state={state} />
+
+      {readOnly ? (
+        <div role="note" data-testid="demo-read-only" className="rounded-xl border border-sapphire/40 bg-sapphire/10 px-4 py-3 text-sm">
+          <p className="font-medium">Demo example · read-only</p>
+          <p className="mt-1 text-ink-muted">
+            A synthetic scholarship form with its recorded proof. Inspect every claim, version, run, and observation; changes are refused. To try every step yourself,{" "}
+            <a href="/app" className="text-lavender underline underline-offset-4">create a form from the template</a>.
+          </p>
+        </div>
+      ) : null}
 
       <div aria-live="polite" className="min-h-0">
         {message ? (
@@ -167,25 +214,56 @@ export function Workspace({ initial }: { initial: FormState }) {
   );
 }
 
-function ResponsesPanel({ data }: { data: Responses | null }) {
-  if (!data) return <p className="text-sm text-ink-muted">Loading responses…</p>;
+function ResponsesPanel({ view, onPage, onRetry }: { view: ResponsesView; onPage: (page: number) => void; onRetry: () => void }) {
+  if (view.status === "loading") return <p role="status" className="text-sm text-ink-muted">Loading responses…</p>;
+  if (view.status === "error")
+    return (
+      <div role="alert" className="rounded-xl border border-fail/40 bg-fail/10 px-4 py-3 text-sm">
+        <p className="font-medium">Responses could not be loaded.</p>
+        <p className="mt-1 text-ink-muted">{view.message} No responses are shown until they load.</p>
+        <button type="button" className="mt-2 text-xs text-lavender underline underline-offset-4" onClick={onRetry}>
+          Try again
+        </button>
+      </div>
+    );
+  const { data } = view;
   if (data.total === 0) return <p className="rounded-xl border border-dashed border-line-strong p-6 text-center text-sm text-ink-muted">No responses yet. They appear here after the form is published.</p>;
+  const pages = Math.max(1, Math.ceil(data.total / data.pageSize));
+  const first = (data.page - 1) * data.pageSize + 1;
+  const last = first + data.rows.length - 1;
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left text-sm">
-        <caption className="sr-only">Responses</caption>
-        <thead><tr className="text-xs text-ink-muted"><th className="py-2 font-normal">Receipt</th><th className="font-normal">Submitted</th><th className="font-normal">Version</th><th className="font-normal">Answers</th></tr></thead>
-        <tbody>
-          {data.rows.map((row) => (
-            <tr key={row.receiptCode} className="border-t border-line align-top">
-              <td className="py-2 font-mono">{row.receiptCode}</td>
-              <td className="whitespace-nowrap pr-3">{new Date(row.submittedAt).toLocaleString()}</td>
-              <td>v{row.versionNo}</td>
-              <td className="font-mono text-xs">{Object.entries(row.answers).map(([key, value]) => `${key}: ${String(value)}`).join(" · ")}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-left text-sm">
+          <caption className="sr-only">Responses, page {data.page} of {pages}</caption>
+          <thead><tr className="text-xs text-ink-muted"><th className="py-2 font-normal">Receipt</th><th className="font-normal">Submitted</th><th className="font-normal">Version</th><th className="font-normal">Answers</th></tr></thead>
+          <tbody>
+            {data.rows.map((row) => (
+              <tr key={row.receiptCode} className="border-t border-line align-top">
+                <td className="py-2 font-mono">{row.receiptCode}</td>
+                <td className="whitespace-nowrap pr-3"><time dateTime={row.submittedAt} title={`${row.submittedAt} (UTC)`}>{formatDateTime(row.submittedAt)}</time></td>
+                <td>v{row.versionNo}</td>
+                <td className="font-mono text-xs">{Object.entries(row.answers).map(([key, value]) => `${key}: ${String(value)}`).join(" · ")}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <nav aria-label="Response pages" className="mt-3 flex flex-wrap items-center justify-between gap-2 text-xs text-ink-muted">
+        <span aria-live="polite">
+          Showing {first}–{last} of {data.total} · Page {data.page} of {pages}
+        </span>
+        {pages > 1 ? (
+          <span className="flex gap-3">
+            <button type="button" className="text-lavender underline underline-offset-4 disabled:text-ink-muted disabled:no-underline" disabled={data.page <= 1} onClick={() => onPage(data.page - 1)}>
+              Previous page
+            </button>
+            <button type="button" className="text-lavender underline underline-offset-4 disabled:text-ink-muted disabled:no-underline" disabled={data.page >= pages} onClick={() => onPage(data.page + 1)}>
+              Next page
+            </button>
+          </span>
+        ) : null}
+      </nav>
     </div>
   );
 }

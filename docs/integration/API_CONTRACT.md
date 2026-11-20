@@ -28,6 +28,7 @@ All creator endpoints need a signed-in session and a same-origin `Origin` header
 | POST | `/forms/{formId}/runs/{runId}/cancel` | `{}` | run canceled |
 | POST / DELETE | `/forms/{formId}/publish` | `{ versionId, acknowledgedWarningKeys }` | `201 { slug }` or `409` with gate `reasons` |
 | GET | `/forms/{formId}/responses` | — | `{ total, rows }` |
+| DELETE | `/forms/{formId}` | — (same origin) | `{ deleted: true }`; archives an unpublished draft. `409` for a published form or a queued or running verification; `404` afterwards and for foreign forms |
 | POST | `/preview/{versionId}/submissions?t=<token>` | `{ submissionId, formVersionId, answers }` | preview receipt (scoped token only) |
 | POST | `/public/forms/{slug}/submissions` | `{ submissionId, formVersionId, answers }` | `201 { receiptCode }`; identical retry returns the first receipt |
 | GET | `/health` | — | liveness |
@@ -107,6 +108,11 @@ Keep these attributes and visible texts; Kane tests read them.
 - Intent Trace: `data-testid="intent-trace"`, heading text "Intent Trace", `data-trace-claim` + `data-static` + `data-browser`, `data-testid="trace-source" | "trace-expectation" | "trace-boundary" | "trace-discrepancy" | "trace-consequence" | "trace-browser-note" | "trace-coverage" | "trace-unrequested"`.
 - Visible texts relied on: "Seeded defect for demonstration", "Intent Trace", "Static checks passed", "Publishing blocked", "Ready to publish".
 - Form renderer: `data-field`, `data-rule`, `data-testid="form-footer" | "version-label" | "receipt-code" | "confirmation"`.
+- Judge access: the form state carries `access` (`owner` or `judge`). A judge on a showcase form sees `data-testid="demo-read-only"` (text "Demo example · read-only") and, under Responses, `data-testid="responses-owner-only"`; the forms page lists showcase forms under the heading "Demo examples (read-only)".
+- Forms list: each row is `data-testid="form-row"` with `data-form-status`; draft rows of the owner have a **Delete** button (`aria-label` "Delete draft {title}"), then an inline confirmation with **Cancel** and **Delete draft**.
+- Builder: **Add a rule** opens `fieldset[data-testid="add-rule"]` (labels Then, Field, When, Operator, Value; buttons **Add rule** and **Cancel**); an unsaved added rule shows "New, not saved" and **Remove**.
+- Owner responses view (t-49 to t-53): visible texts "Loading responses…" (`role="status"`), "Responses could not be loaded." with a **Try again** button (`role="alert"`), "No responses yet. They appear here after the form is published.", "Showing {first}–{last} of {total} · Page {page} of {pages}", and the **Previous page** / **Next page** buttons inside `nav[aria-label="Response pages"]`. A failed request must never render the empty state.
+- Test-only fault hook (never active on `vercel-production`): `NIARVA_TEST_RESPONSE_FAULTS=error:<formId>,delay:<formId>` makes the owner's `GET /forms/{formId}/responses` fail with `500 INTERNAL` or answer after 25 s, after the ownership check.
 
 ## 5. Change log
 
@@ -116,6 +122,7 @@ Keep these attributes and visible texts; Kane tests read them.
 | `5411b9f` | `buildIntentTrace`, `claimBrowserStatus`, `conditionDsl`, `ruleDsl`, `claimDsl` exported from `@niarva/core` | none (additive) |
 | `e860ecf` | `intentTrace` and `intentTraceNote` added to the form state; `IntentTrace` component; `onOpenTrace` / `traceFocus` props | additive; the verification column now starts with the ledger |
 | (this branch, after `e860ecf`) | Version identity header in `VerifyPanel` (`data-testid="version-identity"`) | additive; restyle freely but keep the four facts and the hook |
+| `5fa1af1` | Owner responses view: loading / error / ready per request, **Try again**, page range and Previous/Next page controls (DEV-LOOP-04) | keep the texts and roles listed in §4; restyle freely |
 
 ## 6. Local environments during parallel work
 

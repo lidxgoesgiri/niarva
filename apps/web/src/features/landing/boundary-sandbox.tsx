@@ -79,6 +79,7 @@ export function BoundarySandbox() {
   return (
     <section
       id="golden-case"
+      tabIndex={-1}
       aria-labelledby="sandbox-title"
       className={styles.sandbox}
       data-scroll-card

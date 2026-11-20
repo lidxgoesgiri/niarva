@@ -44,6 +44,10 @@
 
 The renderer submits with an ordinary `fetch` POST and renders the receipt on the same page; nothing in the product prevents request capture. These outcomes stay FAIL in every count: an inconclusive run is never a pass. Kane suggested editing the tests; that was declined. The tests are the oracle and were designed and approved through Assurance.
 
+## Retests
+
+t-7 and t-8 were run again on 18 November 2026 (06:50 and 07:01 UTC, batch `retest-after-fixes`) with their original test files. Both are **FAIL** again for the same reason (Kane did not retain the completed submit request). The records and classification are in [`C-04-C-05-security-and-honesty.md`](C-04-C-05-security-and-honesty.md#retests-after-the-fixes). The owner-approved rewording of t-7 and t-10 has not been executed yet.
+
 ## Not run yet
 
 t-9 and t-12 need a second published form and a republished, newly verified version (two more full verifications). t-19, t-22, and t-31 need a verified, unpublished owned form (one more full verification each, or a dedicated fixture).

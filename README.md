@@ -81,7 +81,7 @@ AI drafting is optional: set `OPENROUTER_API_KEY` and `OPENROUTER_MODEL` (one mo
 
 The web app deploys to Vercel with a Postgres database; the verification worker, Kane CLI, and Chrome stay on a separate machine and connect over HTTPS. Step-by-step guide: [`docs/deployment/VERCEL.md`](docs/deployment/VERCEL.md).
 
-Live deployment: **https://niarva.vercel.app** (from `main`, Neon Postgres, environment id `vercel-production`). The deployment record, the production closed loop verified with Kane CLI, and the Kane smoke results are in [`evidence/deploy/VERCEL-PROD-01.md`](evidence/deploy/VERCEL-PROD-01.md). Browser verification only progresses while the worker machine is running.
+Live deployment: **https://niarva.vercel.app** (from `main`, Neon Postgres, environment id `vercel-production`). The deployment record, the production closed loop verified with Kane CLI, and the Kane smoke results are in [`evidence/deploy/VERCEL-PROD-01.md`](evidence/deploy/VERCEL-PROD-01.md). Browser verification only progresses while the worker machine is running. Judges can use a synthetic account with read-only access to the recorded golden case; its credentials are provided in the submission form only (setup: [`docs/deployment/VERCEL.md`](docs/deployment/VERCEL.md) §6).
 
 ## Environment variables
 
@@ -102,9 +102,26 @@ See [`.env.example`](.env.example). Secrets (`BETTER_AUTH_SECRET`, `PREVIEW_TOKE
 - [`evidence/dev-loop/`](evidence/dev-loop): development closed loop. [`DEV-LOOP-01.md`](evidence/dev-loop/DEV-LOOP-01.md) records a real Kane CLI failure, the source repair, and the same test passing again. [`regression.md`](evidence/dev-loop/regression.md) lists every regression run after it, including failures, runs that never started, and which steps Kane replayed.
 - [`evidence/product-loop/PROD-LOOP-01.md`](evidence/product-loop/PROD-LOOP-01.md): product closed loop with a real worker and Kane CLI. The seeded `gt` defect is confirmed in a real browser (Kane reported `passed`; NIARVA judged FAIL from its observations), the creator approves a bounded repair, publishing is refused before proof, the fresh full suite is VERIFIED (8/8), publishing then succeeds, and a respondent receives a receipt. Failed and interrupted attempts are listed too.
 - [`evidence/dev-loop/DEV-LOOP-02.md`](evidence/dev-loop/DEV-LOOP-02.md): a Kane UNKNOWN found during product verification, the repair of NIARVA's probe objectives, and the same probe passing again.
+- [`evidence/dev-loop/DEV-LOOP-03.md`](evidence/dev-loop/DEV-LOOP-03.md): a Kane security test typed `alert(1)` into a numeric rule; the edit was stored and the workspace then failed with HTTP 500. The source was repaired, and the repair is proven by native integration tests. The Kane rerun of that test has not passed yet: it failed while replaying a stale recording (see the Assurance records below).
+- [`evidence/dev-loop/DEV-LOOP-04.md`](evidence/dev-loop/DEV-LOOP-04.md): a Kane test found that a failed responses request made the owner's view say "No responses yet". The source was repaired (error state with Try again, plus paging), and the same test passed.
+- [`evidence/dev-loop/DEV-LOOP-05.md`](evidence/dev-loop/DEV-LOOP-05.md): Kane, signed in as the scoped judge on the live deployment, found that after a repair the seeded version's failing proof was no longer visible. The source was repaired (earlier versions keep their runs and repairs), and the same test passed on the redeployed site.
+- [`evidence/dev-loop/DEV-LOOP-06.md`](evidence/dev-loop/DEV-LOOP-06.md): a Kane test could not add a rule in the builder, because the builder had no way to add one. The source was repaired ("Add a rule"), and the same test passed; the added rule is flagged as unrequested against the approved claims.
+- [`evidence/assurance/PROD-ASSURANCE-01.md`](evidence/assurance/PROD-ASSURANCE-01.md): every Assurance-designed test run on the live deployment on 18 November, including failures, runs that never started, and how each FAIL was classified.
+- [`evidence/deploy/VERCEL-PROD-01.md`](evidence/deploy/VERCEL-PROD-01.md): the product closed loop on the live deployment (VERIFIED 8/8, publish 409 before proof and 201 after, receipt `VCBFQ6AM`) and the Kane smoke tests on the deployment, including the blocked first batch.
+- [`evidence/fresh-clone/FRESH-CLONE-01.md`](evidence/fresh-clone/FRESH-CLONE-01.md): the quick start above, run from a fresh public clone without credentials.
+- [`evidence/assurance/`](evidence/assurance): Kane Assurance-designed tests for publishing, respondents, access security, and verification honesty, with every FAIL and its classification.
 - [`docs/testing/`](docs/testing): how testing is organized, the Test Manager consolidation, test case mapping, every Kane execution, defect traceability, and an evidence index that leads from each claim to its execution.
 - All new Kane CLI sessions go to one Test Manager project, **NIARVA intent verification** (`01M7N0CKZ90R3JR906713EHYW0`); the runners refuse any other project. Sessions from 17 November 2026, including the M0 lab, stay in the account's default project "KaneAI Generated" as the historical record. Two runs made after the profile was switched still landed there because their tests had recordings bound to it; see [`docs/testing/MIGRATION_REPORT.md`](docs/testing/MIGRATION_REPORT.md).
 - [`docs/integration/API_CONTRACT.md`](docs/integration/API_CONTRACT.md): the HTTP API, the form-state contract, shared components, and the hooks Kane tests rely on.
+
+## Verification status
+
+What Kane CLI has proven, and what it has not. Details and run IDs: [`docs/testing/KANE_EXECUTION_REPORT.md`](docs/testing/KANE_EXECUTION_REPORT.md).
+
+- **Proven in a real browser, judged by NIARVA:** the golden scholarship loop, both locally and on the live deployment. The seeded `gt` defect is confirmed at GPA 3.50, a repair is approved with unchanged claims, the full suite is VERIFIED 8/8, publishing is refused before proof and accepted after it, and a respondent receives a receipt.
+- **Assurance-designed tests (64 in total):** by latest recorded run, **25 PASS, 15 FAIL, 24 NOT RUN**. Most FAILs are inconclusive: Kane could not capture a request that had already completed, could not make an authenticated API call, or did not finish its own check. They still count as FAIL. Where the same behavior is covered by native integration tests or the server contract probe, that coverage is listed separately and is not counted as Kane proof.
+- **Proven by Kane as the scoped judge on the live deployment:** entering the demo without any provider secret, following the seeded `gt` mismatch to its failed report with run ID, objective, expected and observed, pack reference, and lineage, and inspecting the provenance of the real VERIFIED run ([`PROD-ASSURANCE-01`](evidence/assurance/PROD-ASSURANCE-01.md)).
+- **Not proven by Kane:** layouts narrower than 800 px, reduced motion, browser zoom, AI intake and provider outage, and paging of the owner's responses. The responses view's error, loading, and empty states are proven on a local build only.
 
 ## Security notes and limitations
 

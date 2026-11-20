@@ -21,7 +21,7 @@ import {
   type ServerEvidenceSpec,
   type Stage,
 } from "@niarva/core";
-import { and, asc, desc, eq, inArray, lt } from "drizzle-orm";
+import { and, asc, count, desc, eq, gte, inArray, lt, sql } from "drizzle-orm";
 import { z } from "zod";
 import { getEnv } from "../config/env";
 import type { Actor } from "../context/session";
@@ -77,6 +77,52 @@ export async function fullRunHistory(tx: DbOrTx, versionId: string, key: string)
     .from(verificationRuns)
     .where(and(eq(verificationRuns.formVersionId, versionId), eq(verificationRuns.mode, "full"), eq(verificationRuns.verificationKey, key)))
     .orderBy(asc(verificationRuns.requestedAt));
+}
+
+const BUDGET_WINDOW_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Refuses a new run whose Kane probes would exceed the rolling 24-hour budget of the workspace or
+ * of the whole deployment. Kane probes spend the operator's credits; HTTP probes are free and are
+ * not counted. A transaction-scoped advisory lock serializes concurrent requests, so two requests
+ * cannot both pass on the same remaining budget.
+ */
+async function enforceKaneBudget(tx: DbOrTx, workspaceId: string, kaneProbes: number): Promise<void> {
+  if (kaneProbes === 0) return;
+  const env = getEnv();
+  await tx.execute(sql`select pg_advisory_xact_lock(hashtext('niarva:kane-probe-budget'))`);
+  const since = new Date(Date.now() - BUDGET_WINDOW_MS);
+  // A probe counts while it can still spend credits or already did: it has at least one attempt
+  // that was not canceled (queued, leased, running, or finished). A probe canceled before any
+  // attempt ran spent nothing and frees its place.
+  const queuedSince = (workspace?: string) =>
+    tx
+      .select({ n: count() })
+      .from(probes)
+      .innerJoin(verificationRuns, eq(probes.verificationRunId, verificationRuns.id))
+      .where(
+        and(
+          eq(probes.executor, "kane"),
+          gte(verificationRuns.requestedAt, since),
+          workspace ? eq(verificationRuns.workspaceId, workspace) : undefined,
+          sql`exists (select 1 from ${probeRuns} where ${probeRuns.probeId} = ${probes.id} and ${probeRuns.status} <> 'canceled')`,
+        ),
+      );
+  const [[own], [all]] = await Promise.all([queuedSince(workspaceId), queuedSince()]);
+  const ownCount = Number(own?.n ?? 0);
+  const allCount = Number(all?.n ?? 0);
+  if (ownCount + kaneProbes > env.KANE_PROBE_BUDGET_PER_WORKSPACE_24H) {
+    throw new ApiError(
+      "RATE_LIMITED",
+      `Browser verification budget reached: this workspace has ${ownCount} Kane probes queued or run in the last 24 hours (probes canceled before they ran are not counted), this run needs ${kaneProbes} more, and the limit is ${env.KANE_PROBE_BUDGET_PER_WORKSPACE_24H}. Nothing was queued. Try again later.`,
+    );
+  }
+  if (allCount + kaneProbes > env.KANE_PROBE_BUDGET_GLOBAL_24H) {
+    throw new ApiError(
+      "RATE_LIMITED",
+      "This deployment's browser verification budget for the last 24 hours is used up. Nothing was queued. Try again later; recorded evidence stays available.",
+    );
+  }
 }
 
 export const requestVerificationInput = z.object({
@@ -139,6 +185,8 @@ export async function requestVerification(actor: Actor, formId: string, versionI
         .where(and(eq(verificationRuns.formVersionId, version.id), eq(verificationRuns.verificationKey, key), inArray(verificationRuns.state, ["QUEUED", "RUNNING"])));
       if (active) return { runId: active.id, cached: false, deduplicated: true };
     }
+
+    await enforceKaneBudget(tx, actor.workspaceId, specs.filter((spec) => spec.executor === "kane").length);
 
     const runId = uuidv7();
     await tx.insert(verificationRuns).values({

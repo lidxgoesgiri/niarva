@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/composites/status-badge";
 import { Button } from "@/components/ui/button";
 import { Input, Label } from "@/components/ui/input";
 import type { FormState } from "@/server/services/state.service";
+import { AddRule } from "./add-rule";
 
 const OP_SYMBOL: Record<CmpOp, string> = { eq: "=", neq: "≠", gt: ">", gte: "≥", lt: "<", lte: "≤" };
 const ORIGIN_TEXT: Record<string, string> = {
@@ -44,6 +45,7 @@ export function FormPanel({ state, busy, onAction }: { state: FormState; busy: b
     );
   }
 
+  const savedRuleIds = new Set((version.definition as FormDefinition).rules.map((rule) => rule.id));
   const setRule = (id: string, patch: (rule: Rule) => Rule) => setDraft((current) => (current ? { ...current, rules: current.rules.map((rule) => (rule.id === id ? patch(rule) : rule)) } : current));
 
   return (
@@ -85,6 +87,14 @@ export function FormPanel({ state, busy, onAction }: { state: FormState; busy: b
             <div key={rule.id} data-rule={rule.id} className="rounded-xl border border-line bg-canvas/60 p-3">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="font-mono text-xs text-ink-muted">{rule.id}</span>
+                {savedRuleIds.has(rule.id) ? null : (
+                  <>
+                    <span className="rounded-md bg-sapphire/15 px-2 py-0.5 text-xs">New, not saved</span>
+                    <Button size="sm" variant="ghost" onClick={() => setDraft((current) => current && { ...current, rules: current.rules.filter((other) => other.id !== rule.id) })}>
+                      Remove
+                    </Button>
+                  </>
+                )}
                 {trace?.status === "supported" ? <StatusBadge status="STATIC_PASS" label={`Supports ${trace.servesClaims.join(", ")}`} /> : null}
                 {trace?.status === "conflicting" ? <StatusBadge status="FAILED" label="Differs from approved claim" /> : null}
                 {trace?.status === "unrequested" ? <StatusBadge status="BLOCKED" label="No claim asks for this" /> : null}
@@ -109,6 +119,7 @@ export function FormPanel({ state, busy, onAction }: { state: FormState; busy: b
             </div>
           );
         })}
+        <AddRule fields={draft.fields} disabled={busy} onAdd={(rule) => setDraft((current) => current && { ...current, rules: [...current.rules, rule] })} />
       </section>
 
       {dirty ? (

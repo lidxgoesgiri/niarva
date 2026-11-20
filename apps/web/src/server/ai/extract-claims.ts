@@ -109,7 +109,7 @@ export async function extractClaims(prompt: string): Promise<ExtractionOutcome> 
     return { ok: false, code: "PROVIDER_UNAVAILABLE", message: "AI drafting is not configured on this deployment. Start from a template or write the claims manually.", inputHash, attempts: 0 };
   }
   const started = Date.now();
-  let lastError: Exclude<ExtractionOutcome, { ok: true }>["code"] = "INVALID_OUTPUT";
+  const failures: FailureCode[] = [];
   const attempts = models.slice(0, MAX_MODEL_ATTEMPTS);
   for (const [index, model] of attempts.entries()) {
     const attempt = index + 1;
@@ -136,11 +136,12 @@ export async function extractClaims(prompt: string): Promise<ExtractionOutcome> 
         }),
       });
       if (response.status === 429) {
-        lastError = "RATE_LIMITED";
+        failures.push("RATE_LIMITED");
+        logger.warn({ msg: "openrouter rate limited", status: 429, attempt, model });
         continue;
       }
       if (!response.ok) {
-        lastError = "PROVIDER_UNAVAILABLE";
+        failures.push("PROVIDER_UNAVAILABLE");
         logger.warn({ msg: "openrouter error", status: response.status, attempt, model });
         continue;
       }
@@ -156,20 +157,41 @@ export async function extractClaims(prompt: string): Promise<ExtractionOutcome> 
       if (content) {
         return { ok: true, content, model: body.model ?? model, latencyMs: Date.now() - started, attempts: attempt, inputHash };
       }
-      lastError = "INVALID_OUTPUT";
+      failures.push("INVALID_OUTPUT");
+      logger.warn({ msg: "openrouter output did not match the claim format", attempt, model });
     } catch (error) {
-      lastError = error instanceof Error && error.name === "AbortError" ? "TIMEOUT" : "PROVIDER_UNAVAILABLE";
+      const code = error instanceof Error && error.name === "AbortError" ? "TIMEOUT" : "PROVIDER_UNAVAILABLE";
+      failures.push(code);
+      logger.warn({ msg: "openrouter request failed", code, attempt, model });
     } finally {
       clearTimeout(timer);
     }
   }
-  const messages: Record<typeof lastError, string> = {
+  const code = summarizeFailures(failures);
+  const messages: Record<FailureCode, string> = {
     PROVIDER_UNAVAILABLE: "The AI provider is unavailable. Start from a template or write the claims manually.",
     INVALID_OUTPUT: "The AI draft did not match the claim format. Try again, or write the claims manually.",
     TIMEOUT: "The AI provider did not answer in time. Try again, or write the claims manually.",
     RATE_LIMITED: "Too many AI requests. Wait a minute, or write the claims manually.",
   };
-  return { ok: false, code: lastError, message: messages[lastError], inputHash, attempts: attempts.length };
+  return { ok: false, code, message: messages[code], inputHash, attempts: attempts.length };
+}
+
+type FailureCode = Exclude<ExtractionOutcome, { ok: true }>["code"];
+
+/**
+ * The one reason shown for a failed extraction across all model attempts. The last attempt alone can
+ * mislead: a retired fallback model answering 404 turned a draft that merely failed the claim format
+ * into "provider unavailable". A reason every attempt shares wins; otherwise the most actionable one
+ * is reported (rate limit, then timeout, then a draft in the wrong format).
+ */
+export function summarizeFailures(failures: FailureCode[]): FailureCode {
+  if (failures.length === 0) return "PROVIDER_UNAVAILABLE";
+  if (failures.every((failure) => failure === failures[0])) return failures[0]!;
+  for (const preferred of ["RATE_LIMITED", "TIMEOUT", "INVALID_OUTPUT"] as const) {
+    if (failures.includes(preferred)) return preferred;
+  }
+  return "PROVIDER_UNAVAILABLE";
 }
 
 export function claimsNeedingReview(content: ClaimSetContent): Claim[] {
