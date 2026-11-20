@@ -9,6 +9,8 @@ export const metadata: Metadata = { title: "Judge demo | NIARVA" };
 
 const recordedEvidence =
   "https://github.com/lidxgoesgiri/niarva/blob/d28dee5/evidence/product-loop/PROD-LOOP-01.md";
+const productionEvidence =
+  "https://github.com/lidxgoesgiri/niarva/blob/8136ce3/evidence/deploy/VERCEL-PROD-01.md";
 
 export default function DemoPage() {
   return (
@@ -50,6 +52,13 @@ export default function DemoPage() {
             <a href={recordedEvidence}>
               Inspect the evidence <ArrowUpRight size={16} aria-hidden="true" />
             </a>
+            <p>
+              The recorded production run passed all eight required probes for one approved
+              scholarship form version under policy MPP-v4.
+            </p>
+            <a href={productionEvidence}>
+              Inspect production evidence <ArrowUpRight size={16} aria-hidden="true" />
+            </a>
           </li>
           <li>
             <Terminal aria-hidden="true" />
@@ -57,6 +66,11 @@ export default function DemoPage() {
             <p>
               Sign in to create a conditional form, approve its claims and inspect observations from
               a real verification.
+            </p>
+            <p>
+              Live browser verification runs while the maintainer’s worker is online. When it is
+              offline, new runs stay queued. Use the recorded production evidence to review a
+              completed run.
             </p>
             <a href="/app">
               Go to the workspace <ArrowRight size={16} aria-hidden="true" />

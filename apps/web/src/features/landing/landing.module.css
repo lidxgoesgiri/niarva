@@ -984,6 +984,10 @@
   color: var(--color-ink-muted);
   font-size: 0.9rem;
 }
+.demoSteps p + p,
+.demoSteps a + p {
+  margin-top: 10px;
+}
 .demoSteps a {
   min-height: 44px;
   color: var(--color-lavender);
