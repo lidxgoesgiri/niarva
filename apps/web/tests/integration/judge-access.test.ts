@@ -11,7 +11,7 @@ import { requestVerification } from "@/server/services/verification.service";
 import { generateVersion, saveEdits } from "@/server/services/version.service";
 import { bootTestApp, createCreator } from "../support/test-app";
 
-// Judges get scoped access (master PRD v1.3 §7.3, §14): with DEMO_MODE on, a judge account may
+// Judges get scoped, least-privilege access: with DEMO_MODE on, a judge account may
 // read the demo showcase forms and nothing else of another workspace, and can never change them.
 describe("scoped judge access", () => {
   let close: () => Promise<void>;
