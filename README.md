@@ -27,6 +27,24 @@ Plain language → approved claims (hashed) → generated form version (immutabl
 - **Version-bound proof and a fail-closed gate.** Proof is bound to the workspace, form, version, claims hash, definition hash, renderer build, runtime configuration, environment, and probe policy. Publishing runs inside a database transaction and is enforced by the backend, whatever the UI shows. After a failed run, two consecutive fresh verified runs are required.
 - **Respondent safety.** Hidden fields are removed from the page and never stored; the server validates every submission again; submissions are idempotent across republication.
 
+## Screenshots
+
+Captured by Kane CLI on the live deployment (judge account, synthetic data) and on a local build.
+
+![At GPA 3.50 Kane reported passed, but the observations show the certificate field hidden and not required; NIARVA judged FAIL.](evidence/ux/golden-case-kane-passed-niarva-fail.jpg)
+
+*Kane observes, NIARVA decides. On the seeded version, Kane reported `passed`; NIARVA compared the observations with the approved claim (certificate required at GPA ≥ 3.5) and judged FAIL at exactly 3.50.*
+
+![Workspace of the golden case: approved claims, version 2 created by an approved repair, and the Intent Trace with each claim verified in a browser.](evidence/ux/golden-case-workspace.jpg)
+
+*The repaired version: approved claims on the left, the form in the middle, and the Intent Trace on the right, where every claim is matched statically and verified in a real browser.*
+
+![The published scholarship form at GPA 3.5 with the achievement certificate field shown and required.](evidence/product-experience/readme-verified-form.jpg)
+
+![The respondent's confirmation with a receipt code.](evidence/product-experience/readme-synthetic-receipt.jpg)
+
+*The published form serves only the verified version, and a respondent receives a receipt.*
+
 ## Architecture
 
 ```text
