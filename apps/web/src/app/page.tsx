@@ -64,7 +64,12 @@ export default function LandingPage() {
               </div>
               <p className={styles.heroSupport}>
                 <Terminal aria-hidden="true" size={13} />
-                Browser observations powered by Kane CLI
+                <a
+                  href="https://github.com/lidxgoesgiri/niarva/blob/7dccd35/evidence/deploy/VERCEL-PROD-01.md"
+                  className="underline decoration-line-strong underline-offset-4 transition-colors hover:text-ink"
+                >
+                  Golden case verified with Kane CLI on the live deployment: 8/8 browser probes
+                </a>
               </p>
             </div>
           </div>

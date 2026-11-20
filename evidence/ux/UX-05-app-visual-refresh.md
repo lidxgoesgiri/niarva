@@ -35,3 +35,12 @@ Screenshots taken by Kane during these runs (from the evidence packs; synthetic 
 - `ux-05-forms-empty.jpg`: the forms page of a creator without forms.
 
 Not observed by Kane here: the workspace progress bar (no fixture form in these two tests). It is covered by the type-checked component and will be visible in the next workspace runs.
+
+## README screenshots (added 21 November 2026)
+
+| File | Source |
+|---|---|
+| `golden-case-kane-passed-niarva-fail.jpg` | Kane CLI step screenshot from t-59 on the live deployment, judge account, execution `e674bcd0-bcb9-4cff-9ab4-1b56eb02a6e2` (evidence pack `da04098c106567cc…`, see `../assurance/PROD-ASSURANCE-01.md` §3.4) |
+| `golden-case-workspace.jpg` | Same run, an earlier step |
+
+Reviewed for emails other than the synthetic judge account, tokens, preview URLs (the objective shows only the `{{preview_url}}` placeholder), and personal data.
