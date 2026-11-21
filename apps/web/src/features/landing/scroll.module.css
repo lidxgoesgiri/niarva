@@ -216,14 +216,6 @@
     font-size: 13px;
     overflow-wrap: anywhere;
   }
-
-  :global([data-scroll-active="true"]) .evidencePrimary:not(:focus-within) {
-    translate: 0 calc((var(--evidence-progress, 0.5) - 0.5) * -36px);
-  }
-
-  :global([data-scroll-active="true"]) .evidenceSecondary {
-    transform: translateY(calc((var(--evidence-progress, 0.5) - 0.5) * 40px));
-  }
 }
 
 @media (min-width: 1440px) and (prefers-reduced-motion: no-preference) {

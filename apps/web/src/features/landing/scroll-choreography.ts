@@ -39,8 +39,6 @@ export function bindLandingScroll(surface: HTMLElement) {
     const pipelineBounds = pipeline!.getBoundingClientRect();
     const heroProgress = clamp((80 - bounds[0]!.top) / (viewport * 0.9));
     const gapProgress = clamp((viewport * 0.77 - bounds[1]!.top) / (viewport * 0.57));
-    const loopProgress = clamp((viewport * 0.82 - bounds[3]!.top) / (viewport * 0.65));
-    const evidenceProgress = clamp((viewport * 0.84 - bounds[4]!.top) / (viewport * 0.77));
     const sandboxProgress = clamp((viewport * 0.96 - sandboxBounds.top) / (viewport * 0.58));
     const pipelineProgress = clamp(
       (viewport * 0.46 - pipelineBounds.top) / Math.max(1, pipelineBounds.height - viewport * 0.3),
@@ -67,8 +65,6 @@ export function bindLandingScroll(surface: HTMLElement) {
     gap!.style.setProperty("--word-progress", gapProgress.toFixed(4));
     sandbox!.style.setProperty("--sandbox-progress", sandboxProgress.toFixed(4));
     pipeline!.style.setProperty("--pipeline-progress", pipelineProgress.toFixed(4));
-    loops!.style.setProperty("--loop-progress", loopProgress.toFixed(4));
-    evidence!.style.setProperty("--evidence-progress", evidenceProgress.toFixed(4));
     percentLabel!.textContent = `${String(Math.round(documentProgress * 100)).padStart(2, "0")}%`;
     trace!.dataset.activeStop = String(activeStop);
 

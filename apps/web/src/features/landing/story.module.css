@@ -455,6 +455,8 @@
   align-items: stretch;
 }
 .inspector {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--color-line-strong);
   border-radius: 12px;
   min-width: 0;
@@ -478,6 +480,7 @@
   padding-inline: 12px;
 }
 .inspectorContent {
+  flex: 1;
   min-height: 346px;
   padding: 28px;
   animation: panel-arrive 200ms ease-out;
@@ -534,16 +537,21 @@
   padding-left: 6px;
   margin-top: 9px;
 }
+/* The two principles are cards like the inspector: same border, radius, and surface,
+   equal heights, and together exactly as tall as the inspector beside them. */
 .evidenceAside {
   display: grid;
-  gap: 0;
-  border-block: 1px solid var(--color-line-strong);
+  grid-auto-rows: 1fr;
+  gap: 24px;
+  min-width: 0;
 }
 .evidenceAside article {
-  padding: 26px 8px 26px 26px;
-}
-.evidenceAside article + article {
-  border-top: 1px solid var(--color-line-strong);
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: 12px;
+  background: rgba(19, 27, 58, 0.3);
 }
 .evidenceAside article > svg {
   color: var(--color-lavender);
@@ -561,7 +569,8 @@
 }
 .evidenceAside article > span {
   display: block;
-  margin-top: 19px;
+  margin-top: auto;
+  padding-top: 19px;
   color: var(--color-ink-muted);
   font-family: var(--font-mono);
   font-size: 9px;
@@ -619,14 +628,7 @@
     grid-template-columns: minmax(0, 1fr);
   }
   .evidenceAside {
-    grid-template-columns: 1fr 1fr;
-  }
-  .evidenceAside article {
-    padding: 26px;
-  }
-  .evidenceAside article + article {
-    border-top: 0;
-    border-left: 1px solid var(--color-line-strong);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 767px) {
@@ -758,13 +760,10 @@
   }
   .evidenceAside {
     grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
   }
   .evidenceAside article {
-    padding: 26px 0;
-  }
-  .evidenceAside article + article {
-    border-left: 0;
-    border-top: 1px solid var(--color-line-strong);
+    padding: 22px 20px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

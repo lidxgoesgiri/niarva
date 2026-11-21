@@ -351,7 +351,7 @@ export function EvidenceInspector() {
     <div className={styles.evidenceLayout}>
       <Tabs.Root
         defaultValue="observation"
-        className={`${styles.inspector} ${scrollStyles.evidencePrimary}`}
+        className={styles.inspector}
         data-scroll-card
       >
         <div className={styles.inspectorHeading}>
@@ -446,7 +446,7 @@ export function EvidenceInspector() {
           Sample structure only · inspect actual version-bound evidence in the creator workspace.
         </p>
       </Tabs.Root>
-      <div className={`${styles.evidenceAside} ${scrollStyles.evidenceSecondary}`}>
+      <div className={styles.evidenceAside}>
         <article data-scroll-card>
           <RotateCcw size={22} aria-hidden="true" />
           <h3 data-scroll-copy>
