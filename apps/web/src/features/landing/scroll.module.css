@@ -182,9 +182,9 @@
 
   .loopDeck {
     display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 14px;
-    align-items: end;
+    align-items: stretch;
     margin-top: 30px;
   }
 
@@ -201,23 +201,13 @@
     font-family: var(--font-heading);
   }
 
-  .loopDeck > div:first-child {
-    color: var(--color-lavender);
-  }
-
-  .loopDeck > div:last-child {
-    border-color: #4f6cf679;
+  /* Both loops are equals: same size, same styling, aligned at rest. */
+  .loopDeck > div {
     color: var(--color-ink);
   }
 
-  :global([data-scroll-active="true"]) .loopDeck > div:first-child {
-    translate: 0 calc(var(--loop-progress, 0) * 10px);
-    scale: calc(1 - var(--loop-progress, 0) * 0.05);
-    filter: brightness(calc(1 - var(--loop-progress, 0) * 0.09));
-  }
-
-  :global([data-scroll-active="true"]) .loopDeck > div:last-child {
-    translate: calc(var(--loop-progress, 0) * -22px) calc((1 - var(--loop-progress, 0)) * 29px);
+  .loopDeck > div > svg {
+    color: var(--color-lavender);
   }
 
   .loopDeck code {
