@@ -35,7 +35,7 @@ export function ProgressSteps({ state }: { state: FormState }) {
 
   return (
     <nav aria-label="Progress" className="glass-card rounded-2xl px-4 py-3 sm:px-5" data-testid="progress-steps">
-      <ol className="grid gap-2 sm:grid-cols-4">
+      <ol className="grid grid-cols-1 gap-2 sm:grid-cols-4">
         {steps.map((step, index) => {
           const isCurrent = index === current;
           return (

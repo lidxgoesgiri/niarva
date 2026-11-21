@@ -36,7 +36,7 @@ export function NewForm({ aiConfigured }: { aiConfigured: boolean }) {
     <section aria-labelledby="new-form-heading" className="glass-card rounded-2xl p-5 sm:p-6">
       <h2 id="new-form-heading" className="text-xl">Start a new form</h2>
       <p className="mt-1 text-sm text-ink-muted">Three ways to start. Whatever you choose, nothing is approved or published for you.</p>
-      <div className="mt-5 grid gap-4 lg:grid-cols-3">
+      <div className="mt-5 grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="relative flex flex-col gap-3 rounded-xl border border-line-active/60 bg-gradient-to-b from-sapphire/10 to-canvas/60 p-4">
           <span className="absolute right-3 top-3 rounded-full border border-lavender/40 bg-lavender/10 px-2 py-0.5 text-[11px] text-lavender">Recommended</span>
           <p className="flex items-center gap-2.5 font-medium"><span className="grid size-8 place-items-center rounded-lg border border-line bg-raised/70"><FileText aria-hidden="true" className="size-4 text-lavender" /></span>Scholarship template</p>

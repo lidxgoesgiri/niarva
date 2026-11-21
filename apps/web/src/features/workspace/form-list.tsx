@@ -21,7 +21,7 @@ const statusOf: Record<FormListEntry["status"], StatusKind> = {
 /** The creator's forms. Drafts can be deleted after an explicit confirmation; showcase lists are read-only. */
 export function FormList({ forms, label, canDelete = false }: { forms: FormListEntry[]; label: string; canDelete?: boolean }) {
   return (
-    <ul className="grid gap-3" aria-label={label}>
+    <ul className="grid grid-cols-1 gap-3" aria-label={label}>
       {forms.map((form) => (
         <FormRow key={form.id} form={form} canDelete={canDelete && form.status === "draft"} />
       ))}
@@ -49,7 +49,7 @@ function FormRow({ form, canDelete }: { form: FormListEntry; canDelete: boolean 
   }
 
   return (
-    <li className="glass-card group rounded-xl transition-colors hover:border-line-active" data-testid="form-row" data-form-status={form.status}>
+    <li className="glass-card group min-w-0 rounded-xl transition-colors hover:border-line-active" data-testid="form-row" data-form-status={form.status}>
       <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-5">
         <Link href={`/app/forms/${form.id}`} className="flex min-w-0 flex-1 items-center gap-3.5">
           <span className="grid size-10 shrink-0 place-items-center rounded-lg border border-line bg-raised/70">
