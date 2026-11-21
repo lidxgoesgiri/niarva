@@ -17,7 +17,7 @@ export default async function WorkspaceLayout({ children }: { children: ReactNod
   if (!actor) redirect("/sign-in?next=%2Fapp");
 
   return (
-    <div className="flex min-h-dvh flex-col">
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
       <div className="app-backdrop" aria-hidden="true" />
       <header className="sticky top-0 z-40 border-b border-line bg-canvas/80 backdrop-blur-md">
         <div className="mx-auto flex h-16 w-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6">

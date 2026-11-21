@@ -91,7 +91,7 @@ export function VerifyPanel({
   return (
     <div className="flex flex-col gap-5">
       {/* Proof identity: every result below belongs to exactly this version, claims, and engine. */}
-      <dl data-testid="version-identity" className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-0.5 rounded-lg border border-line bg-canvas/60 px-3 py-2 text-xs">
+      <dl data-testid="version-identity" className="grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-3 gap-y-0.5 rounded-lg border border-line bg-canvas/60 px-3 py-2 text-xs">
         <dt className="text-ink-muted">Version</dt>
         <dd>
           <span className="font-medium text-ink">Version {version.versionNo}</span>
@@ -138,7 +138,7 @@ export function VerifyPanel({
               <p className="text-xs font-medium uppercase tracking-wide text-fail">Counterexample · {finding.claimKeys.join(", ")}</p>
               <p className="mt-1 text-sm">{finding.message}</p>
               {state.version?.createdVia === "template" ? <p className="mt-1 text-xs font-medium text-warn">Seeded defect for demonstration</p> : null}
-              <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-sm">
+              <dl className="mt-3 grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-4 gap-y-1 text-sm">
                 <dt className="text-ink-muted">Witness</dt>
                 <dd className="font-mono">{Object.entries(cex.assignment).map(([key, value]) => `${key} = ${value || "(empty)"}`).join(", ") || "initial state"}</dd>
                 <dt className="text-ink-muted">Expected</dt>
@@ -355,7 +355,7 @@ function ProbeRow({ probe, pageIdentity }: { probe: ProbeView; pageIdentity: str
       ) : null}
       {details && latest ? (
         <div className="mt-2 flex flex-col gap-2 text-[11px]" data-testid="probe-evidence">
-          <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+          <dl className="grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-3 gap-y-1">
             <dt className="text-ink-muted">Kane run ID</dt><dd className="break-all font-mono">{latest.kaneRunId ?? "—"}</dd>
             <dt className="text-ink-muted">Kane CLI</dt><dd className="font-mono">{latest.kaneCliVersion ?? "—"}</dd>
             <dt className="text-ink-muted">Kane status</dt><dd className="font-mono">{latest.agentVerdict ?? "—"}</dd>
@@ -472,7 +472,7 @@ function RunReport({ run, context }: { run: Run; context: ReportContext }) {
   return (
     <section aria-label="Full verification report" className="flex flex-col gap-1">
     <h4 className="text-xs font-semibold">Full verification report</h4>
-    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2 text-[11px]" data-testid="run-report" data-executed={executed}>
+    <dl className="grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-3 gap-y-1 rounded-lg border border-line px-3 py-2 text-[11px]" data-testid="run-report" data-executed={executed}>
       <dt className="text-ink-muted">Run</dt>
       <dd className="break-all font-mono">{run.id}</dd>
       <dt className="text-ink-muted">Kind</dt>

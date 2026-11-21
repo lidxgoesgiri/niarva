@@ -47,7 +47,7 @@ export function AddRule({ fields, disabled, onAdd }: { fields: FormDefinition["f
   return (
     <fieldset className="flex flex-col gap-3 rounded-xl border border-dashed border-line-strong p-3" data-testid="add-rule">
       <legend className="px-1 text-sm font-semibold">New rule</legend>
-      <div className="grid gap-2 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         <div>
           <Label htmlFor="new-rule-effect" className="text-xs text-ink-muted">Then</Label>
           <select id="new-rule-effect" className={selectClass} value={effect} onChange={(event) => setEffect(event.target.value as Rule["effect"])}>

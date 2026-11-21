@@ -170,7 +170,7 @@ function TraceRow({ row, state, focused, register }: { row: Row; state: FormStat
       </div>
       <p className="mt-1.5 text-sm">{row.statement}</p>
 
-      <dl className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs">
+      <dl className="mt-2 grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-3 gap-y-1 text-xs">
         <dt className="text-ink-muted">Rule</dt>
         <dd className="font-mono">
           {row.ruleCoverage === "manual"
@@ -265,7 +265,7 @@ function TraceRow({ row, state, focused, register }: { row: Row; state: FormStat
                 const cex = finding.counterexample!;
                 const witness = Object.entries(cex.assignment).map(([key, value]) => `${fieldLabel(key)} = ${value || "(empty)"}`).join(", ") || "initial state";
                 return (
-                  <dl key={finding.key} className="mt-2 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1">
+                  <dl key={finding.key} className="mt-2 grid grid-cols-[auto_minmax(0,1fr)] [&>dd]:break-words gap-x-3 gap-y-1">
                     <dt className="text-ink-muted">Counterexample</dt>
                     <dd className="font-mono">{witness}</dd>
                     <dt className="text-ink-muted">Approved claim</dt>
