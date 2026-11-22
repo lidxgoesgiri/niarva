@@ -32,7 +32,7 @@ All creator endpoints need a signed-in session and a same-origin `Origin` header
 | POST | `/preview/{versionId}/submissions?t=<token>` | `{ submissionId, formVersionId, answers }` | preview receipt (scoped token only) |
 | POST | `/public/forms/{slug}/submissions` | `{ submissionId, formVersionId, answers }` | `201 { receiptCode }`; identical retry returns the first receipt |
 | GET | `/health` | — | liveness |
-| POST | `/worker/lease`, `/worker/heartbeat`, `/worker/probe-runs/{id}/result` | worker bearer token | verification worker only; not for the UI |
+| POST | `/worker/lease`, `/worker/heartbeat`, `/worker/probe-runs/{id}/result` | worker bearer token | verification worker only; not for the UI. `lease` accepts optional `ownerEmails` (up to 20) to lease only runs owned by those accounts; `heartbeat` answers `ownerFilter: true` when the server supports it |
 
 ## 2. Form state DTO (`GET /forms/{formId}`)
 

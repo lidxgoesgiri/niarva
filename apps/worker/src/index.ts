@@ -80,6 +80,13 @@ async function handle(lease: Lease) {
 
 async function main() {
   log("info", "worker started", { workerId: config.NIARVA_WORKER_ID, workerVersion: WORKER_VERSION, kaneCli: cli.version, api: config.NIARVA_WORKER_API_URL });
+  const ownerEmails = config.NIARVA_WORKER_OWNER_EMAILS;
+  if (ownerEmails.length > 0) {
+    // Fail closed: a server without the owner filter would ignore it and lease anyone's run.
+    const { ownerFilter } = await api<{ ownerFilter?: boolean }>("/api/v1/worker/heartbeat", { workerId: config.NIARVA_WORKER_ID, kaneCliVersion: cli.version });
+    if (ownerFilter !== true) throw new Error("NIARVA_WORKER_OWNER_EMAILS is set, but the server does not support the owner filter. Deploy the web app first.");
+    log("info", "leasing only runs owned by the configured accounts", { accounts: ownerEmails.length });
+  }
   while (!stopping) {
     // Take the machine-wide Kane lock before leasing, so a probe is never leased (and its lease
     // never expires) while another Kane run on this computer is in progress.
@@ -87,7 +94,11 @@ async function main() {
     let handled = false;
     try {
       release = await acquireKaneLock(`worker ${config.NIARVA_WORKER_ID}`, { log: (message) => log("info", message) });
-      const { lease } = await api<{ lease: Lease | null }>("/api/v1/worker/lease", { workerId: config.NIARVA_WORKER_ID, kaneCliVersion: cli.version });
+      const { lease } = await api<{ lease: Lease | null }>("/api/v1/worker/lease", {
+        workerId: config.NIARVA_WORKER_ID,
+        kaneCliVersion: cli.version,
+        ...(ownerEmails.length > 0 ? { ownerEmails } : {}),
+      });
       if (lease) {
         await handle(lease);
         handled = true;

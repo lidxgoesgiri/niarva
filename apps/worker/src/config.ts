@@ -22,6 +22,15 @@ const schema = z.object({
   WORKER_IDLE_POLL_MS: z.coerce.number().int().min(500).max(60_000).default(4000),
   /** Optional: the Test Manager project Kane sessions must upload to; the worker refuses to start otherwise. */
   NIARVA_KANE_PROJECT_ID: z.string().regex(/^[0-9A-Z]{26}$/, "Use the 26-character Test Manager project id.").optional(),
+  /**
+   * Optional comma-separated emails: lease only runs whose workspace owner has one of them, so the
+   * worker never spends Kane credits on runs queued by other accounts. Empty means every run.
+   */
+  NIARVA_WORKER_OWNER_EMAILS: z
+    .string()
+    .optional()
+    .transform((value) => [...new Set((value ?? "").split(",").map((email) => email.trim().toLowerCase()).filter(Boolean))])
+    .pipe(z.array(z.string().email()).max(20)),
 });
 
 export type WorkerConfig = z.infer<typeof schema>;
