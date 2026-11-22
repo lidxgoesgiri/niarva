@@ -68,7 +68,7 @@ export default function LandingPage() {
                   href="https://github.com/lidxgoesgiri/niarva/blob/7dccd35/evidence/deploy/VERCEL-PROD-01.md"
                   className="underline decoration-line-strong underline-offset-4 transition-colors hover:text-ink"
                 >
-                  Golden case verified with Kane CLI on the live deployment: 8/8 browser probes
+                  Golden case verified on the live deployment: 8/8 required probes, 7 in a real browser with Kane CLI
                 </a>
               </p>
             </div>
