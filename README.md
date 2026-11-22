@@ -6,29 +6,29 @@
 
 Conditional forms, proven against what their creator approved, in a real browser, before anyone fills them in.
 
-[Live demo](https://niarva.vercel.app) &nbsp;·&nbsp; [Watch the demo](https://youtu.be/1HWLSNiFpPk) &nbsp;·&nbsp; [Evidence](evidence)
+[Live demo](https://niarva.vercel.app) &nbsp;·&nbsp; [Watch the demo](https://youtu.be/1HWLSNiFpPk) &nbsp;·&nbsp; [Reviewer guide](https://niarva.vercel.app/demo) &nbsp;·&nbsp; [Evidence](evidence)
 
 </div>
 
 <br>
 
 <!--
-  Hero preview: a frame from the demo video, linked to the video.
-  To use another screenshot or a GIF, replace docs/assets/demo-preview.jpg or change the src below.
+  Hero preview: a frame from the demo video (docs/assets/demo-preview.jpg), linked to the video.
+  To use another screenshot or a GIF, replace that file or change the src below.
 -->
 <a href="https://youtu.be/1HWLSNiFpPk">
   <img src="docs/assets/demo-preview.jpg" width="100%" alt="The verdict screen from the NIARVA demo: Kane CLI reported passed, its observations contradict the approved claim, and NIARVA judges the run FAIL. Opens the demo video.">
 </a>
 
-<p align="center"><sub>Three minutes, recorded on the live deployment. Click the preview to watch.</sub></p>
+<p align="center"><sub>The three-minute demo, recorded on the live deployment. Click the image to watch it on YouTube.</sub></p>
 
 <br>
 
 ## Overview
 
-A form builder can call a rule tested while the rule is wrong. Write a scholarship condition as `gpa > 3.5` instead of `gpa ≥ 3.5` and the form still renders, still passes a schema check, and still lets an applicant with exactly 3.5 skip the certificate. NIARVA closes that gap. The creator approves plain-language claims first. Every generated version is checked against them, then exercised in a real Chrome by Kane CLI through a private preview of that exact version. NIARVA reads Kane's observations rather than its summary, and only a version with complete, fresh proof can be published.
+A form builder can call a rule tested while the rule is wrong. Write a scholarship condition as `gpa > 3.5` instead of `gpa ≥ 3.5` and the form still renders, still passes a schema check, and still lets an applicant with exactly 3.5 skip the certificate. NIARVA closes that gap. The creator approves plain-language claims first. Every generated version is checked against them, then exercised in real Chrome by Kane CLI through a private preview of that exact version. NIARVA reads Kane's observations rather than its summary, and only a version with complete, fresh proof can be published.
 
-The interface carries the same quiet precision: a deep navy canvas, lavender and sapphire light, Space Grotesk for headings, Inter for reading, and JetBrains Mono wherever evidence appears. The landing page tells the story through scroll. A WebGL hero sets the tone, words and cards settle into place as you read, and the verification pipeline advances with the page. Motion follows the native scroll position instead of hijacking the wheel, and it steps aside when the system asks for reduced motion.
+The interface is dark and editorial, set in Space Grotesk, Inter, and JetBrains Mono, and the landing page tells this story through scroll.
 
 ## Highlights
 
@@ -52,11 +52,11 @@ The interface carries the same quiet precision: a deep navy canvas, lavender and
 - **GSAP where it earns its place.** ScrollTrigger drives the word and card reveals and the scrubbed timelines. The reveal layer is loaded on demand with `next/dynamic`.
 - **A hand-written WebGL hero.** A small shader scene, with no 3D library, in a low-power context that follows scroll and pointer and recovers from a lost context.
 - **Motion that respects the visitor.** Animation follows `prefers-reduced-motion` and pauses while the tab is hidden.
-- **Layouts that hold on small screens.** Grids use `minmax(0, 1fr)` tracks and the app shells clip horizontal overflow, so long hashes and slugs never push a page sideways.
+- **Overflow-safe layouts.** Grids use `minmax(0, 1fr)` tracks and the app shells clip horizontal overflow, so long hashes and slugs never push a page sideways at any width. Kane's automated checks cover viewports of 800 px and wider; narrower layouts are reviewed by hand, as the [known limitations](docs/testing/KNOWN_LIMITATIONS.md#3-kane-cli-behavior-from-the-m0-lab) record.
 
 ## Tech stack
 
-- **Next.js 16** (App Router) and **React 19**, in **TypeScript**
+- **Next.js 16** (App Router) and **React 19**, in **TypeScript 5.9**
 - **Tailwind CSS 4** for the application, **CSS Modules** for the landing's scroll scenes
 - **GSAP** with `@gsap/react`, for ScrollTrigger reveals and scrubbed timelines
 - **WebGL**, hand-written shaders for the hero
@@ -65,7 +65,7 @@ The interface carries the same quiet precision: a deep navy canvas, lavender and
 - **Drizzle ORM** on **PostgreSQL** (Neon in production), or embedded **PGlite** for local runs
 - **Zod** for validation, `@noble/hashes` for SHA-256 in the engine
 - **Vitest** and **fast-check** for unit, integration, and property tests
-- **Kane CLI** 0.10.4 for browser verification, in the worker and during development
+- **Kane CLI 0.10.4**, the version validated in the M0 lab, for browser verification in the worker and during development; the worker refuses older versions
 - **OpenRouter**, optional, for drafting claims from plain language on the server
 
 ## Project structure
@@ -84,6 +84,7 @@ niarva/
 ├── packages/
 │   ├── core/               the pure engine
 │   └── contracts/          shared API contracts
+├── .testmuai/tests/        the 64 browser tests designed by Kane Assurance
 ├── scripts/                environment setup, Kane runners, fixture seeding
 ├── docs/                   deployment guide, API contract, testing reports
 ├── evidence/               sanitized proof: Kane runs, closed loops, the live deployment
@@ -94,9 +95,9 @@ niarva/
 
 **Prerequisites**
 
-- Node.js 24
+- Node.js 24 (`engines` allows `>=24 <25`)
 - pnpm 12, pinned in `package.json` as `pnpm@12.11.2`
-- For browser verification only: Google Chrome and Kane CLI, installed with `npm install -g @testmuai/kane-cli` and signed in with `kane-cli login`
+- For browser verification only: Google Chrome and Kane CLI 0.10.4 or newer, installed with `npm install -g @testmuai/kane-cli` and signed in with `kane-cli login`
 
 **Install and run**
 
@@ -147,19 +148,25 @@ Never commit `.env.local`.
 
 ## Proof
 
-Every verification claim here is backed by recorded evidence. Kane CLI has four roles in this project: it was validated at runtime before anything depended on it, it designed the browser tests from the requirements (Kane Assurance), it is the only browser test runner during development, and it is the browser sensor inside the product's worker.
+Every verification claim here is backed by recorded evidence. Kane CLI has four roles in this project: it was [validated at runtime](evidence/m0/M0_REPORT.md) before anything depended on it, it [designed the browser tests](.testmuai/tests) from the requirements (Kane Assurance), it is the only browser test runner during development ([`scripts/verify-kane.mjs`](scripts/verify-kane.mjs)), and it is the browser sensor inside the product's worker ([`apps/worker/src/kane.ts`](apps/worker/src/kane.ts)).
 
-- [The golden case on the live deployment](evidence/deploy/VERCEL-PROD-01.md): the seeded defect confirmed at GPA 3.50, an approved repair, a full verification with 8 of 8 required probes passing (7 in a real browser, 1 server contract check), and publishing refused before proof and accepted after it.
-- [Development loops](evidence/dev-loop): six cases in which a Kane test exposed a defect and the source was repaired. In five, the same test then passed; DEV-LOOP-03 is proven by integration tests while its Kane rerun is still open.
-- [Verification status](docs/testing/KANE_EXECUTION_REPORT.md): of 64 Kane-designed tests, 25 PASS, 15 FAIL, and 24 NOT RUN by their latest recorded run, reported as they are.
-- [Known limitations](docs/testing/KNOWN_LIMITATIONS.md): what Kane has not proven, including layouts narrower than 800 px.
-- [Kane CLI runtime validation](evidence/m0/M0_REPORT.md): the M0 lab that shaped how the worker reads Kane.
+**The golden case**
 
-A guided walkthrough for reviewers lives at [niarva.vercel.app/demo](https://niarva.vercel.app/demo).
+- [On the live deployment](evidence/deploy/VERCEL-PROD-01.md): the seeded defect confirmed at GPA 3.50, an approved repair, a full verification with 8 of 8 required probes passing (7 in a real browser, 1 server contract check), and publishing refused before proof and accepted after it.
+- [On a local build](evidence/product-loop/PROD-LOOP-01.md): the same loop with a real worker, including the failed and interrupted attempts.
+
+**Development loops.** In each, a Kane test exposed a defect, the source was repaired, and the test ran again: [01](evidence/dev-loop/DEV-LOOP-01.md), [02](evidence/dev-loop/DEV-LOOP-02.md), [03](evidence/dev-loop/DEV-LOOP-03.md), [04](evidence/dev-loop/DEV-LOOP-04.md), [05](evidence/dev-loop/DEV-LOOP-05.md), [06](evidence/dev-loop/DEV-LOOP-06.md). Five ended with the same test passing. DEV-LOOP-03 is proven by integration tests while its Kane rerun is still open.
+
+**The 64 designed tests.** By their latest recorded run: 25 PASS, 15 FAIL, and 24 NOT RUN ([status per test](docs/testing/KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)).
+
+- **15 FAIL.** The rule is strict: a run in which Kane cannot perform or observe a step counts as FAIL. Fourteen are inconclusive in that sense: for example, Kane could not see a request that had already completed, could not find an API endpoint the interface never reveals, would have had to wait for a verification while holding the Kane lock the worker needs, or stopped with its own checks pending. Where the same behavior is covered by integration tests or the server contract probe, the record says so. One, t-49, is disputed: Kane asked for a respondent's answer to be masked in the owner's own response view, which is outside the product scope. Every classification is in [PROD-ASSURANCE-01](evidence/assurance/PROD-ASSURANCE-01.md), [C-03](evidence/assurance/C-03-publish-and-respondent.md), and [C-04/C-05](evidence/assurance/C-04-C-05-security-and-honesty.md).
+- **24 NOT RUN.** Eight need extra full verifications or a second published form, and each full verification costs about 250 Kane credits. Seven cover AI intake and provider outage and have not been run within the available credits. Five need authenticated API calls that Kane does not make, or fixtures not built yet. Two describe situations the design rules out, one would start a verification while holding the Kane lock, and one needs a renderer change after publication. The list is in [known limitations](docs/testing/KNOWN_LIMITATIONS.md#4-coverage-not-yet-proven).
 
 ## Deployment
 
-The web app runs on Vercel from `apps/web`. Its `vercel.json` builds with `pnpm run vercel-build`, which applies the database migrations and then runs `next build`; production uses Neon Postgres. The worker, Kane CLI, and Chrome run on a separate machine with `pnpm worker:vercel`, which reads `.env.worker-vercel.local`, so browser verification on the deployment progresses only while that machine is online. The full guide is in [`docs/deployment/VERCEL.md`](docs/deployment/VERCEL.md).
+The web app runs on Vercel from `apps/web`. Its `vercel.json` builds with `pnpm run vercel-build`, which applies the database migrations and then runs `next build`; production uses Neon Postgres. The worker, Kane CLI, and Chrome run on a separate machine with `pnpm worker:vercel`, which reads `.env.worker-vercel.local`. The full guide is in [`docs/deployment/VERCEL.md`](docs/deployment/VERCEL.md).
+
+**For reviewers.** Live browser verification runs only while the maintainer's worker machine is online. When it is offline, the workspace shows "No worker online" and new runs stay queued; nothing has failed. The [reviewer guide](https://niarva.vercel.app/demo) links the recorded runs, including the full verification on this deployment, so the complete loop can be reviewed at any time.
 
 ## Credits
 
