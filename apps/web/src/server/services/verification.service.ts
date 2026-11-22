@@ -26,7 +26,7 @@ import { z } from "zod";
 import { getEnv } from "../config/env";
 import type { Actor } from "../context/session";
 import { getDb, type DbOrTx } from "../db/client";
-import { analysisRuns, claimSets, formVersions, probeRuns, probes, testSubmissions, verificationRuns, workers } from "../db/schema";
+import { analysisRuns, claimSets, formVersions, probeRuns, probes, testSubmissions, users, verificationRuns, workers, workspaces } from "../db/schema";
 import { ApiError, notFound } from "../http/errors";
 import { uuidv7 } from "../ids";
 import { logger, redact } from "../logging/logger";
@@ -277,8 +277,14 @@ async function expireLeases(tx: DbOrTx) {
   }
 }
 
-export async function leaseNext(workerId: string, kaneCliVersion: string | null, baseUrl: string): Promise<Lease | null> {
+/**
+ * Leases the oldest queued probe. A worker may restrict itself to runs whose workspace owner has one
+ * of `ownerEmails` (case-insensitive), so an operator can run the worker for chosen accounts only
+ * and never spend Kane credits on runs queued by anyone else; those runs stay queued.
+ */
+export async function leaseNext(workerId: string, kaneCliVersion: string | null, baseUrl: string, ownerEmails: readonly string[] = []): Promise<Lease | null> {
   const db = await getDb();
+  const owners = [...new Set(ownerEmails.map((email) => email.trim().toLowerCase()).filter(Boolean))];
   return db.transaction(async (tx) => {
     // Register the worker first: probe runs reference it as their lease owner.
     await upsertWorker(tx, workerId, kaneCliVersion, "idle");
@@ -288,7 +294,15 @@ export async function leaseNext(workerId: string, kaneCliVersion: string | null,
       .from(probeRuns)
       .innerJoin(probes, eq(probes.id, probeRuns.probeId))
       .innerJoin(verificationRuns, eq(verificationRuns.id, probeRuns.verificationRunId))
-      .where(and(eq(probeRuns.status, "queued"), inArray(verificationRuns.state, ["QUEUED", "RUNNING"])))
+      .innerJoin(workspaces, eq(workspaces.id, verificationRuns.workspaceId))
+      .innerJoin(users, eq(users.id, workspaces.ownerId))
+      .where(
+        and(
+          eq(probeRuns.status, "queued"),
+          inArray(verificationRuns.state, ["QUEUED", "RUNNING"]),
+          owners.length > 0 ? inArray(sql`lower(${users.email})`, owners) : undefined,
+        ),
+      )
       .orderBy(asc(verificationRuns.requestedAt), asc(probes.priority), asc(probeRuns.createdAt))
       .limit(1)
       .for("update", { skipLocked: true, of: probeRuns });
@@ -479,5 +493,6 @@ export async function heartbeat(workerId: string, kaneCliVersion: string | null)
     .insert(workers)
     .values({ id: workerId, label: workerId, tokenHash: "shared", state: "idle", kaneCliVersion, lastSeenAt: new Date() })
     .onConflictDoUpdate({ target: workers.id, set: { lastSeenAt: new Date(), kaneCliVersion } });
-  return { ok: true };
+  // `ownerFilter` tells a worker that this server honours `ownerEmails` on lease requests.
+  return { ok: true, ownerFilter: true };
 }

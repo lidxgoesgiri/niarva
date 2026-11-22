@@ -67,6 +67,8 @@ On the worker machine (with Kane CLI signed in to the official Test Manager proj
 pnpm worker:vercel
 ```
 
+Sign-up is open on a public deployment, so any creator can queue a verification, and the worker spends the Kane credits of the machine it runs on. To run the worker for chosen accounts only, set `NIARVA_WORKER_OWNER_EMAILS` (comma-separated) in `.env.worker-vercel.local`. The worker then leases only runs whose workspace owner has one of those emails; every other run stays queued and is not touched. The worker checks at start that the deployment supports this filter and refuses to start otherwise.
+
 Browser proof is bound to the environment: proofs made on a local server do not carry over to `vercel-production`. To verify the deployment:
 
 1. Point Kane at it: set `start_url` in `.testmuai/variables/assurance.json` to the deployment URL.
@@ -88,5 +90,5 @@ Scoped judge access:
 ## 7. Limits
 
 - With the database connected to Production only, preview deployments have no `DATABASE_URL`, so their build stops at the migration step. Connect a separate database (or a Neon branch) to the Preview environment to get working previews; never the production one.
-- A verification only progresses while the worker machine is running.
+- A verification only progresses while the worker machine is running, and, with `NIARVA_WORKER_OWNER_EMAILS` set, only for the listed accounts.
 - Desktop Kane CLI verifies viewports of 800 px and wider; narrower layouts are reviewed manually.
