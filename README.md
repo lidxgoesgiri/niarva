@@ -171,6 +171,6 @@ The web app runs on Vercel from `apps/web`. Its `vercel.json` builds with `pnpm 
 
 ## Credits
 
-Built for the KaneCLI Online Hackathon, 12–26 November 2026. NIARVA was written with AI coding agents, Claude Code for the engine, backend, and verification and OpenAI Codex for UI work, with Kane CLI as the only browser test runner. Every commit is made under the repository owner's identity; agent involvement is disclosed here rather than in commit trailers. The `gpa > 3.5` scholarship rule and the faults in the M0 lab are intentional, labeled demonstration defects.
+Built for the KaneCLI Online Hackathon, 12–26 November 2026, with Claude Code as the primary AI coding agent and Kane CLI as the only browser test runner. Every commit is made under the repository owner's identity, without agent trailers. The `gpa > 3.5` scholarship rule and the faults in the M0 lab are intentional, labeled demonstration defects.
 
 Released under the [MIT License](LICENSE).
