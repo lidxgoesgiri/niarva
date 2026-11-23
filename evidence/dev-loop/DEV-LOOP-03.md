@@ -37,3 +37,5 @@ Verified on the live server after the rebuild: the affected form loads again (HT
 ## 4. Same objective again
 
 t-33 is rerun unchanged in the retest batch after the fixes; the result is recorded in [`../assurance/C-04-C-05-security-and-honesty.md`](../assurance/C-04-C-05-security-and-honesty.md).
+
+**Outcome.** Those retests replayed a stale recording and ended inconclusive. On 18 November, the same test file (`73dba047215d`) was run again on the live deployment with every step authored against the current build, and it **passed**: [`../assurance/PROD-ASSURANCE-01.md`](../assurance/PROD-ASSURANCE-01.md) §3.1, execution `e2dfa4ea-f283-4fd2-9044-ad18a3d9084e`.
