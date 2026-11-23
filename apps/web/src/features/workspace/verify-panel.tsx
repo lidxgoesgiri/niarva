@@ -204,7 +204,7 @@ export function VerifyPanel({
             <Button disabled={busy || Boolean(activeRun)} onClick={() => onAction(`${base}/versions/${version.id}/verify`, { mode: "full", force: true })}>
               {activeRun ? "Verification running…" : "Run browser verification"}
             </Button>
-            {state.workers.online === 0 ? <p className="text-xs text-warn">Runs stay queued until a worker connects (`pnpm worker`).</p> : null}
+            {state.workers.online === 0 ? <p className="text-xs text-warn">Runs stay queued until a verification worker connects.</p> : null}
           </>
         ) : (
           <p className="text-xs text-ink-muted">Full browser verification starts once static checks pass.</p>

@@ -154,8 +154,9 @@ Every verification claim here is backed by recorded evidence. Kane CLI has four 
 
 - [On the live deployment](evidence/deploy/VERCEL-PROD-01.md): the seeded defect confirmed at GPA 3.50, an approved repair, a full verification with 8 of 8 required probes passing (7 in a real browser, 1 server contract check), and publishing refused before proof and accepted after it.
 - [On a local build](evidence/product-loop/PROD-LOOP-01.md): the same loop with a real worker, including the failed and interrupted attempts.
+- [In the demo video](evidence/deploy/VIDEO-LIVE-RUN-01.md): a live run on the deployment on 22 November. Kane reported `passed`, its observations showed the certificate hidden and not required at GPA 3.50, and NIARVA judged FAIL.
 
-**Development loops.** In each, a Kane test exposed a defect, the source was repaired, and the test ran again: [01](evidence/dev-loop/DEV-LOOP-01.md), [02](evidence/dev-loop/DEV-LOOP-02.md), [03](evidence/dev-loop/DEV-LOOP-03.md), [04](evidence/dev-loop/DEV-LOOP-04.md), [05](evidence/dev-loop/DEV-LOOP-05.md), [06](evidence/dev-loop/DEV-LOOP-06.md). Five ended with the same test passing. DEV-LOOP-03 is proven by integration tests while its Kane rerun is still open.
+**Development loops.** In each, a Kane test exposed a defect, the source was repaired, and the test ran again: [01](evidence/dev-loop/DEV-LOOP-01.md), [02](evidence/dev-loop/DEV-LOOP-02.md), [03](evidence/dev-loop/DEV-LOOP-03.md), [04](evidence/dev-loop/DEV-LOOP-04.md), [05](evidence/dev-loop/DEV-LOOP-05.md), [06](evidence/dev-loop/DEV-LOOP-06.md). All six ended with the same test passing. For DEV-LOOP-03 the passing rerun came later, on the live deployment, and is recorded in [PROD-ASSURANCE-01](evidence/assurance/PROD-ASSURANCE-01.md).
 
 **The 64 designed tests.** By their latest recorded run: 25 PASS, 15 FAIL, and 24 NOT RUN ([status per test](docs/testing/KANE_EXECUTION_REPORT.md#5-latest-status-per-designed-test)).
 
@@ -166,7 +167,7 @@ Every verification claim here is backed by recorded evidence. Kane CLI has four 
 
 The web app runs on Vercel from `apps/web`. Its `vercel.json` builds with `pnpm run vercel-build`, which applies the database migrations and then runs `next build`; production uses Neon Postgres. The worker, Kane CLI, and Chrome run on a separate machine with `pnpm worker:vercel`, which reads `.env.worker-vercel.local`. The full guide is in [`docs/deployment/VERCEL.md`](docs/deployment/VERCEL.md).
 
-**For reviewers.** Live browser verification runs only while the maintainer's worker machine is online. When it is offline, the workspace shows "No worker online" and new runs stay queued; nothing has failed. The [reviewer guide](https://niarva.vercel.app/demo) links the recorded runs, including the full verification on this deployment, so the complete loop can be reviewed at any time.
+**For reviewers.** Live browser verification runs only while the maintainer's worker machine is online, and then only for the demo accounts the worker is allowed to serve, since every probe spends the maintainer's Kane credits. Otherwise the workspace shows "No worker online" or the run stays queued; nothing has failed. The [reviewer guide](https://niarva.vercel.app/demo) links the recorded runs, including the full verification on this deployment, so the complete loop can be reviewed at any time.
 
 ## Credits
 

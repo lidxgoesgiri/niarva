@@ -15,6 +15,8 @@ This is the only project new NIARVA sessions may go to. The account's default pr
 
 Every Kane entry point in this repository checks the project before it runs (see [Configuration](#configuration)).
 
+Links to Test Manager open only for members of the TestMu account. Every result they point to is also recorded in this repository, with its execution ID and evidence pack digest.
+
 ## Documents
 
 | Document | Contents |
