@@ -168,6 +168,7 @@ The first batch never reached the deployment: a backup of the local variables fi
 | Assurance retests after the fixes, 18 Nov (same file) | 0 | 6 | 0 | 1 | — |
 | Owner responses view, local build, 18 Nov ([`DEV-LOOP-04`](../../evidence/dev-loop/DEV-LOOP-04.md)) | 5 | 1 | 0 | 0 | — |
 | Assurance on the deployment, 18 Nov ([`PROD-ASSURANCE-01`](../../evidence/assurance/PROD-ASSURANCE-01.md)) | 8 | 15 | 0 | 2 | — |
+| Final smoke on the release build `311ee01`, 23 Nov ([`FINAL-SMOKE-01`](../../evidence/deploy/FINAL-SMOKE-01.md)): t-5, t-6, t-59, and one t-59 rerun after a fixture fix | 3 | 1 | 0 | 0 | — |
 | Designed tests never executed (§5) | — | — | — | — | 24 |
 
 The three probe FAILs are D-01 confirming the seeded defect in attempts 1, 2, and 3: the expected result, not a regression. P-08 (no Kane) is not counted in that row. M0 lab runs are reported in §1.1 because their verdicts are the lab oracle's, not Kane's status. The two production probe FAILs are D-01 confirming the seeded defect, as expected. The five production BLOCKED runs are the misconfigured first smoke batch (§3.2). The UI track reports its own BLOCKED landing run (TC-34 / TC-76) in `evidence/product-experience/` on its own branch.
