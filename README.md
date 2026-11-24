@@ -109,6 +109,8 @@ pnpm dev          # http://localhost:3000
 
 Create an account and start from the scholarship template. Without `DATABASE_URL`, NIARVA uses an embedded PostgreSQL (PGlite) in `apps/web/.pglite` and applies its migrations on start.
 
+These steps were checked from an anonymous clone of the final commit ([FRESH-CLONE-02](evidence/fresh-clone/FRESH-CLONE-02.md)).
+
 To verify forms in a real browser, run the worker in a second terminal:
 
 ```bash
