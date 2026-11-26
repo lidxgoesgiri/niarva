@@ -97,7 +97,7 @@ niarva/
 
 - Node.js 24 (`engines` allows `>=24 <25`)
 - pnpm 12, pinned in `package.json` as `pnpm@12.11.2`
-- For browser verification only: Google Chrome and Kane CLI 0.10.4 or newer, installed with `npm install -g @testmuai/kane-cli` and signed in with `kane-cli login`
+- For browser verification only: Google Chrome and Kane CLI 0.10.4 or newer, installed with `npm install -g @testmuai/kane-cli` and signed in with `kane-cli login`. The worker uses your own Kane account and credits; a full verification costs about 260 credits.
 
 **Install and run**
 
@@ -136,6 +136,8 @@ pnpm db:migrate            # apply migrations to DATABASE_URL
 pnpm format                # Prettier
 pnpm verify:kane <t-id>    # run a Kane-designed browser test against the running app
 ```
+
+`pnpm verify:kane` is the maintainer's development runner: it uploads to the project's own Test Manager project and refuses any other. To verify forms with your own Kane account, use `pnpm worker`.
 
 **Environment**
 
